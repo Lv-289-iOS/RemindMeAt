@@ -6,5 +6,6 @@ target 'RemindMeAt' do
   use_frameworks!
 
   # Pods for RemindMeAt
+  pod 'RealmSwift'
 
 end
