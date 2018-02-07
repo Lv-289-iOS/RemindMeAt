@@ -1,5 +1,5 @@
 //
-//  Task.swift
+//  TaskList.swift
 //  RemindMeAt
 //
 //  Created by Artem Rieznikov on 07.02.18.
@@ -8,12 +8,11 @@
 
 import RealmSwift
 
-class Task: Object {
+class TaskList: Object {
     
     @objc dynamic var name = ""
     @objc dynamic var createdAt = NSDate()
-    @objc dynamic var notes = ""
-    @objc dynamic var isCompleted = false
+    let tasks = List<Task>()
     
 // Specify properties to ignore (Realm won't persist these)
     
