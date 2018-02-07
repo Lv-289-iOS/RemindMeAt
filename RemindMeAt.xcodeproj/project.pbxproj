@@ -90,6 +90,7 @@
 		A3D66613202B055E003E29D8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = RMA;
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "SoftServe Academy";
