@@ -12,8 +12,9 @@
 		4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D60202B33AB005AD091 /* RMAMapVC.swift */; };
 		4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D62202B33C3005AD091 /* RMACalendarVC.swift */; };
 		4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D64202B33D3005AD091 /* RMASettingsVC.swift */; };
-		A3CCE372202C9B12009D9354 /* RMARealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CCE371202C9B12009D9354 /* RMARealmService.swift */; };
-		A3CF62AB202B38680036708B /* RMATaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CF62AA202B38680036708B /* RMATaskList.swift */; };
+		A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B39202DB2DC00127811 /* RMALocation.swift */; };
+		A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B3B202DB4E300127811 /* RMATag.swift */; };
+		A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CCE371202C9B12009D9354 /* RMARealmManager.swift */; };
 		A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D6661E202B055E003E29D8 /* AppDelegate.swift */; };
 		A3D66624202B055E003E29D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D66622202B055E003E29D8 /* Main.storyboard */; };
 		A3D66626202B055E003E29D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3D66625202B055E003E29D8 /* Assets.xcassets */; };
@@ -27,8 +28,9 @@
 		4B315D60202B33AB005AD091 /* RMAMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAMapVC.swift; sourceTree = "<group>"; };
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
 		4B315D64202B33D3005AD091 /* RMASettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMASettingsVC.swift; sourceTree = "<group>"; };
-		A3CCE371202C9B12009D9354 /* RMARealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMARealmService.swift; sourceTree = "<group>"; };
-		A3CF62AA202B38680036708B /* RMATaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATaskList.swift; sourceTree = "<group>"; };
+		A3CB9B39202DB2DC00127811 /* RMALocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMALocation.swift; sourceTree = "<group>"; };
+		A3CB9B3B202DB4E300127811 /* RMATag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATag.swift; sourceTree = "<group>"; };
+		A3CCE371202C9B12009D9354 /* RMARealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMARealmManager.swift; sourceTree = "<group>"; };
 		A3D6661B202B055E003E29D8 /* RemindMeAt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemindMeAt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3D6661E202B055E003E29D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3D66623202B055E003E29D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -132,8 +134,9 @@
 			isa = PBXGroup;
 			children = (
 				A3D66630202B087C003E29D8 /* RMATask.swift */,
-				A3CF62AA202B38680036708B /* RMATaskList.swift */,
-				A3CCE371202C9B12009D9354 /* RMARealmService.swift */,
+				A3CB9B3B202DB4E300127811 /* RMATag.swift */,
+				A3CB9B39202DB2DC00127811 /* RMALocation.swift */,
+				A3CCE371202C9B12009D9354 /* RMARealmManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,14 +273,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3CF62AB202B38680036708B /* RMATaskList.swift in Sources */,
 				A3D66631202B087C003E29D8 /* RMATask.swift in Sources */,
-				A3CCE372202C9B12009D9354 /* RMARealmService.swift in Sources */,
+				A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */,
 				4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */,
 				4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */,
+				A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */,
 				4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */,
 				4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */,
 				A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */,
+				A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
