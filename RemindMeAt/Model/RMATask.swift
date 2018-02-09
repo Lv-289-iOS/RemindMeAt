@@ -11,9 +11,12 @@ import RealmSwift
 class RMATask: Object {
     
     @objc dynamic var name = ""
-    @objc dynamic var createdAt = NSDate()
-    @objc dynamic var notes = ""
+    @objc dynamic var fullDescription: String?
+    @objc dynamic var date: NSDate?
+    @objc dynamic var location: RMALocation?
+    @objc dynamic var imageURL: NSURL?
     @objc dynamic var isCompleted = false
+    let tags = List<RMATag>()
     
 // Specify properties to ignore (Realm won't persist these)
     
