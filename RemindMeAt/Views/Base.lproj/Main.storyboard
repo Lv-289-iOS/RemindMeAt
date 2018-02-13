@@ -67,7 +67,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sLP-fU-XlB">
-                                <rect key="frame" x="0.0" y="32" width="375" height="542"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="530"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" id="5xM-SL-V1q">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
@@ -111,30 +111,39 @@
                                     <outlet property="delegate" destination="f6c-Ow-EaH" id="3c3-T1-zfq"/>
                                 </connections>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="il7-DE-AqH">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="P1N-O0-AZr">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="x8l-XQ-vP6">
+                                            <connections>
+                                                <action selector="didClickOnEditButton:" destination="f6c-Ow-EaH" id="GRk-ZL-Jks"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="JWd-v3-tnH">
+                                            <connections>
+                                                <action selector="didClickOnAddButton:" destination="f6c-Ow-EaH" id="icl-jj-T5e"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="sLP-fU-XlB" secondAttribute="bottom" id="HYi-hg-Q3F"/>
-                            <constraint firstItem="sLP-fU-XlB" firstAttribute="leading" secondItem="3Kf-kz-okx" secondAttribute="leading" id="NZI-9Z-Rzg"/>
-                            <constraint firstItem="sLP-fU-XlB" firstAttribute="top" secondItem="xst-i6-e6V" secondAttribute="top" constant="12" id="Q1l-6D-1OI"/>
-                            <constraint firstItem="sLP-fU-XlB" firstAttribute="width" secondItem="3Kf-kz-okx" secondAttribute="width" id="Ylq-kF-Zr2"/>
+                            <constraint firstItem="sLP-fU-XlB" firstAttribute="top" secondItem="il7-DE-AqH" secondAttribute="bottom" id="69X-kI-z25"/>
+                            <constraint firstItem="sLP-fU-XlB" firstAttribute="trailing" secondItem="xst-i6-e6V" secondAttribute="trailing" id="ALn-NV-1fx"/>
+                            <constraint firstItem="sLP-fU-XlB" firstAttribute="leading" secondItem="xst-i6-e6V" secondAttribute="leading" id="JAY-aV-xhr"/>
+                            <constraint firstItem="il7-DE-AqH" firstAttribute="width" secondItem="3Kf-kz-okx" secondAttribute="width" id="WFm-hg-BYg"/>
+                            <constraint firstItem="sLP-fU-XlB" firstAttribute="bottom" secondItem="xst-i6-e6V" secondAttribute="bottom" id="ZV4-U7-XiN"/>
+                            <constraint firstItem="il7-DE-AqH" firstAttribute="leading" secondItem="xst-i6-e6V" secondAttribute="leading" id="eQp-F9-Gdc"/>
+                            <constraint firstItem="xst-i6-e6V" firstAttribute="top" secondItem="il7-DE-AqH" secondAttribute="top" constant="20" id="p7A-fH-qrt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xst-i6-e6V"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="TaskList" id="8U2-lO-OKP"/>
-                    <toolbarItems>
-                        <barButtonItem systemItem="edit" id="x8l-XQ-vP6">
-                            <connections>
-                                <action selector="didClickOnEditButton:" destination="f6c-Ow-EaH" id="GRk-ZL-Jks"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem systemItem="add" id="JWd-v3-tnH">
-                            <connections>
-                                <action selector="didClickOnAddButton:" destination="f6c-Ow-EaH" id="icl-jj-T5e"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="taskListsTableView" destination="sLP-fU-XlB" id="893-8l-G03"/>
@@ -142,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UvB-zT-Jcu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1836" y="-224"/>
+            <point key="canvasLocation" x="-1836" y="-224.4377811094453"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="LcB-dk-eHc">
