@@ -38,7 +38,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func readTasksAndUpdateUI() {
-        taskList = uiRealm.objects(RMATask.self)
+        taskList = RMARealmManager.getAllTasks()
         self.taskListsTableView.setEditing(false, animated: true)
         self.taskListsTableView.reloadData()
     }
@@ -46,14 +46,14 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: - User Actions -
     
     @IBAction func didSelectSortCriteria(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            // A-Z
-            self.taskList = self.taskList?.sorted(byKeyPath: "name")
-        } else {
-            // date
-            self.taskList = self.taskList?.sorted(byKeyPath: "date", ascending: false)
+        if let tasks = taskList {
+            if sender.selectedSegmentIndex == 0 {
+                self.taskList = RMARealmManager.sortTasksByName(listsTasks: tasks)
+            } else {
+                self.taskList = RMARealmManager.sortTasksByDate(listsTasks: tasks)
+            }
+            self.taskListsTableView.reloadData()
         }
-        self.taskListsTableView.reloadData()
     }
     
     @IBAction func didClickOnEditButton(_ sender: UIBarButtonItem) {
@@ -66,7 +66,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     // Enable the create action of the alert only if textfield text is not empty
-    @objc func listNameFieldDidChange(_ textField:UITextField) {
+    @objc func listNameFieldDidChange(_ textField: UITextField) {
         self.currentCreateAction.isEnabled = (textField.text?.count)! > 0
     }
     
@@ -85,10 +85,8 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             if updatedTask != nil {
                 // update mode
-                try! uiRealm.write {
-                    updatedTask.name = newTaskName!
-                    self.readTasksAndUpdateUI()
-                }
+                RMARealmManager.updateTaskName(updatedTask: updatedTask, taskName: newTaskName!)
+                self.readTasksAndUpdateUI()
             } else {
                 let newTask = RMATask()
                 newTask.name = newTaskName!
@@ -110,14 +108,9 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 newTask.location?.latitude = 49.8383
                 newTask.location?.longitude = 24.0232
                 
-                try! uiRealm.write {
-                    uiRealm.add(newTask)
-                    //newTask.tags.append(newTag)
-                    self.readTasksAndUpdateUI()
-                }
+                RMARealmManager.addTask(newTask: newTask)
+                self.readTasksAndUpdateUI()
             }
-            
-            print(newTaskName ?? "")
         }
         
         alertController.addAction(createAction)
@@ -129,7 +122,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         alertController.addTextField { (textField) -> Void in
             textField.placeholder = "Task Name"
             textField.addTarget(self, action: #selector(RMATasksVC.listNameFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-            if updatedTask != nil{
+            if updatedTask != nil {
                 textField.text = updatedTask.name
             }
         }
@@ -160,26 +153,26 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (deleteAction, indexPath) -> Void in
             // Deletion will go here
-            if let listToBeDeleted = self.taskList?[indexPath.row] {
-                try! uiRealm.write{
-                    uiRealm.delete(listToBeDeleted)
-                    self.readTasksAndUpdateUI()
-                }
+            if let taskToBeDeleted = self.taskList?[indexPath.row] {
+                RMARealmManager.deleteTask(taskToBeDeleted: taskToBeDeleted)
+                self.readTasksAndUpdateUI()
             }
         }
         let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Edit") { (editAction, indexPath) -> Void in
             // Editing will go here
-            if let listToBeUpdated = self.taskList?[indexPath.row] {
-                self.displayAlertToAddTask(listToBeUpdated)
+            if let taskToBeUpdated = self.taskList?[indexPath.row] {
+                self.displayAlertToAddTask(taskToBeUpdated)
             }
         }
         return [deleteAction, editAction]
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        /*
         if let selectedTaskList = self.taskList?[indexPath.row] {
             self.performSegue(withIdentifier: "openTasks", sender: selectedTaskList)
         }
+         */
     }
     
     // MARK: - Navigation

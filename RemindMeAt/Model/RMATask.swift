@@ -16,7 +16,7 @@ class RMATask: Object {
     @objc dynamic var location: RMALocation?
     @objc dynamic var imageURL: String? // TODO: it will be NSURL? (will use something like URL.absoluteString)
     @objc dynamic var isCompleted = false
-    let tags = List<RMATag>()
+    let tags = List<RMATag>() // Consider making this Set<RMATag> (not supported by Realm) or RLMArray or RLMLinkingObjects
     
 // Specify properties to ignore (Realm won't persist these)
     

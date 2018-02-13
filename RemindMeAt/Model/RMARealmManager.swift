@@ -12,15 +12,10 @@ class RMARealmManager {
     
     // MARK: - CRUD functions for Realm
     
-    static func addTask(listName: String) -> RMATask {
-        let newTask = RMATask()
-        newTask.name = listName
-        
+    static func addTask(newTask: RMATask) {
         try! uiRealm.write {
             uiRealm.add(newTask)
         }
-        
-        return newTask
     }
     
     static func addTagToTask(task: RMATask, tag: RMATag) {
