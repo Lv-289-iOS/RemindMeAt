@@ -12,6 +12,7 @@
 		4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D60202B33AB005AD091 /* RMAMapVC.swift */; };
 		4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D62202B33C3005AD091 /* RMACalendarVC.swift */; };
 		4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D64202B33D3005AD091 /* RMASettingsVC.swift */; };
+		A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36BA19E2032583B001B940F /* UIColorExtension.swift */; };
 		A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B39202DB2DC00127811 /* RMALocation.swift */; };
 		A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B3B202DB4E300127811 /* RMATag.swift */; };
 		A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CCE371202C9B12009D9354 /* RMARealmManager.swift */; };
@@ -28,6 +29,7 @@
 		4B315D60202B33AB005AD091 /* RMAMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAMapVC.swift; sourceTree = "<group>"; };
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
 		4B315D64202B33D3005AD091 /* RMASettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMASettingsVC.swift; sourceTree = "<group>"; };
+		A36BA19E2032583B001B940F /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		A3CB9B39202DB2DC00127811 /* RMALocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMALocation.swift; sourceTree = "<group>"; };
 		A3CB9B3B202DB4E300127811 /* RMATag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATag.swift; sourceTree = "<group>"; };
 		A3CCE371202C9B12009D9354 /* RMARealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMARealmManager.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				A3CB9B3B202DB4E300127811 /* RMATag.swift */,
 				A3CB9B39202DB2DC00127811 /* RMALocation.swift */,
 				A3CCE371202C9B12009D9354 /* RMARealmManager.swift */,
+				A36BA19E2032583B001B940F /* UIColorExtension.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */,
 				4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */,
 				4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */,
+				A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */,
 				A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */,
 				A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */,
 			);
