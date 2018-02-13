@@ -128,19 +128,12 @@
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="JWd-v3-tnH">
                                             <connections>
                                                 <action selector="didClickOnAddButton:" destination="f6c-Ow-EaH" id="icl-jj-T5e"/>
+                                                <segue destination="jS2-sR-Lky" kind="show" id="n8m-3C-Ops"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-Uw-r29">
-                                <rect key="frame" x="175" y="551" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <segue destination="jS2-sR-Lky" kind="show" id="v3t-pv-S3u"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
