@@ -46,14 +46,14 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: - User Actions -
     
     @IBAction func didSelectSortCriteria(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            // A-Z
-            self.taskList = self.taskList?.sorted(byKeyPath: "name")
-        } else {
-            // date
-            self.taskList = self.taskList?.sorted(byKeyPath: "date", ascending: false)
+        if let tasks = taskList {
+            if sender.selectedSegmentIndex == 0 {
+                self.taskList = RMARealmManager.sortTasksByName(listsTasks: tasks)
+            } else {
+                self.taskList = RMARealmManager.sortTasksByDate(listsTasks: tasks)
+            }
+            self.taskListsTableView.reloadData()
         }
-        self.taskListsTableView.reloadData()
     }
     
     @IBAction func didClickOnEditButton(_ sender: UIBarButtonItem) {
@@ -66,7 +66,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     // Enable the create action of the alert only if textfield text is not empty
-    @objc func listNameFieldDidChange(_ textField:UITextField) {
+    @objc func listNameFieldDidChange(_ textField: UITextField) {
         self.currentCreateAction.isEnabled = (textField.text?.count)! > 0
     }
     

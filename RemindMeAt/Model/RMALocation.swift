@@ -7,11 +7,13 @@
 //
 
 import RealmSwift
+import CoreLocation
 
 class RMALocation: Object {
     
     @objc dynamic var name = ""
-    @objc dynamic var latitude: Double = 0
-    @objc dynamic var longitude: Double = 0
+    @objc dynamic var latitude = CLLocationDegrees(0)
+    @objc dynamic var longitude = CLLocationDegrees(0)
+    @objc dynamic var radius = CLLocationDistance(0)
     
 }
