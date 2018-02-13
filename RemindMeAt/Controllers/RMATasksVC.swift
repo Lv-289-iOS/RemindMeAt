@@ -86,6 +86,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             if updatedTask != nil {
                 // update mode
                 RMARealmManager.updateTaskName(updatedTask: updatedTask, taskName: newTaskName!)
+                self.readTasksAndUpdateUI()
             } else {
                 let newTask = RMATask()
                 newTask.name = newTaskName!
@@ -159,8 +160,8 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Edit") { (editAction, indexPath) -> Void in
             // Editing will go here
-            if let listToBeUpdated = self.taskList?[indexPath.row] {
-                self.displayAlertToAddTask(listToBeUpdated)
+            if let taskToBeUpdated = self.taskList?[indexPath.row] {
+                self.displayAlertToAddTask(taskToBeUpdated)
             }
         }
         return [deleteAction, editAction]
