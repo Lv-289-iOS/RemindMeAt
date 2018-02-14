@@ -48,6 +48,33 @@ class NewTaskViewController: UIViewController {
         } else {
              editAndSaveButton.setTitle("edit", for: .normal)
         }
+        
+        /* Example how to add a new task - start */
+        let newTask = RMATask()
+        newTask.name = "Call Artem" // TODO: cell.putNameHere.text
+        
+        let newLocation = RMALocation()
+        newLocation.latitude = 49
+        newLocation.longitude = 34
+        newLocation.radius = 20.5
+        newLocation.name = "Somewhere"
+        newTask.location = newLocation
+        
+        let newTag1 = RMATag()
+        let newTag2 = RMATag()
+
+        newTag1.name = "Home"
+        newTag1.color = UIColor.red.hexString()
+        
+        newTag2.name = "Work"
+        newTag2.color = UIColor.blue.hexString()
+        
+        newTask.tags.append(newTag1)
+        newTask.tags.append(newTag2)
+        
+        RMARealmManager.addTask(newTask: newTask)
+        /* Example how to add a new task - end */
+        
         UIView.transition(with: tableView,
                                   duration: 0.35,
                                   options: .transitionCrossDissolve,
@@ -126,6 +153,17 @@ class NewTaskViewController: UIViewController {
         
         let secondAction: UIAlertAction = UIAlertAction(title: "Galery", style: .default) { action -> Void in
             print("Galery choosen")
+            DispatchQueue.main.async {
+           
+            let imagePicker = UIImagePickerController()
+            
+            imagePicker.sourceType = .photoLibrary
+            
+            imagePicker.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
+            
+            
+            self.present(imagePicker, animated: true, completion: nil)
+            }
         }
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
@@ -136,6 +174,15 @@ class NewTaskViewController: UIViewController {
         present(actionSheetController, animated: true, completion: nil)
     }
     
+//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+//        if let newimage = info[UIImagePickerControllerOriginalImage] as? UIImage{
+//            picker.dismiss(animated: true, completion: nil)
+//            
+//        }
+//    }
 }
 
 extension NewTaskViewController: UITableViewDelegate {
