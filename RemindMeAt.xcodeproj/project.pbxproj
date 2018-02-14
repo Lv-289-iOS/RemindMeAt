@@ -460,10 +460,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y8CF7ZMY8K;
+				DEVELOPMENT_TEAM = 83ED2V677R;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = temarez.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = danylonovosad.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -476,10 +476,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y8CF7ZMY8K;
+				DEVELOPMENT_TEAM = 83ED2V677R;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = temarez.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = danylonovosad.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
