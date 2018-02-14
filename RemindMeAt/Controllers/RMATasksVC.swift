@@ -13,6 +13,8 @@ import RealmSwift
 private let reuseIdentifier = "listCell"
 
 class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     var taskList: Results<RMATask>?
     
@@ -28,7 +30,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        appDelegate.calendarNotification()
         // Do any additional setup after loading the view.
     }
 
