@@ -19,6 +19,7 @@ class NewTaskViewController: UIViewController {
     var taskIdentifier = 0
     var tags:[Tag] = []
     var theSubviews:[UIView] = []
+    var picker:UIImagePickerController?=UIImagePickerController()
     
     @IBOutlet weak var editAndSaveButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
@@ -149,21 +150,13 @@ class NewTaskViewController: UIViewController {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let firstAction: UIAlertAction = UIAlertAction(title: "Camera", style: .default) { action -> Void in
             print("Camera choosen")
+            self.openCamera()
         }
         
         let secondAction: UIAlertAction = UIAlertAction(title: "Galery", style: .default) { action -> Void in
             print("Galery choosen")
-            DispatchQueue.main.async {
-           
-            let imagePicker = UIImagePickerController()
+            self.openGallary()
             
-            imagePicker.sourceType = .photoLibrary
-            
-            imagePicker.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
-            
-            
-            self.present(imagePicker, animated: true, completion: nil)
-            }
         }
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
@@ -174,15 +167,38 @@ class NewTaskViewController: UIViewController {
         present(actionSheetController, animated: true, completion: nil)
     }
     
-//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//        picker.dismiss(animated: true, completion: nil)
-//    }
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 //        if let newimage = info[UIImagePickerControllerOriginalImage] as? UIImage{
 //            picker.dismiss(animated: true, completion: nil)
-//            
-//        }
-//    }
+//         }
+        print("it have to store image in local var")
+        
+    }
+    func openGallary()
+    {
+        picker!.allowsEditing = false
+        picker!.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        present(picker!, animated: true, completion: nil)
+    }
+    
+    
+    func openCamera()
+    {
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)){
+            picker!.allowsEditing = false
+            picker!.sourceType = UIImagePickerControllerSourceType.camera
+            picker!.cameraCaptureMode = .photo
+            present(picker!, animated: true, completion: nil)
+        }else{
+            let alert = UIAlertController(title: "Camera Not Found", message: "This device has no Camera", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 extension NewTaskViewController: UITableViewDelegate {
