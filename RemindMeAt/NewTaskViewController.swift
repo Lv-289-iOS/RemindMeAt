@@ -9,16 +9,20 @@
 import UIKit
 
 class NewTaskViewController: UIViewController {
-
-    var name = "testName"
-    var date = "09-Feb-2018 10:00"
-    let location = "Lviv, Pasternaka str, 5"
-    let image = #imageLiteral(resourceName: "paper2")
-    var descr = "full information"
+    
     var editIsTapped = false
     var taskIdentifier = 0
+    
     var tags:[Tag] = []
     var theSubviews:[UIView] = []
+    
+    var name: String?
+    var date: NSDate?
+    var formattedDate: String?
+    var location: String?
+    var image: UIImage?
+    var descr: String?
+    
     var picker:UIImagePickerController?=UIImagePickerController()
     
     @IBOutlet weak var editAndSaveButton: UIButton!
@@ -47,49 +51,59 @@ class NewTaskViewController: UIViewController {
         if (editIsTapped) {
             editAndSaveButton.setTitle("save", for: .normal)
         } else {
-             editAndSaveButton.setTitle("edit", for: .normal)
+            if taskIdentifier == 0 {
+                if name == nil || name?.count == 0 {
+                    let alertController = UIAlertController(title: "Empty name field", message: "give a name to the task", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "ok", style: .destructive, handler: nil)
+                    alertController.addAction(okAction)
+                    present(alertController, animated: false, completion: nil)
+                    editIsTapped = !editIsTapped
+                } else {
+                    editAndSaveButton.setTitle("edit", for: .normal)
+                    addNewTaskToDB()
+                }
+            }
         }
-        
-        /* Example how to add a new task - start */
-        let newTask = RMATask()
-        newTask.name = "Call Artem" // TODO: cell.putNameHere.text
-        
-        let newLocation = RMALocation()
-        newLocation.latitude = 49
-        newLocation.longitude = 34
-        newLocation.radius = 20.5
-        newLocation.name = "Somewhere"
-        newTask.location = newLocation
-        
-        let newTag1 = RMATag()
-        let newTag2 = RMATag()
-
-        newTag1.name = "Home"
-        newTag1.color = UIColor.red.hexString()
-        
-        newTag2.name = "Work"
-        newTag2.color = UIColor.blue.hexString()
-        
-        newTask.tags.append(newTag1)
-        newTask.tags.append(newTag2)
-        
-        RMARealmManager.addTask(newTask: newTask)
-        /* Example how to add a new task - end */
-        
         UIView.transition(with: tableView,
-                                  duration: 0.35,
-                                  options: .transitionCrossDissolve,
-                                  animations:
+                          duration: 0.35,
+                          options: .transitionCrossDissolve,
+                          animations:
             { () -> Void in
                 self.tableView.reloadData()
         },
-                                  completion: nil);
+                          completion: nil);
+    }
+    
+    func addNewTaskToDB() {
+        let newTask = RMATask()
+        newTask.name = name!
+        if date != nil {
+            newTask.date = date
+        }
+        if location != nil {
+            let newLocation = RMALocation()
+            newLocation.latitude = 0.0
+            newLocation.longitude = 0.0
+            newLocation.radius = 50.0
+            newLocation.name = location!
+            newTask.location = newLocation
+        }
+        
+        if descr != nil {
+            newTask.fullDescription = descr
+        }
+        
+        let newTag1 = RMATag()
+        newTag1.name = "Home"
+        newTag1.color = UIColor.red.hexString()
+        newTask.tags.append(newTag1)
+        RMARealmManager.addTask(newTask: newTask)
     }
     
     
     
     @IBAction func saveTagsButton(_ sender: UIButton) {
-         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
+        bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
         UIView.animate(withDuration: 1) {
             self.view.layoutIfNeeded()
         }
@@ -98,10 +112,10 @@ class NewTaskViewController: UIViewController {
     
     func updateConstraints() {
         tagTableView.rowHeight = 60
-                    tagTableViewHeightConstraint.constant = tagTableView.rowHeight * CGFloat(tags.count)
-            self.tagTableView.layoutIfNeeded()
+        tagTableViewHeightConstraint.constant = tagTableView.rowHeight * CGFloat(tags.count)
+        self.tagTableView.layoutIfNeeded()
         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
-            self.tagView.layoutIfNeeded()
+        self.tagView.layoutIfNeeded()
     }
     
     override func viewDidLoad() {
@@ -122,28 +136,18 @@ class NewTaskViewController: UIViewController {
         } else {
             editIsTapped = true
             editAndSaveButton.setTitle("save", for: .normal)
-            name = ""
-            descr = ""
-            let currentDate = Date()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
-            date =  dateFormatter.string(from: currentDate)
         }
         self.tableView.reloadData()
-        
         updateConstraints()
-        
     }
     
-    @objc func dateFromCalendar(_ notification: NSNotification) {
-        
-        if let pickedDate = notification.userInfo?["date"] as? String {
-            print(pickedDate)
-            date = pickedDate
-            self.tableView.reloadData()
-        }
-       // NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "notificationName"), object: nil)
+    
+    func formatDate(date: NSDate) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
+        return dateFormatter.string(from: date as Date)
     }
+    
     
     func cameraGalery() {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -159,7 +163,7 @@ class NewTaskViewController: UIViewController {
         }
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
-
+        
         actionSheetController.addAction(firstAction)
         actionSheetController.addAction(secondAction)
         actionSheetController.addAction(cancelAction)
@@ -170,9 +174,9 @@ class NewTaskViewController: UIViewController {
         picker.dismiss(animated: true, completion: nil)
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        if let newimage = info[UIImagePickerControllerOriginalImage] as? UIImage{
-//            picker.dismiss(animated: true, completion: nil)
-//         }
+        //        if let newimage = info[UIImagePickerControllerOriginalImage] as? UIImage{
+        //            picker.dismiss(animated: true, completion: nil)
+        //         }
         print("it have to store image in local var")
         
     }
@@ -208,9 +212,10 @@ extension NewTaskViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             if indexPath.row == 1 {
+                //                performSegue(withIdentifier: "toCalendar", sender: self)
+                print("add date")
             } else if indexPath.row == 2 {
-                print("put segue here")
-                // Yura, performSegue here
+                print("add location")
             } else if indexPath.row == 4 {
                 bottomTagViewConstraint.constant = 0
                 UIView.animate(withDuration: 1) {
@@ -233,6 +238,7 @@ extension NewTaskViewController: UITableViewDelegate {
     
     @objc func imgTapped(sender: UITapGestureRecognizer) {
         cameraGalery()
+        print("picture tapped")
     }
     
 }
@@ -251,67 +257,78 @@ extension NewTaskViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
-            if indexPath.row == 0 {
+            if !editIsTapped {
+                tableView.isUserInteractionEnabled = false
                 
-            let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! NameTVCell
-            cell.nameLabel.text = "name: "
-            if !editIsTapped {
-                cell.isUserInteractionEnabled = false
-                cell.putNameHere.text = name
             } else {
-                cell.putNameHere.text = name
-                cell.isUserInteractionEnabled = true
-              //  cell.putNameHere.addTarget(self, action: #selector(nameFieldDidChange(_:)), for: .editingChanged)
-//                cell.putNameText.borderStyle = .none
+                tableView.isUserInteractionEnabled = true
             }
-            return cell
-        } else if indexPath.row == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell") as! DateOrLocationTVCell
-            if !editIsTapped {
-                cell.isUserInteractionEnabled = false
-            } else {
-                cell.isUserInteractionEnabled = true
-            }
-            cell.fieldNameLabel.text = "date: "
-            cell.informationLabel.text = date
-            return cell
-        } else if indexPath.row == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell") as! DateOrLocationTVCell
-                if !editIsTapped {
-                    cell.isUserInteractionEnabled = false
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! NameTVCell
+                cell.nameLabel.text = "name: "
+                cell.putNameHere.textAlignment = .right
+                cell.putNameHere.textContainer.maximumNumberOfLines = 1
+                cell.putNameHere.delegate = self
+                cell.putNameHere.tag = 1
+                if name == nil {
+                    cell.putNameHere.text = "put the name for task here"
+                    cell.putNameHere.textColor = UIColor.lightGray
                 } else {
-                    cell.isUserInteractionEnabled = true
+                    print("the name is'\(String(describing: name))'")
+                    cell.putNameHere.text = name
+                    cell.putNameHere.textColor = UIColor.black
                 }
-            cell.fieldNameLabel.text = "location: "
-            cell.informationLabel.text = location
-            return cell
-        } else if indexPath.row == 3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "imageAndDescr") as! ImageAndDescrTVCell
-            cell.descrTextView.text = "information: "
-            cell.pictureView.image = image
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imgTapped(sender:)))
-            cell.pictureView.addGestureRecognizer(tapGesture)
-            if !editIsTapped {
-                cell.isUserInteractionEnabled = false
-                cell.descrTextView.text = descr
-            }  else {
-                cell.isUserInteractionEnabled = true
-                cell.descrTextView.text = descr
-//                cell.textField.borderStyle = .none
-//                cell.textField.addTarget(self, action: #selector(descriptionFieldDidChange(_:)), for: .editingChanged)
-                cell.pictureView.isUserInteractionEnabled = true
-//                cell.textField.isEnabled = true
-//                cell.textField.isHidden = false
-            }
-            return cell
-        }
-        else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tagsCell") as! TagsTVCell
-                if !editIsTapped {
-                    cell.isUserInteractionEnabled = false
+                return cell
+            } else if indexPath.row == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell") as! DateOrLocationTVCell
+                cell.informationLabel.textAlignment = .right
+                cell.fieldNameLabel.text = "date: "
+                if date == nil {
+                    cell.informationLabel.text = "select date"
+                    cell.informationLabel.textColor = UIColor.lightGray
                 } else {
-                    cell.isUserInteractionEnabled = true
+                    cell.informationLabel.text = formatDate(date: date!)
+                    cell.informationLabel.textColor = UIColor.black
                 }
+                
+                return cell
+            } else if indexPath.row == 2 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell") as! DateOrLocationTVCell
+                cell.informationLabel.textAlignment = .right
+                cell.fieldNameLabel.text = "location: "
+                if location == nil {
+                    cell.informationLabel.text = "select location"
+                    cell.informationLabel.textColor = UIColor.lightGray
+                } else {
+                    cell.informationLabel.text = location
+                    cell.informationLabel.textColor = UIColor.black
+                }
+                
+                return cell
+            } else if indexPath.row == 3 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "imageAndDescr") as! ImageAndDescrTVCell
+                cell.descrTextView.text = "information: "
+                cell.pictureView.image = image
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imgTapped(sender:)))
+                cell.pictureView.addGestureRecognizer(tapGesture)
+                
+                if image == nil {
+                    cell.pictureView.image = #imageLiteral(resourceName: "paper2")
+                }
+                cell.descrTextView.textAlignment = .right
+                cell.descrTextView.delegate = self
+                cell.descrTextView.tag = 2
+                if descr == nil {
+                    cell.descrTextView.text = "put a task description here, if you wish :)"
+                    cell.descrTextView.textColor = UIColor.lightGray
+                } else {
+                    cell.descrTextView.text = descr
+                    cell.descrTextView.textColor = UIColor.black
+                }
+                return cell
+            }
+            else if indexPath.row == 4 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "tagsCell") as! TagsTVCell
                 for cellSubview in cell.subviews{
                     if cellSubview != cell.tagesLabel && cellSubview != cell.contentView {
                         cellSubview.removeFromSuperview()
@@ -326,8 +343,10 @@ extension NewTaskViewController: UITableViewDataSource {
                         i += 1
                     }
                 }
-            return cell
-        }
+                return cell
+            }  else {
+                fatalError("wrong cell counter")
+            }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "oneTagCell") as! TagScreenTVCell
             let tagForCell = tags[indexPath.row]
@@ -349,19 +368,30 @@ extension NewTaskViewController: UITableViewDataSource {
         let size: CGFloat = 20
         let space: CGFloat = 5
         let rectangle = UIView(frame: CGRect(x: frameWidth - (size * number) - (space * number), y: 12, width: size, height: size))
-//        let rectangle = UIView(frame: CGRect(x: frameWidth - 20 - ( space * number), y: 12, width: size, height: size))
         rectangle.backgroundColor = color
         rectangle.layer.borderWidth = 1
         rectangle.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         rectangle.layer.cornerRadius = 10
         return rectangle
     }
-    
-    @objc func descriptionFieldDidChange(_ textField: UITextField) {
-        descr = textField.text!
+}
+
+extension NewTaskViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        if textView.tag == 1 {
+            textView.text = name
+        } else if textView.tag == 2 {
+            textView.text = descr
+        }
     }
     
-    @objc func nameFieldDidChange(_ textField: UITextField) {
-        name = textField.text!
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.tag == 1 {
+            name = textView.text
+        } else if textView.tag == 2 {
+            descr = textView.text
+        }
     }
 }
+
