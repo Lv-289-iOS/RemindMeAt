@@ -94,10 +94,14 @@ class NewTaskViewController: UIViewController {
             newTask.fullDescription = descr
         }
         
-        let newTag1 = RMATag()
-        newTag1.name = "Home"
-        newTag1.color = UIColor.red.hexString()
-        newTask.tags.append(newTag1)
+        for tag in tags {
+            if tag.isTagChoosen {
+                if let rmaTag = RMARealmManager.getTagByName(name: tag.tagName) {
+                    newTask.tags.append(rmaTag)
+                }
+            }
+        }
+        
         RMARealmManager.addTask(newTask: newTask)
     }
     
