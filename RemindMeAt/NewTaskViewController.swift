@@ -16,6 +16,7 @@ class NewTaskViewController: UIViewController {
     var tags:[Tag] = []
     var theSubviews:[UIView] = []
     
+    let defaultImage = #imageLiteral(resourceName: "defaultPic")
     var name: String?
     var date: NSDate?
     var formattedDate: String?
@@ -240,7 +241,6 @@ extension NewTaskViewController: UITableViewDelegate {
         cameraGalery()
         print("picture tapped")
     }
-    
 }
 
 extension NewTaskViewController: UITableViewDataSource {
@@ -313,7 +313,7 @@ extension NewTaskViewController: UITableViewDataSource {
                 cell.pictureView.addGestureRecognizer(tapGesture)
                 
                 if image == nil {
-                    cell.pictureView.image = #imageLiteral(resourceName: "paper2")
+                    cell.pictureView.image = defaultImage
                 }
                 cell.descrTextView.textAlignment = .right
                 cell.descrTextView.delegate = self
