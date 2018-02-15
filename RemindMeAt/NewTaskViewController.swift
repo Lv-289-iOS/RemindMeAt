@@ -133,7 +133,6 @@ class NewTaskViewController: UIViewController {
         
         updateConstraints()
         
-         NotificationCenter.default.addObserver(self, selector: #selector(self.dateFromCalendar(_:)), name: NSNotification.Name(rawValue: "notificationName"), object: nil)
     }
     
     @objc func dateFromCalendar(_ notification: NSNotification) {
@@ -209,7 +208,6 @@ extension NewTaskViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             if indexPath.row == 1 {
-            performSegue(withIdentifier: "toCalendar", sender: self)
             } else if indexPath.row == 2 {
                 print("put segue here")
                 // Yura, performSegue here
