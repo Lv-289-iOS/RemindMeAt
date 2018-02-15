@@ -31,6 +31,14 @@ class RMARealmManager {
         return uiRealm.objects(RMATask.self)
     }
     
+    static func getAllTags() -> Results<RMATag> {
+        return uiRealm.objects(RMATag.self)
+    }
+    
+    static func getTagByName(name: String) -> RMATag? {
+        return getAllTags().filter("name == '\(name)'").first
+    }
+    
     static func getTasksWithNames(nameFilter: String) -> Results<RMATask> {
         return uiRealm.objects(RMATask.self).filter("name CONTAINS '\(nameFilter)'")
     }
