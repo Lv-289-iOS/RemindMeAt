@@ -302,7 +302,7 @@
                                 <sections/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ggw-Bc-R0Y">
-                                <rect key="frame" x="15" y="68" width="345" height="550"/>
+                                <rect key="frame" x="15" y="668" width="345" height="550"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PRI-bp-u92">
                                         <rect key="frame" x="15" y="126" width="315" height="369"/>
@@ -393,7 +393,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="pVa-Zf-m3Z" firstAttribute="trailing" secondItem="Ggw-Bc-R0Y" secondAttribute="trailing" constant="15" identifier="id1" id="ZNI-XR-tqV"/>
-                            <constraint firstItem="pVa-Zf-m3Z" firstAttribute="bottom" secondItem="Ggw-Bc-R0Y" secondAttribute="bottom" identifier="id2" id="mhw-4W-sR3"/>
+                            <constraint firstItem="pVa-Zf-m3Z" firstAttribute="bottom" secondItem="Ggw-Bc-R0Y" secondAttribute="bottom" constant="-600" identifier="id2" id="mhw-4W-sR3"/>
                             <constraint firstItem="Ggw-Bc-R0Y" firstAttribute="leading" secondItem="pVa-Zf-m3Z" secondAttribute="leading" constant="15" identifier="id3" id="rlc-In-CVO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pVa-Zf-m3Z"/>

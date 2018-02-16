@@ -285,11 +285,14 @@ extension NewTaskViewController: UITableViewDataSource {
                 cell.putNameHere.textContainer.maximumNumberOfLines = 1
                 cell.putNameHere.delegate = self
                 cell.putNameHere.tag = 1
+                cell.putNameHere.autocorrectionType = .no
+                cell.putNameHere.autocapitalizationType = .none
+                
                 if name == nil {
                     cell.putNameHere.text = NAME_PLACEHOLDER
                     cell.putNameHere.textColor = UIColor.lightGray
                 } else {
-                    print("the name is'\(String(describing: name))'")
+//                    print("the name is'\(name!))'")
                     cell.putNameHere.text = name
                     cell.putNameHere.textColor = UIColor.black
                 }
@@ -318,7 +321,6 @@ extension NewTaskViewController: UITableViewDataSource {
                     cell.informationLabel.text = location
                     cell.informationLabel.textColor = UIColor.black
                 }
-                
                 return cell
             } else if indexPath.row == 3 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageAndDescr") as! ImageAndDescrTVCell
@@ -326,7 +328,8 @@ extension NewTaskViewController: UITableViewDataSource {
                 cell.pictureView.image = image
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imgTapped(sender:)))
                 cell.pictureView.addGestureRecognizer(tapGesture)
-                
+                cell.descrTextView.autocorrectionType = .no
+                cell.descrTextView.autocapitalizationType = .none
                 if image == nil {
                     cell.pictureView.image = defaultImage
                 }
