@@ -17,6 +17,8 @@ class NewTaskViewController: UIViewController {
     var theSubviews:[UIView] = []
     
     let defaultImage = #imageLiteral(resourceName: "defaultPic")
+    let DESCRIPTION_PLACEHOLDER = "put a task description here, if you wish :)"
+    let NAME_PLACEHOLDER = "put a name for the task here"
     var name: String?
     var date: NSDate?
     var formattedDate: String?
@@ -53,7 +55,7 @@ class NewTaskViewController: UIViewController {
             editAndSaveButton.setTitle("save", for: .normal)
         } else {
             if taskIdentifier == 0 {
-                if name == nil || name?.count == 0 {
+                if name == nil || (name?.trimmingCharacters(in: .whitespaces).isEmpty)! {
                     let alertController = UIAlertController(title: "Empty name field", message: "give a name to the task", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "ok", style: .destructive, handler: nil)
                     alertController.addAction(okAction)
@@ -105,8 +107,6 @@ class NewTaskViewController: UIViewController {
         RMARealmManager.addTask(newTask: newTask)
     }
     
-    
-    
     @IBAction func saveTagsButton(_ sender: UIButton) {
         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
         UIView.animate(withDuration: 1) {
@@ -116,7 +116,7 @@ class NewTaskViewController: UIViewController {
     }
     
     func updateConstraints() {
-        tagTableView.rowHeight = 60
+        tagTableView.rowHeight = 40
         tagTableViewHeightConstraint.constant = tagTableView.rowHeight * CGFloat(tags.count)
         self.tagTableView.layoutIfNeeded()
         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
@@ -144,6 +144,17 @@ class NewTaskViewController: UIViewController {
         }
         self.tableView.reloadData()
         updateConstraints()
+        self.hideKeyboardWhenTappedAround()
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     
@@ -275,7 +286,7 @@ extension NewTaskViewController: UITableViewDataSource {
                 cell.putNameHere.delegate = self
                 cell.putNameHere.tag = 1
                 if name == nil {
-                    cell.putNameHere.text = "put the name for task here"
+                    cell.putNameHere.text = NAME_PLACEHOLDER
                     cell.putNameHere.textColor = UIColor.lightGray
                 } else {
                     print("the name is'\(String(describing: name))'")
@@ -323,7 +334,7 @@ extension NewTaskViewController: UITableViewDataSource {
                 cell.descrTextView.delegate = self
                 cell.descrTextView.tag = 2
                 if descr == nil {
-                    cell.descrTextView.text = "put a task description here, if you wish :)"
+                    cell.descrTextView.text = DESCRIPTION_PLACEHOLDER
                     cell.descrTextView.textColor = UIColor.lightGray
                 } else {
                     cell.descrTextView.text = descr
@@ -354,7 +365,7 @@ extension NewTaskViewController: UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "oneTagCell") as! TagScreenTVCell
             let tagForCell = tags[indexPath.row]
-            cell.tagColorView.layer.cornerRadius = 15
+            cell.tagColorView.layer.cornerRadius = 10
             cell.tagColorView.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
             cell.tagColorView.layer.borderWidth = 2
             cell.tagColorView.backgroundColor = tagForCell.tagColor
@@ -395,6 +406,26 @@ extension NewTaskViewController: UITextViewDelegate {
             name = textView.text
         } else if textView.tag == 2 {
             descr = textView.text
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if (name == nil || name?.count == 0) && textView.tag == 1 {
+            textView.text = NAME_PLACEHOLDER
+            textView.textColor = UIColor.lightGray
+        } else if (descr == nil || descr?.count == 0) && textView.tag == 2 {
+            textView.text = DESCRIPTION_PLACEHOLDER
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        let numberOfChars = newText.count
+        if textView.tag == 1 {
+            return numberOfChars <= 25
+        } else {
+            return numberOfChars <= 200
         }
     }
 }
