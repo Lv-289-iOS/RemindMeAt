@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewTaskViewController: UIViewController {
+class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var taskToBeUpdated: RMATask?
     var editIsTapped = false
@@ -27,9 +27,8 @@ class NewTaskViewController: UIViewController {
     var image: UIImage?
     var descr: String?
     
-    var picker:UIImagePickerController?=UIImagePickerController()
+    var picker = UIImagePickerController()
     
-    @IBOutlet weak var editAndSaveButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var tagView: UIView!
@@ -46,34 +45,6 @@ class NewTaskViewController: UIViewController {
             let tagColor = UIColor.fromHexString(rmaTag.color)
             tags.append(Tag(tagName: rmaTag.name, tagColor: tagColor, isTagChoosen: false))
         }
-    }
-    
-    @IBAction func saveEditButton(_ sender: UIButton) {
-        editIsTapped = !editIsTapped
-        if (editIsTapped) {
-            editAndSaveButton.setTitle("save", for: .normal)
-        } else {
-            if taskIdentifier == 0 {
-                if name == nil || (name?.trimmingCharacters(in: .whitespaces).isEmpty)! {
-                    let alertController = UIAlertController(title: "Empty name field", message: "give a name to the task", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "ok", style: .destructive, handler: nil)
-                    alertController.addAction(okAction)
-                    present(alertController, animated: false, completion: nil)
-                    editIsTapped = !editIsTapped
-                } else {
-                    editAndSaveButton.setTitle("edit", for: .normal)
-                    addNewTaskToDB()
-                }
-            }
-        }
-        UIView.transition(with: tableView,
-                          duration: 0.35,
-                          options: .transitionCrossDissolve,
-                          animations:
-            { () -> Void in
-                self.tableView.reloadData()
-        },
-                          completion: nil);
     }
     
     func addNewTaskToDB() {
@@ -102,7 +73,6 @@ class NewTaskViewController: UIViewController {
                 }
             }
         }
-        
         RMARealmManager.addTask(newTask: newTask)
     }
     
@@ -133,22 +103,70 @@ class NewTaskViewController: UIViewController {
         tagTableView.delegate = self
         tagTableView.dataSource = self
         
+        picker.delegate = self
+        
         tagTableView.layer.cornerRadius = 15
         tagView.layer.cornerRadius = 30
         tagViewSelectButton.layer.cornerRadius = 15
         tableView.rowHeight = UITableViewAutomaticDimension
         addTags()
-        if !(taskIdentifier == 0) {
-            editIsTapped = false
-            editAndSaveButton.setTitle("edit", for: .normal)
-        } else {
-            editIsTapped = true
-            editAndSaveButton.setTitle("save", for: .normal)
-        }
+        
+        let rightBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "save_small"), style: .plain, target: self, action: #selector(self.navigationControllerButton))
+        startBarButton(rightBarButton: rightBarButton)
         self.tableView.reloadData()
         updateConstraints()
         self.hideKeyboardWhenTappedAround()
     }
+    
+    func startBarButton(rightBarButton: UIBarButtonItem) {
+        if !(taskIdentifier == 0) {
+            editIsTapped = false
+            rightBarButton.image = #imageLiteral(resourceName: "edit_small")
+        } else {
+            editIsTapped = true
+            rightBarButton.image = #imageLiteral(resourceName: "save_small")
+        }
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    @objc func navigationControllerButton(rightBarButton: UIBarButtonItem) {
+        editIsTapped = !editIsTapped
+        if editIsTapped {
+            rightBarButton.image = #imageLiteral(resourceName: "save_small")
+        } else {
+            if taskIdentifier == 0 {
+                if name == nil || (name?.trimmingCharacters(in: .whitespaces).isEmpty)! {
+                    let alertController = UIAlertController(title: "Empty name field", message: "give a name to the task", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "ok", style: .destructive, handler: nil)
+                    alertController.addAction(okAction)
+                    present(alertController, animated: false, completion: nil)
+                    editIsTapped = !editIsTapped
+                } else {
+                    rightBarButton.image = #imageLiteral(resourceName: "edit_small")
+                    addNewTaskToDB()
+                    let controllerIndex = self.navigationController?.viewControllers.index(where: { (viewController) -> Bool in
+                        return viewController is RMATasksVC
+                    })
+                    let destination = self.navigationController?.viewControllers[controllerIndex!]
+                    let transition = CATransition()
+                    transition.duration = 0.5
+                    transition.type = kCATransitionFade
+                    self.navigationController?.view.layer.add(transition, forKey: nil)
+                    self.navigationController?.popToViewController(destination!, animated: false)
+                }
+            }
+        }
+        UIView.transition(with: tableView,
+                          duration: 1,
+                          options: .transitionCrossDissolve,
+                          animations:
+            { () -> Void in
+                self.tableView.reloadData()
+        },
+                          completion: nil);
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+
     
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -177,7 +195,7 @@ class NewTaskViewController: UIViewController {
         
         let secondAction: UIAlertAction = UIAlertAction(title: "Galery", style: .default) { action -> Void in
             print("Galery choosen")
-            self.openGallary()
+            self.openGallery()
             
         }
         
@@ -192,28 +210,30 @@ class NewTaskViewController: UIViewController {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        //        if let newimage = info[UIImagePickerControllerOriginalImage] as? UIImage{
-        //            picker.dismiss(animated: true, completion: nil)
-        //         }
+        if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
+            image = newImage
+            self.tableView.reloadData()
+            picker.dismiss(animated: true, completion: nil)
+        }
         print("it have to store image in local var")
-        
     }
-    func openGallary()
-    {
-        picker!.allowsEditing = false
-        picker!.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        present(picker!, animated: true, completion: nil)
+    
+    func openGallery() {
+        picker.allowsEditing = false
+        picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        present(picker, animated: true, completion: nil)
     }
     
     
     func openCamera()
     {
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)){
-            picker!.allowsEditing = false
-            picker!.sourceType = UIImagePickerControllerSourceType.camera
-            picker!.cameraCaptureMode = .photo
-            present(picker!, animated: true, completion: nil)
+            picker.allowsEditing = false
+            picker.sourceType = UIImagePickerControllerSourceType.camera
+            picker.cameraCaptureMode = .photo
+            present(picker, animated: true, completion: nil)
         }else{
             let alert = UIAlertController(title: "Camera Not Found", message: "This device has no Camera", preferredStyle: .alert)
             let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
