@@ -128,7 +128,7 @@
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="JWd-v3-tnH">
                                             <connections>
                                                 <action selector="didClickOnAddButton:" destination="f6c-Ow-EaH" id="icl-jj-T5e"/>
-                                                <segue destination="jS2-sR-Lky" kind="show" id="n8m-3C-Ops"/>
+                                                <segue destination="jS2-sR-Lky" kind="show" identifier="TaskListVCToNewTaskVC" id="n8m-3C-Ops"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>

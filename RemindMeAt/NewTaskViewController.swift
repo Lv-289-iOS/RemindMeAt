@@ -10,6 +10,7 @@ import UIKit
 
 class NewTaskViewController: UIViewController {
     
+    var taskToBeUpdated: RMATask?
     var editIsTapped = false
     var taskIdentifier = 0
     
@@ -123,6 +124,10 @@ class NewTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let taskToBeUpdated = taskToBeUpdated {
+            self.title = taskToBeUpdated.name
+            // TODO: fill the controls accoding to taskToBeUpdated
+        }
         tableView.delegate = self
         tableView.dataSource = self
         tagTableView.delegate = self
