@@ -40,13 +40,11 @@ class NewTaskViewController: UIViewController {
     @IBOutlet weak var bottomTagViewConstraint: NSLayoutConstraint!
     
     func addTags() {
-        tags.append(Tag(tagName: "holidays", tagColor: #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), isTagChoosen: false))
-        tags.append(Tag(tagName: "home", tagColor: #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1), isTagChoosen: false))
-        tags.append(Tag(tagName: "shopping", tagColor: #colorLiteral(red: 1, green: 0.1857388616, blue: 0.5733950138, alpha: 1), isTagChoosen: false))
-        tags.append(Tag(tagName: "family", tagColor: #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1), isTagChoosen: false))
-        tags.append(Tag(tagName: "rest", tagColor: #colorLiteral(red: 0.5810584426, green: 0.1285524964, blue: 0.5745313764, alpha: 1), isTagChoosen: false))
-        tags.append(Tag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1), isTagChoosen: false))
-        tags.append(Tag(tagName: "other", tagColor: #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1), isTagChoosen: false))
+        let allRMATags = RMARealmManager.getAllTags()
+        for rmaTag in allRMATags {
+            let tagColor = UIColor.fromHexString(rmaTag.color)
+            tags.append(Tag(tagName: rmaTag.name, tagColor: tagColor, isTagChoosen: false))
+        }
     }
     
     @IBAction func saveEditButton(_ sender: UIButton) {
