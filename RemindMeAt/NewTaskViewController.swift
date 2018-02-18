@@ -10,6 +10,8 @@ import UIKit
 
 class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    let notificationManager = NotificationManager()
+    
     var taskToBeUpdated: RMATask?
     var editIsTapped = false
     var taskIdentifier = 0
@@ -75,7 +77,13 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         RMARealmManager.addTask(newTask: newTask)
         
+        newTask.location?.latitude = 49.8327
+        newTask.location?.longitude = 23.9992
+//        newTask.date =
+        notificationManager.setNotification(with: newTask)
     }
+    
+    
     
     @IBAction func saveTagsButton(_ sender: UIButton) {
         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
@@ -253,6 +261,7 @@ extension NewTaskViewController: UITableViewDelegate {
         if tableView == self.tableView {
             if indexPath.row == 1 {
                 //                performSegue(withIdentifier: "toCalendar", sender: self)
+                //add date picker as popUp view
                 print("add date")
             } else if indexPath.row == 2 {
                 print("add location")
