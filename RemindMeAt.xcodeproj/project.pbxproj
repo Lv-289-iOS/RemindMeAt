@@ -13,6 +13,7 @@
 		4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D60202B33AB005AD091 /* RMAMapVC.swift */; };
 		4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D62202B33C3005AD091 /* RMACalendarVC.swift */; };
 		4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D64202B33D3005AD091 /* RMASettingsVC.swift */; };
+		4BC9DB632039E5E800D86598 /* SetLocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */; };
 		A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36BA19E2032583B001B940F /* UIColorExtension.swift */; };
 		A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B39202DB2DC00127811 /* RMALocation.swift */; };
 		A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B3B202DB4E300127811 /* RMATag.swift */; };
@@ -37,6 +38,7 @@
 		4B315D60202B33AB005AD091 /* RMAMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAMapVC.swift; sourceTree = "<group>"; };
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
 		4B315D64202B33D3005AD091 /* RMASettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMASettingsVC.swift; sourceTree = "<group>"; };
+		4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLocationDelegate.swift; sourceTree = "<group>"; };
 		A36BA19E2032583B001B940F /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		A3CB9B39202DB2DC00127811 /* RMALocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMALocation.swift; sourceTree = "<group>"; };
 		A3CB9B3B202DB4E300127811 /* RMATag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATag.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */,
 				D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */,
 				D3A9115D2033449A00150693 /* NameTVCell.swift */,
+				4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */,
 				A3D66632202B0883003E29D8 /* Model */,
 				4B315D67202B3514005AD091 /* Controllers */,
 				19E50A042039A19600BE80AA /* Service */,
@@ -256,9 +259,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RemindMeAt/Pods-RemindMeAt-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlacePicker/Frameworks/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlacePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -316,6 +326,7 @@
 				D3A911622033449B00150693 /* DateOrLocationTVCell.swift in Sources */,
 				4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */,
 				4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */,
+				4BC9DB632039E5E800D86598 /* SetLocationDelegate.swift in Sources */,
 				A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */,
 				D3A911602033449B00150693 /* NameTVCell.swift in Sources */,
 				4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */,
@@ -465,10 +476,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F95D26K5WQ;
+				DEVELOPMENT_TEAM = R4HRB3YZDE;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = romashveda.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = romashveda.academy.softserve.RemindMeAt5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -481,10 +492,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F95D26K5WQ;
+				DEVELOPMENT_TEAM = R4HRB3YZDE;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = romashveda.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = romashveda.academy.softserve.RemindMeAt5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

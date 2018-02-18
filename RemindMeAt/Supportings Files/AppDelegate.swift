@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import CoreData
+import GoogleMaps
+import GooglePlaces
 import RealmSwift
 import UserNotifications
 import CoreLocation
@@ -39,6 +42,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let category = UNNotificationCategory(identifier: "category", actions: [remindLaterAction,markAsSeenAction], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        GMSServices.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
+        GMSPlacesClient.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
         
         return true
     }
