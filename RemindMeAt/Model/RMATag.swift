@@ -18,5 +18,4 @@ class RMATag: Object {
         self.name = tagName
         self.color = tagColor.hexString()
     }
-    
 }

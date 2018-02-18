@@ -27,7 +27,6 @@
 		D3A91167203344C600150693 /* TagsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91163203344C500150693 /* TagsTVCell.swift */; };
 		D3A9116A203344C600150693 /* TagScreenTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91166203344C600150693 /* TagScreenTVCell.swift */; };
 		D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91164203344C500150693 /* NewTaskViewController.swift */; };
-		D3A9116C203344F900150693 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91165203344C600150693 /* Tag.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +52,6 @@
 		D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOrLocationTVCell.swift; sourceTree = "<group>"; };
 		D3A91163203344C500150693 /* TagsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsTVCell.swift; sourceTree = "<group>"; };
 		D3A91164203344C500150693 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
-		D3A91165203344C600150693 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		D3A91166203344C600150693 /* TagScreenTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagScreenTVCell.swift; sourceTree = "<group>"; };
 		E38290176121108086710B0C /* Pods_RemindMeAt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindMeAt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -138,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				D3A91164203344C500150693 /* NewTaskViewController.swift */,
-				D3A91165203344C600150693 /* Tag.swift */,
 				D3A91166203344C600150693 /* TagScreenTVCell.swift */,
 				D3A91163203344C500150693 /* TagsTVCell.swift */,
 				D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */,
@@ -307,7 +304,6 @@
 				D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */,
 				D3A911622033449B00150693 /* DateOrLocationTVCell.swift in Sources */,
 				4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */,
-				D3A9116C203344F900150693 /* Tag.swift in Sources */,
 				4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */,
 				A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */,
 				D3A911602033449B00150693 /* NameTVCell.swift in Sources */,

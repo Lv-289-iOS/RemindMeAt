@@ -14,8 +14,8 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     var editIsTapped = false
     var taskIdentifier = 0
     
-    var tags:[Tag] = []
-    var theSubviews:[UIView] = []
+    let allTagsResults = RMARealmManager.getAllTags()
+    var tagList = Array<RMATag>()
     
     let defaultImage = #imageLiteral(resourceName: "defaultPic")
     let DESCRIPTION_PLACEHOLDER = "put a task description here, if you wish :)"
@@ -39,11 +39,15 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var tagTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTagViewConstraint: NSLayoutConstraint!
     
-    func addTags() {
-        let allRMATags = RMARealmManager.getAllTags()
-        for rmaTag in allRMATags {
-            let tagColor = UIColor.fromHexString(rmaTag.color)
-            tags.append(Tag(tagName: rmaTag.name, tagColor: tagColor, isTagChoosen: false))
+    func dataFromTask() {
+        if let taskToBeUpdated = taskToBeUpdated {
+            self.title = taskToBeUpdated.name
+            name = taskToBeUpdated.name
+            date = taskToBeUpdated.date
+            descr = taskToBeUpdated.fullDescription
+            for tag in taskToBeUpdated.tags {
+                tagList.append(tag)
+            }
         }
     }
     
@@ -66,12 +70,8 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             newTask.fullDescription = descr
         }
         
-        for tag in tags {
-            if tag.isTagChoosen {
-                if let rmaTag = RMARealmManager.getTagByName(name: tag.tagName) {
-                    newTask.tags.append(rmaTag)
-                }
-            }
+        for tag in tagList {
+                    newTask.tags.append(tag)
         }
         RMARealmManager.addTask(newTask: newTask)
     }
@@ -86,7 +86,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func updateConstraints() {
         tagTableView.rowHeight = 40
-        tagTableViewHeightConstraint.constant = tagTableView.rowHeight * CGFloat(tags.count)
+        tagTableViewHeightConstraint.constant = tagTableView.rowHeight * CGFloat(allTagsResults.count)
         self.tagTableView.layoutIfNeeded()
         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
         self.tagView.layoutIfNeeded()
@@ -105,11 +105,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         picker.delegate = self
         
+        dataFromTask()
+        
         tagTableView.layer.cornerRadius = 15
         tagView.layer.cornerRadius = 30
         tagViewSelectButton.layer.cornerRadius = 15
         tableView.rowHeight = UITableViewAutomaticDimension
-        addTags()
         
         let rightBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "save_small"), style: .plain, target: self, action: #selector(self.navigationControllerButton))
         startBarButton(rightBarButton: rightBarButton)
@@ -119,7 +120,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func startBarButton(rightBarButton: UIBarButtonItem) {
-        if !(taskIdentifier == 0) {
+        if taskToBeUpdated != nil {
             editIsTapped = false
             rightBarButton.image = #imageLiteral(resourceName: "edit_small")
         } else {
@@ -177,14 +178,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    
+
     func formatDate(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
         return dateFormatter.string(from: date as Date)
     }
-    
     
     func cameraGalery() {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -251,7 +250,6 @@ extension NewTaskViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             if indexPath.row == 1 {
-                //                performSegue(withIdentifier: "toCalendar", sender: self)
                 print("add date")
             } else if indexPath.row == 2 {
                 print("add location")
@@ -262,13 +260,12 @@ extension NewTaskViewController: UITableViewDelegate {
                 }
             }
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "oneTagCell") as! TagScreenTVCell
-            let oneTag = tags[indexPath.row]
-            tags[indexPath.row].isTagChoosen = !oneTag.isTagChoosen
-            if (tags[indexPath.row].isTagChoosen) {
-                cell.tagIsChoosePic.image = #imageLiteral(resourceName: "check")
-            } else  {
-                cell.tagIsChoosePic.image = #imageLiteral(resourceName: "uncheck")
+            let oneTag = allTagsResults[indexPath.row]
+            if tagList.contains(where: {$0.name == oneTag.name}) {
+                let index = tagList.index(where: {$0.name == oneTag.name})
+                tagList.remove(at: index!)
+            } else {
+                tagList.append(oneTag)
             }
             tagTableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
         }
@@ -288,7 +285,7 @@ extension NewTaskViewController: UITableViewDataSource {
             return 5
         }
         if tableView == self.tagTableView {
-            return tags.count
+            return allTagsResults.count
         }
         return 5
     }
@@ -315,7 +312,6 @@ extension NewTaskViewController: UITableViewDataSource {
                     cell.putNameHere.text = NAME_PLACEHOLDER
                     cell.putNameHere.textColor = UIColor.lightGray
                 } else {
-//                    print("the name is'\(name!))'")
                     cell.putNameHere.text = name
                     cell.putNameHere.textColor = UIColor.black
                 }
@@ -377,12 +373,9 @@ extension NewTaskViewController: UITableViewDataSource {
                 }
                 cell.tagesLabel.text = "tags: "
                 var i: CGFloat = 1
-                for tag in tags {
-                    if tag.isTagChoosen {
-                        theSubviews.append(drawSquare(frameWidth: cell.frame.width, number: i, color: tag.tagColor))
-                        cell.addSubview(drawSquare(frameWidth: cell.frame.width, number: i, color: tag.tagColor))
-                        i += 1
-                    }
+                for tag in tagList {
+                    cell.addSubview(drawSquare(frameWidth: cell.frame.width, number: i, color: UIColor.fromHexString(tag.color)))
+                    i += 1
                 }
                 return cell
             }  else {
@@ -390,13 +383,13 @@ extension NewTaskViewController: UITableViewDataSource {
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "oneTagCell") as! TagScreenTVCell
-            let tagForCell = tags[indexPath.row]
+            let tagForCell = allTagsResults[indexPath.row]
             cell.tagColorView.layer.cornerRadius = 10
             cell.tagColorView.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
             cell.tagColorView.layer.borderWidth = 2
-            cell.tagColorView.backgroundColor = tagForCell.tagColor
-            cell.tagLabel.text = tagForCell.tagName
-            if (tagForCell.isTagChoosen) {
+            cell.tagColorView.backgroundColor = UIColor.fromHexString(tagForCell.color)
+            cell.tagLabel.text = tagForCell.name
+            if tagList.contains(where: {$0.name == tagForCell.name}) {
                 cell.tagIsChoosePic.image = #imageLiteral(resourceName: "check")
             } else  {
                 cell.tagIsChoosePic.image = #imageLiteral(resourceName: "uncheck")
@@ -455,4 +448,5 @@ extension NewTaskViewController: UITextViewDelegate {
         }
     }
 }
+
 
