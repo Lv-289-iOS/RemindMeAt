@@ -74,6 +74,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
         }
         RMARealmManager.addTask(newTask: newTask)
+        
     }
     
     @IBAction func saveTagsButton(_ sender: UIButton) {
