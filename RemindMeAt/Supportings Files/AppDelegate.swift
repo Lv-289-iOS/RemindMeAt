@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        RMARealmManager.seedData()
         // Override point for customization after application launch.
         // Ask user's permision for sending notifications
         UNUserNotificationCenter.current().delegate = self
