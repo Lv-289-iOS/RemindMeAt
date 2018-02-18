@@ -7,18 +7,45 @@
 //
 
 import UIKit
+import CoreData
+import GoogleMaps
+import GooglePlaces
 import RealmSwift
+import UserNotifications
+import CoreLocation
 
 let uiRealm = try! Realm()
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        RMARealmManager.seedData()
+        // Ask user's permision for sending notifications
+        UNUserNotificationCenter.current().delegate = self
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+        center.requestAuthorization(options: options) { (granted, error) in
+            if granted {
+                DispatchQueue.main.async(execute: {
+                    application.registerForRemoteNotifications()
+                })
+                
+            }
+        }
+        //define actions FIXME: will be changed
+        let remindLaterAction = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
+        let markAsSeenAction = UNNotificationAction(identifier: "markAsSeen", title: "Mark as seen", options: [])
+        
+        let category = UNNotificationCategory(identifier: "category", actions: [remindLaterAction,markAsSeenAction], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        GMSServices.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
+        GMSPlacesClient.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
+        
         return true
     }
 
@@ -43,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 
