@@ -263,6 +263,10 @@ extension NewTaskViewController: UITableViewDelegate {
                 //add date picker as popUp view
                 print("add date")
             } else if indexPath.row == 2 {
+                guard let mapsVC = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAMapVC.self)) as? RMAMapVC else { return }
+                mapsVC.locationDelegate = self
+                mapsVC.isInAddLocationMode = true
+                navigationController?.pushViewController(mapsVC, animated: true)
                 print("add location")
             } else if indexPath.row == 4 {
                 bottomTagViewConstraint.constant = 0
@@ -457,6 +461,13 @@ extension NewTaskViewController: UITextViewDelegate {
         } else {
             return numberOfChars <= 200
         }
+    }
+}
+
+extension NewTaskViewController: SetLocationDelegate {
+    func setLocation(location: TaskLocation) {
+        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
+        print("\(self.location)")
     }
 }
 

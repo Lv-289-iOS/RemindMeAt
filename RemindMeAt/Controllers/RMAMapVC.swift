@@ -18,6 +18,9 @@ struct TaskLocation {
 }
 
 class RMAMapVC: UIViewController {
+    @IBAction func showSearch(_ sender: UIBarButtonItem) {
+    }
+    @IBOutlet weak var showSearch: UIBarButtonItem!
     
     @IBOutlet weak var mapView: GMSMapView!
     
@@ -26,7 +29,10 @@ class RMAMapVC: UIViewController {
     @IBOutlet weak var addLocationButton: UIButton!
     
     @IBAction func addLocationButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
+    
+    var isInAddLocationMode = false
     
     weak var locationDelegate: SetLocationDelegate?
     lazy var currentPlace = GMSPlace()
@@ -40,10 +46,6 @@ class RMAMapVC: UIViewController {
     var searchController: UISearchController?
     var resultView: UITextView?
     var marker = GMSMarker()
-    var coordinateForMarker = CLLocationCoordinate2D() {
-        didSet {
-        }
-    }
     let defaultCamera = GMSCameraPosition.camera(withLatitude: 0.0,
                                                  longitude: 0.0,
                                                  zoom: 14.0)
@@ -64,9 +66,14 @@ class RMAMapVC: UIViewController {
         if let loc = locationManager.location {
             userLocation = loc
             animateCameraTo(coordinate: userLocation.coordinate)
+        }
+        
+        if isInAddLocationMode {
             marker.position = userLocation.coordinate
-            marker.isDraggable = true
             marker.map = mapView
+            showSearch.tintColor = .gray
+        } else {
+            showSearch.tintColor = .clear
         }
         
         resultsViewController = GMSAutocompleteResultsViewController()
@@ -85,6 +92,10 @@ class RMAMapVC: UIViewController {
     override func viewWillLayoutSubviews() {
         searchController?.searchBar.frame.size.width = view.frame.size.width
         searchController?.searchBar.frame.size.height = 44.0
+        
+        addLocationButton.isHidden = !isInAddLocationMode
+        showSearch.isEnabled = isInAddLocationMode
+        searchBarView.isHidden = true
     }
     
     private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
