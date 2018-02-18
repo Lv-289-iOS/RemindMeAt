@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		19945B7320330D9A00A35DE0 /* test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19945B7220330D9A00A35DE0 /* test.storyboard */; };
 		4AE4401A0FE727B4CC94A79F /* Pods_RemindMeAt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E38290176121108086710B0C /* Pods_RemindMeAt.framework */; };
 		4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D5E202B3395005AD091 /* RMATasksVC.swift */; };
 		4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D60202B33AB005AD091 /* RMAMapVC.swift */; };
@@ -18,15 +17,21 @@
 		A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B3B202DB4E300127811 /* RMATag.swift */; };
 		A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CCE371202C9B12009D9354 /* RMARealmManager.swift */; };
 		A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D6661E202B055E003E29D8 /* AppDelegate.swift */; };
-		A3D66624202B055E003E29D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D66622202B055E003E29D8 /* Main.storyboard */; };
 		A3D66626202B055E003E29D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3D66625202B055E003E29D8 /* Assets.xcassets */; };
 		A3D66629202B055E003E29D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D66627202B055E003E29D8 /* LaunchScreen.storyboard */; };
 		A3D66631202B087C003E29D8 /* RMATask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D66630202B087C003E29D8 /* RMATask.swift */; };
+		D31F642720333F2D005F8D8C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D66622202B055E003E29D8 /* Main.storyboard */; };
+		D3A911602033449B00150693 /* NameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115D2033449A00150693 /* NameTVCell.swift */; };
+		D3A911612033449B00150693 /* ImageAndDescrTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */; };
+		D3A911622033449B00150693 /* DateOrLocationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */; };
+		D3A91167203344C600150693 /* TagsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91163203344C500150693 /* TagsTVCell.swift */; };
+		D3A9116A203344C600150693 /* TagScreenTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91166203344C600150693 /* TagScreenTVCell.swift */; };
+		D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91164203344C500150693 /* NewTaskViewController.swift */; };
+		D3A9116C203344F900150693 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91165203344C600150693 /* Tag.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0BF19FF328AB07B49A868DE4 /* Pods-RemindMeAt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindMeAt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RemindMeAt/Pods-RemindMeAt.debug.xcconfig"; sourceTree = "<group>"; };
-		19945B7220330D9A00A35DE0 /* test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = test.storyboard; sourceTree = "<group>"; };
 		4B315D5E202B3395005AD091 /* RMATasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATasksVC.swift; sourceTree = "<group>"; };
 		4B315D60202B33AB005AD091 /* RMAMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAMapVC.swift; sourceTree = "<group>"; };
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
@@ -43,6 +48,13 @@
 		A3D6662A202B055E003E29D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3D66630202B087C003E29D8 /* RMATask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATask.swift; sourceTree = "<group>"; };
 		B5468DD6610EB97818B797F7 /* Pods-RemindMeAt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindMeAt.release.xcconfig"; path = "Pods/Target Support Files/Pods-RemindMeAt/Pods-RemindMeAt.release.xcconfig"; sourceTree = "<group>"; };
+		D3A9115D2033449A00150693 /* NameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTVCell.swift; sourceTree = "<group>"; };
+		D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndDescrTVCell.swift; sourceTree = "<group>"; };
+		D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOrLocationTVCell.swift; sourceTree = "<group>"; };
+		D3A91163203344C500150693 /* TagsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsTVCell.swift; sourceTree = "<group>"; };
+		D3A91164203344C500150693 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
+		D3A91165203344C600150693 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		D3A91166203344C600150693 /* TagScreenTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagScreenTVCell.swift; sourceTree = "<group>"; };
 		E38290176121108086710B0C /* Pods_RemindMeAt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindMeAt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -63,7 +75,6 @@
 			children = (
 				A3D66622202B055E003E29D8 /* Main.storyboard */,
 				A3D66627202B055E003E29D8 /* LaunchScreen.storyboard */,
-				19945B7220330D9A00A35DE0 /* test.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -126,6 +137,13 @@
 		A3D6661D202B055E003E29D8 /* RemindMeAt */ = {
 			isa = PBXGroup;
 			children = (
+				D3A91164203344C500150693 /* NewTaskViewController.swift */,
+				D3A91165203344C600150693 /* Tag.swift */,
+				D3A91166203344C600150693 /* TagScreenTVCell.swift */,
+				D3A91163203344C500150693 /* TagsTVCell.swift */,
+				D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */,
+				D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */,
+				D3A9115D2033449A00150693 /* NameTVCell.swift */,
 				A3D66632202B0883003E29D8 /* Model */,
 				4B315D67202B3514005AD091 /* Controllers */,
 				4B315D66202B350D005AD091 /* Views */,
@@ -184,6 +202,11 @@
 					A3D6661A202B055E003E29D8 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -211,9 +234,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3D66629202B055E003E29D8 /* LaunchScreen.storyboard in Resources */,
+				D31F642720333F2D005F8D8C /* Main.storyboard in Resources */,
 				A3D66626202B055E003E29D8 /* Assets.xcassets in Resources */,
-				19945B7320330D9A00A35DE0 /* test.storyboard in Resources */,
-				A3D66624202B055E003E29D8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,13 +304,20 @@
 			files = (
 				A3D66631202B087C003E29D8 /* RMATask.swift in Sources */,
 				A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */,
+				D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */,
+				D3A911622033449B00150693 /* DateOrLocationTVCell.swift in Sources */,
 				4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */,
+				D3A9116C203344F900150693 /* Tag.swift in Sources */,
 				4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */,
 				A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */,
+				D3A911602033449B00150693 /* NameTVCell.swift in Sources */,
 				4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */,
 				4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */,
 				A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */,
+				D3A91167203344C600150693 /* TagsTVCell.swift in Sources */,
 				A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */,
+				D3A911612033449B00150693 /* ImageAndDescrTVCell.swift in Sources */,
+				D3A9116A203344C600150693 /* TagScreenTVCell.swift in Sources */,
 				A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +460,7 @@
 				DEVELOPMENT_TEAM = Y8CF7ZMY8K;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = temarez.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = danylonovosad.academy.softserve.RemindMeAt5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -447,7 +476,7 @@
 				DEVELOPMENT_TEAM = Y8CF7ZMY8K;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = temarez.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = danylonovosad.academy.softserve.RemindMeAt5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
