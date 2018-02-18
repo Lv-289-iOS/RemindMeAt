@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19E50A062039A1B700BE80AA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E50A052039A1B700BE80AA /* NotificationManager.swift */; };
 		4AE4401A0FE727B4CC94A79F /* Pods_RemindMeAt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E38290176121108086710B0C /* Pods_RemindMeAt.framework */; };
 		4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D5E202B3395005AD091 /* RMATasksVC.swift */; };
 		4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D60202B33AB005AD091 /* RMAMapVC.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		0BF19FF328AB07B49A868DE4 /* Pods-RemindMeAt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindMeAt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RemindMeAt/Pods-RemindMeAt.debug.xcconfig"; sourceTree = "<group>"; };
+		19E50A052039A1B700BE80AA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4B315D5E202B3395005AD091 /* RMATasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATasksVC.swift; sourceTree = "<group>"; };
 		4B315D60202B33AB005AD091 /* RMAMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAMapVC.swift; sourceTree = "<group>"; };
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
@@ -68,6 +70,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19E50A042039A19600BE80AA /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				19E50A052039A1B700BE80AA /* NotificationManager.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		4B315D66202B350D005AD091 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +153,7 @@
 				D3A9115D2033449A00150693 /* NameTVCell.swift */,
 				A3D66632202B0883003E29D8 /* Model */,
 				4B315D67202B3514005AD091 /* Controllers */,
+				19E50A042039A19600BE80AA /* Service */,
 				4B315D66202B350D005AD091 /* Views */,
 				4B315D68202B351D005AD091 /* Supportings Files */,
 				A3D6662A202B055E003E29D8 /* Info.plist */,
@@ -310,6 +321,7 @@
 				4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */,
 				4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */,
 				A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */,
+				19E50A062039A1B700BE80AA /* NotificationManager.swift in Sources */,
 				D3A91167203344C600150693 /* TagsTVCell.swift in Sources */,
 				A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */,
 				D3A911612033449B00150693 /* ImageAndDescrTVCell.swift in Sources */,
@@ -453,10 +465,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y8CF7ZMY8K;
+				DEVELOPMENT_TEAM = F95D26K5WQ;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = danylonovosad.academy.softserve.RemindMeAt5;
+				PRODUCT_BUNDLE_IDENTIFIER = romashveda.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -469,10 +481,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Y8CF7ZMY8K;
+				DEVELOPMENT_TEAM = F95D26K5WQ;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = danylonovosad.academy.softserve.RemindMeAt5;
+				PRODUCT_BUNDLE_IDENTIFIER = romashveda.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

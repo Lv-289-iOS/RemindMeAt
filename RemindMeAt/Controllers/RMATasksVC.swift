@@ -30,7 +30,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate.calendarNotification()
         // Do any additional setup after loading the view.
     }
 
