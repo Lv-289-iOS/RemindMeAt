@@ -170,19 +170,17 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        /*
         if let selectedTaskList = self.taskList?[indexPath.row] {
-            self.performSegue(withIdentifier: "openTasks", sender: selectedTaskList)
+            self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
         }
-         */
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let newTaskViewController = segue.destination as! NewTaskViewController
+        newTaskViewController.taskToBeUpdated = sender as? RMATask
     }
 
 }
