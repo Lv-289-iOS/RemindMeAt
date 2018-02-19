@@ -49,11 +49,45 @@ class RMARealmManager {
         }
     }
     
+    // MARK: - UPDATE functions for Task
+    
     static func updateTaskName(updatedTask: RMATask, taskName: String) {
         try! uiRealm.write {
             updatedTask.name = taskName
         }
     }
+
+    static func updateTaskFullDescription(_ updatedTask: RMATask, fullDescription: String?) {
+        try! uiRealm.write {
+            updatedTask.fullDescription = fullDescription
+        }
+    }
+    
+    static func updateTaskDate(_ updatedTask: RMATask, date: NSDate?) {
+        try! uiRealm.write {
+            updatedTask.date = date
+        }
+    }
+    
+    static func updateTaskDate(_ updatedTask: RMATask, location: RMALocation?) {
+        try! uiRealm.write {
+            updatedTask.location = location
+        }
+    }
+    
+    static func updateTaskDate(_ updatedTask: RMATask, imageURL: String?) {
+        try! uiRealm.write {
+            updatedTask.imageURL = imageURL
+        }
+    }
+    
+    static func updateTaskIsCompleted(_ updatedTask: RMATask, isCompleted: Bool) {
+        try! uiRealm.write {
+            updatedTask.isCompleted = isCompleted
+        }
+    }
+    
+    // MARK: - DELETE functions for Realm
     
     static func deleteTag(tagToBeDeleted: RMATag) {
         try! uiRealm.write {
