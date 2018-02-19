@@ -10,6 +10,8 @@ import UIKit
 
 class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    let notificationManager = NotificationManager()
+    
     var taskToBeUpdated: RMATask?
     var editIsTapped = false
     var taskIdentifier = 0
@@ -75,7 +77,14 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                     newTask.tags.append(tag)
         }
         RMARealmManager.addTask(newTask: newTask)
+        
+        newTask.location?.latitude = 49.8327
+        newTask.location?.longitude = 23.9992
+//        newTask.date =
+        notificationManager.setNotification(with: newTask)
     }
+    
+    
     
     @IBAction func saveTagsButton(_ sender: UIButton) {
         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
@@ -276,7 +285,14 @@ extension NewTaskViewController: UITableViewDelegate {
                     self.datePicker.frame.origin.y = self.view.frame.height - 200
                     self.datePicker.layoutIfNeeded()
                 })
+                //performSegue(withIdentifier: "toCalendar", sender: self)
+                //add date picker as popUp view
+                print("add date")
             } else if indexPath.row == 2 {
+                guard let mapsVC = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAMapVC.self)) as? RMAMapVC else { return }
+                mapsVC.locationDelegate = self
+                mapsVC.isInAddLocationMode = true
+                navigationController?.pushViewController(mapsVC, animated: true)
                 print("add location")
             } else if indexPath.row == 4 {
                 bottomTagViewConstraint.constant = 0
@@ -477,6 +493,13 @@ extension NewTaskViewController: UITextViewDelegate {
         } else {
             return numberOfChars <= 200
         }
+    }
+}
+
+extension NewTaskViewController: SetLocationDelegate {
+    func setLocation(location: TaskLocation) {
+        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
+        print("\(self.location)")
     }
 }
 
