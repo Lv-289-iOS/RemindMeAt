@@ -11,10 +11,11 @@ import UIKit
 class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let notificationManager = NotificationManager()
-    
+    var imageDoc = RMAFileManager()
     var taskToBeUpdated: RMATask?
     var editIsTapped = false
     var taskIdentifier = 0
+    var imageURL: String?
     
     let allTagsResults = RMARealmManager.getAllTags()
     var tagList = Array<RMATag>()
@@ -24,11 +25,10 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     let NAME_PLACEHOLDER = "put a name for the task here"
     var name: String?
     var date: NSDate?
-    var location: RMALocation?
+    var formattedDate: String?
+    var location: String?
     var image: UIImage?
     var descr: String?
-    
-    let datePicker = UIDatePicker()
     
     var picker = UIImagePickerController()
     
@@ -47,6 +47,14 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.title = taskToBeUpdated.name
             name = taskToBeUpdated.name
             date = taskToBeUpdated.date
+            //            imageURL = taskToBeUpdated.imageURL
+            print("imageURLFromDB: \(String(describing: imageURL))")
+            if let temp = taskToBeUpdated.imageURL {
+                image = imageDoc.loadImageFromPath(imageURL: temp)
+            }
+            //            if imageURL != nil {
+            //                image = imageDoc.loadImageFromPath(imageURL: imageURL!)
+            //            }
             descr = taskToBeUpdated.fullDescription
             for tag in taskToBeUpdated.tags {
                 tagList.append(tag)
@@ -61,26 +69,30 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             newTask.date = date
         }
         if location != nil {
-//            let newLocation = RMALocation()
-//            newLocation.latitude = 0.0
-//            newLocation.longitude = 0.0
-//            newLocation.radius = 50.0
-//            newLocation.name =
-            newTask.location = self.location
+            let newLocation = RMALocation()
+            newLocation.latitude = 0.0
+            newLocation.longitude = 0.0
+            newLocation.radius = 50.0
+            newLocation.name = location!
+            newTask.location = newLocation
         }
         
         if descr != nil {
             newTask.fullDescription = descr
         }
         
+        if imageURL != nil {
+            newTask.imageURL = imageURL
+        }
+        
         for tag in tagList {
-                    newTask.tags.append(tag)
+            newTask.tags.append(tag)
         }
         RMARealmManager.addTask(newTask: newTask)
         
         newTask.location?.latitude = 49.8327
         newTask.location?.longitude = 23.9992
-//        newTask.date =
+        //        newTask.date =
         notificationManager.setNotification(with: newTask)
     }
     
@@ -116,9 +128,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         picker.delegate = self
         
         dataFromTask()
-        self.tabBarController?.tabBar.isHidden = true
-        
-        addDataPicker()
         
         tagTableView.layer.cornerRadius = 15
         tagView.layer.cornerRadius = 30
@@ -130,10 +139,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.tableView.reloadData()
         updateConstraints()
         self.hideKeyboardWhenTappedAround()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        print("Location: \(location?.latitude), \(location?.longitude)")
     }
     
     func startBarButton(rightBarButton: UIBarButtonItem) {
@@ -160,11 +165,8 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                     present(alertController, animated: false, completion: nil)
                     editIsTapped = !editIsTapped
                 } else {
-//                    rightBarButton.image = #imageLiteral(resourceName: "edit_small")
-                    if taskToBeUpdated == nil {
-                         addNewTaskToDB()
-                    }
-                   
+                    rightBarButton.image = #imageLiteral(resourceName: "edit_small")
+                    addNewTaskToDB()
                     let controllerIndex = self.navigationController?.viewControllers.index(where: { (viewController) -> Bool in
                         return viewController is RMATasksVC
                     })
@@ -187,21 +189,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                           completion: nil);
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
-
-    func addDataPicker() {
-
-        datePicker.frame = CGRect(x: 10, y: self.view.frame.height , width: self.view.frame.width - 20, height: 200)
-        datePicker.timeZone = NSTimeZone.local
-        datePicker.backgroundColor = UIColor.white
-        datePicker.addTarget(self, action: #selector(self.datePickerValueChanged(_:)), for: .valueChanged)
-        self.view.addSubview(datePicker)
-
-    }
-
-    @objc func datePickerValueChanged(_ sender: UIDatePicker){
-        date = sender.date as NSDate
-        tableView.reloadData()
-    }
+    
     
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -212,10 +200,10 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     func formatDate(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, yyyy hh:mm a"
+        dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
         return dateFormatter.string(from: date as Date)
     }
     
@@ -229,6 +217,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         let secondAction: UIAlertAction = UIAlertAction(title: "Galery", style: .default) { action -> Void in
             print("Galery choosen")
             self.openGallery()
+            
         }
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
@@ -246,6 +235,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
             image = newImage
+            let tempImage = newImage
+            let imageDate = Date()
+            //            imageURL = imageDoc.addToUrl((image)!, create: date)
+            imageDoc.addToUrl(tempImage, create: imageDate)
+            imageURL = String(describing: imageDate)
+            print("imageURLTooDB: \(String(describing: imageURL))")
             self.tableView.reloadData()
             picker.dismiss(animated: true, completion: nil)
         }
@@ -283,12 +278,6 @@ extension NewTaskViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             if indexPath.row == 1 {
-                UIView.animate(withDuration: 1, animations: {
-                    self.date = NSDate()
-                    tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
-                    self.datePicker.frame.origin.y = self.view.frame.height - 200
-                    self.datePicker.layoutIfNeeded()
-                })
                 //performSegue(withIdentifier: "toCalendar", sender: self)
                 //add date picker as popUp view
                 print("add date")
@@ -303,12 +292,6 @@ extension NewTaskViewController: UITableViewDelegate {
                 UIView.animate(withDuration: 1) {
                     self.view.layoutIfNeeded()
                 }
-            }
-            if indexPath.row != 1 {
-                UIView.animate(withDuration: 1, animations: {
-                    self.datePicker.frame.origin.y = self.view.frame.height
-                    self.datePicker.layoutIfNeeded()
-                })
             }
         } else {
             let oneTag = allTagsResults[indexPath.row]
@@ -388,7 +371,7 @@ extension NewTaskViewController: UITableViewDataSource {
                     cell.informationLabel.text = "select location"
                     cell.informationLabel.textColor = UIColor.lightGray
                 } else {
-                    cell.informationLabel.text = location?.name
+                    cell.informationLabel.text = location
                     cell.informationLabel.textColor = UIColor.black
                 }
                 return cell
@@ -502,8 +485,14 @@ extension NewTaskViewController: UITextViewDelegate {
 
 extension NewTaskViewController: SetLocationDelegate {
     func setLocation(location: RMALocation) {
-        self.location = location
+        self.location = "\(location.latitude), \(location.latitude)"
+        print("\(String(describing: self.location))")
     }
+    
+//    func setLocation(location: TaskLocation) {
+//        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
+//        print("\(self.location)")
+//    }
 }
 
 
