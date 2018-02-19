@@ -11,10 +11,11 @@ import UIKit
 class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let notificationManager = NotificationManager()
-    
+    var imageDoc = RMAFileManager()
     var taskToBeUpdated: RMATask?
     var editIsTapped = false
     var taskIdentifier = 0
+    var imageURL: String?
     
     let allTagsResults = RMARealmManager.getAllTags()
     var tagList = Array<RMATag>()
@@ -46,6 +47,14 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.title = taskToBeUpdated.name
             name = taskToBeUpdated.name
             date = taskToBeUpdated.date
+//            imageURL = taskToBeUpdated.imageURL
+            print("imageURLFromDB: \(String(describing: imageURL))")
+            if let temp = taskToBeUpdated.imageURL {
+                image = imageDoc.loadImageFromPath(imageURL: temp)
+            }
+//            if imageURL != nil {
+//                image = imageDoc.loadImageFromPath(imageURL: imageURL!)
+//            }
             descr = taskToBeUpdated.fullDescription
             for tag in taskToBeUpdated.tags {
                 tagList.append(tag)
@@ -70,6 +79,10 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         if descr != nil {
             newTask.fullDescription = descr
+        }
+        
+        if imageURL != nil {
+            newTask.imageURL = imageURL
         }
         
         for tag in tagList {
@@ -222,6 +235,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
             image = newImage
+            let tempImage = newImage
+            let imageDate = Date()
+//            imageURL = imageDoc.addToUrl((image)!, create: date)
+            imageDoc.addToUrl(tempImage, create: imageDate)
+            imageURL = String(describing: imageDate)
+            print("imageURLTooDB: \(String(describing: imageURL))")
             self.tableView.reloadData()
             picker.dismiss(animated: true, completion: nil)
         }

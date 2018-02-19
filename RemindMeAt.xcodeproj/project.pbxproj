@@ -14,6 +14,7 @@
 		4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D62202B33C3005AD091 /* RMACalendarVC.swift */; };
 		4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D64202B33D3005AD091 /* RMASettingsVC.swift */; };
 		4BC9DB632039E5E800D86598 /* SetLocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */; };
+		6F3AFC35203AC8E4000BC0B1 /* RMAFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AFC34203AC8E4000BC0B1 /* RMAFileManager.swift */; };
 		A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36BA19E2032583B001B940F /* UIColorExtension.swift */; };
 		A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B39202DB2DC00127811 /* RMALocation.swift */; };
 		A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B3B202DB4E300127811 /* RMATag.swift */; };
@@ -39,6 +40,7 @@
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
 		4B315D64202B33D3005AD091 /* RMASettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMASettingsVC.swift; sourceTree = "<group>"; };
 		4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLocationDelegate.swift; sourceTree = "<group>"; };
+		6F3AFC34203AC8E4000BC0B1 /* RMAFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAFileManager.swift; sourceTree = "<group>"; };
 		A36BA19E2032583B001B940F /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		A3CB9B39202DB2DC00127811 /* RMALocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMALocation.swift; sourceTree = "<group>"; };
 		A3CB9B3B202DB4E300127811 /* RMATag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATag.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				A3CB9B39202DB2DC00127811 /* RMALocation.swift */,
 				A3CCE371202C9B12009D9354 /* RMARealmManager.swift */,
 				A36BA19E2032583B001B940F /* UIColorExtension.swift */,
+				6F3AFC34203AC8E4000BC0B1 /* RMAFileManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -266,7 +269,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlacePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -318,6 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F3AFC35203AC8E4000BC0B1 /* RMAFileManager.swift in Sources */,
 				A3D66631202B087C003E29D8 /* RMATask.swift in Sources */,
 				A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */,
 				D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */,
@@ -474,10 +480,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LDWUKS5K42;
+				DEVELOPMENT_TEAM = 83ED2V677R;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt5;
+				PRODUCT_BUNDLE_IDENTIFIER = danylo.novosad.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -490,10 +496,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LDWUKS5K42;
+				DEVELOPMENT_TEAM = 83ED2V677R;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt5;
+				PRODUCT_BUNDLE_IDENTIFIER = danylo.novosad.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
