@@ -24,7 +24,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     let NAME_PLACEHOLDER = "put a name for the task here"
     var name: String?
     var date: NSDate?
+<<<<<<< HEAD
     var location: String?
+=======
+    var formattedDate: String?
+    var location: RMALocation?
+>>>>>>> launch screen
     var image: UIImage?
     var descr: String?
     
@@ -61,12 +66,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             newTask.date = date
         }
         if location != nil {
-            let newLocation = RMALocation()
-            newLocation.latitude = 0.0
-            newLocation.longitude = 0.0
-            newLocation.radius = 50.0
-            newLocation.name = location!
-            newTask.location = newLocation
+//            let newLocation = RMALocation()
+//            newLocation.latitude = 0.0
+//            newLocation.longitude = 0.0
+//            newLocation.radius = 50.0
+//            newLocation.name =
+            newTask.location = self.location
         }
         
         if descr != nil {
@@ -130,6 +135,10 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.tableView.reloadData()
         updateConstraints()
         self.hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("Location: \(location?.latitude), \(location?.longitude)")
     }
     
     func startBarButton(rightBarButton: UIBarButtonItem) {
@@ -384,7 +393,7 @@ extension NewTaskViewController: UITableViewDataSource {
                     cell.informationLabel.text = "select location"
                     cell.informationLabel.textColor = UIColor.lightGray
                 } else {
-                    cell.informationLabel.text = location
+                    cell.informationLabel.text = location?.name
                     cell.informationLabel.textColor = UIColor.black
                 }
                 return cell
@@ -497,9 +506,8 @@ extension NewTaskViewController: UITextViewDelegate {
 }
 
 extension NewTaskViewController: SetLocationDelegate {
-    func setLocation(location: TaskLocation) {
-        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
-        print("\(self.location)")
+    func setLocation(location: RMALocation) {
+        self.location = location
     }
 }
 

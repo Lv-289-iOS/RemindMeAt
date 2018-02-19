@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="umc-5c-4uq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="umc-5c-4uq">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,13 +21,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfn-rU-v3j" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" red="0.93844011272021499" green="0.94773159898477155" blue="0.94773159898477155" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nmw-Wx-byn">
-                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="xqm-jn-Mn3"/>
-                                </constraints>
                             </view>
                             <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip7-41-XZA">
                                 <rect key="frame" x="63" y="441" width="194" height="48"/>
@@ -52,11 +45,8 @@
                             <constraint firstItem="Ip7-41-XZA" firstAttribute="centerX" secondItem="bHg-eM-u2k" secondAttribute="centerX" id="AeO-ni-RrU"/>
                             <constraint firstItem="dfn-rU-v3j" firstAttribute="top" secondItem="bHg-eM-u2k" secondAttribute="top" id="NEe-pY-NUY"/>
                             <constraint firstItem="bHg-eM-u2k" firstAttribute="bottom" secondItem="Ip7-41-XZA" secondAttribute="bottom" constant="30" id="PNF-bn-nzz"/>
-                            <constraint firstItem="nmw-Wx-byn" firstAttribute="top" secondItem="bHg-eM-u2k" secondAttribute="top" id="hFt-Qq-XUe"/>
                             <constraint firstItem="dfn-rU-v3j" firstAttribute="width" secondItem="Xb9-rX-1v8" secondAttribute="width" id="sN9-6z-fWD"/>
-                            <constraint firstItem="nmw-Wx-byn" firstAttribute="centerX" secondItem="bHg-eM-u2k" secondAttribute="centerX" id="skE-xV-vkd"/>
                             <constraint firstItem="dfn-rU-v3j" firstAttribute="centerX" secondItem="bHg-eM-u2k" secondAttribute="centerX" id="wXF-Hh-cVM"/>
-                            <constraint firstItem="nmw-Wx-byn" firstAttribute="width" secondItem="Xb9-rX-1v8" secondAttribute="width" id="x3q-B7-QNZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bHg-eM-u2k"/>
                     </view>
@@ -70,7 +60,6 @@
                     <connections>
                         <outlet property="addLocationButton" destination="Ip7-41-XZA" id="vK2-bL-k6k"/>
                         <outlet property="mapView" destination="dfn-rU-v3j" id="QvI-4v-QR6"/>
-                        <outlet property="searchBarView" destination="nmw-Wx-byn" id="an0-bu-O7s"/>
                         <outlet property="showSearch" destination="T8i-YU-0es" id="wgX-eD-D5D"/>
                     </connections>
                 </viewController>
@@ -214,7 +203,7 @@
         <!--Add Task-->
         <scene sceneID="CoC-TV-Zhc">
             <objects>
-                <viewController title="Add Task" id="jS2-sR-Lky" customClass="NewTaskViewController" customModule="RemindMeAt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewTaskViewController" title="Add Task" id="jS2-sR-Lky" customClass="NewTaskViewController" customModule="RemindMeAt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6Kl-aZ-sE7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -483,6 +472,7 @@
                         <outlet property="tagView" destination="Ggw-Bc-R0Y" id="3jS-HM-d0y"/>
                         <outlet property="tagViewHeightConstraint" destination="uLB-MK-Onf" id="Ifk-44-8Xl"/>
                         <outlet property="tagViewSelectButton" destination="Spf-LC-T8c" id="1zQ-O6-H6u"/>
+                        <segue destination="hD2-v5-uUH" kind="show" id="ipK-lY-jxi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O2h-hk-lIR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -586,4 +576,7 @@
             <point key="canvasLocation" x="431" y="-401"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ipK-lY-jxi"/>
+    </inferredMetricsTieBreakers>
 </document>
