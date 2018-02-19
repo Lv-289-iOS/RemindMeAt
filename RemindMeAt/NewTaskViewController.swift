@@ -24,12 +24,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     let NAME_PLACEHOLDER = "put a name for the task here"
     var name: String?
     var date: NSDate?
-<<<<<<< HEAD
-    var location: String?
-=======
-    var formattedDate: String?
     var location: RMALocation?
->>>>>>> launch screen
     var image: UIImage?
     var descr: String?
     
