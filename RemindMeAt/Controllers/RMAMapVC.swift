@@ -11,12 +11,6 @@ import GooglePlaces
 import GoogleMaps
 import CoreLocation
 
-struct TaskLocation {
-    var name = ""
-    var coordinates = CLLocationCoordinate2D()
-    var radius: CLLocationDegrees?
-}
-
 class RMAMapVC: UIViewController {
     @IBOutlet weak var showSearch: UIBarButtonItem!
     @IBOutlet weak var mapView: GMSMapView!
@@ -42,12 +36,16 @@ class RMAMapVC: UIViewController {
     let defaultCamera = GMSCameraPosition.camera(withLatitude: 0.0,
                                                  longitude: 0.0,
                                                  zoom: 14.0)
+    var shouldAllowPan: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(scaleRadius))
+//        panGesture.delegate = self
+//        mapView.addGestureRecognizer(panGesture)
+        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
         locationManager.delegate = self
@@ -73,8 +71,8 @@ class RMAMapVC: UIViewController {
             
             radiusCircle.position = userLocation.coordinate
             radiusCircle.radius = 200
-            radiusCircle.fillColor = UIColor.Custom.circleFill
-            radiusCircle.strokeColor = UIColor.Custom.circleStroke
+            radiusCircle.fillColor = UIColor.Maps.circleFill
+            radiusCircle.strokeColor = UIColor.Maps.circleStroke
             radiusCircle.map = mapView
         } else {
             showSearch.tintColor = .clear
@@ -98,6 +96,8 @@ class RMAMapVC: UIViewController {
         searchController?.searchBar.frame.size.height = 44.0
         
         addLocationButton.isHidden = !isInAddLocationMode
+        addLocationButton.frame.size.width = view.frame.size.width/2
+        addLocationButton.layer.backgroundColor = UIColor.Maps.addLocationButton.cgColor
         showSearch.isEnabled = isInAddLocationMode
         //radiusSlider.isHidden = true
         //radiusSlider.transform = CGAffineTransformMakeRotation()
@@ -112,9 +112,27 @@ class RMAMapVC: UIViewController {
             self.taskLocation.name = name
         }
     }
+    
     private func animateCameraTo(coordinate: CLLocationCoordinate2D, zoom: Float = 14.0) {
         let camera = GMSCameraPosition.camera(withTarget: coordinate, zoom: zoom)
         mapView.animate(to: camera)
+    }
+    
+    @objc func scaleRadius(sender: UIPanGestureRecognizer) {
+        let panInterval = sender.translation(in: self.mapView)
+        var isChangingRadius = false
+        var startingPoint = CGPoint()
+        switch sender.state {
+        case .began:
+            startingPoint = sender.location(in: self.mapView)
+            isChangingRadius = true
+        case .changed:
+            print(panInterval)
+        case .ended:
+            isChangingRadius = false
+        case .cancelled, .failed, .possible:
+            return
+        }
     }
     
     @IBAction func addLocationButton(_ sender: UIButton) {
@@ -183,7 +201,6 @@ extension RMAMapVC: GMSMapViewDelegate {
         marker.position = coordinate
         radiusCircle.position = coordinate
         radiusCircle.map = mapView
-        marker.map = mapView
         reverseGeocodeCoordinate(coordinate)
         taskLocation.latitude = coordinate.latitude
         taskLocation.longitude = coordinate.longitude
@@ -223,5 +240,3 @@ extension RMAMapVC: UINavigationControllerDelegate {
         // (viewController as! ViewController).place = currentPlace
     }
 }
-
-

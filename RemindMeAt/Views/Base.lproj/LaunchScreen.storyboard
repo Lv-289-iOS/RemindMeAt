@@ -17,16 +17,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="aCX-dL-Nnr">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="aCX-dL-Nnr">
                                 <rect key="frame" x="100" y="234" width="120" height="120"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="JHV-gE-e5l"/>
                                     <constraint firstAttribute="height" constant="120" id="brN-6o-ZeU"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RemindMeAt" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yZ-QW-QzF">
-                                <rect key="frame" x="0.0" y="20" width="320" height="31.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RemindMeAt" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yZ-QW-QzF">
+                                <rect key="frame" x="0.0" y="34" width="320" height="31.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -36,12 +35,13 @@
                         <constraints>
                             <constraint firstItem="aCX-dL-Nnr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="SWT-zX-HIf"/>
                             <constraint firstItem="7yZ-QW-QzF" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="T6l-37-ndD"/>
-                            <constraint firstItem="7yZ-QW-QzF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="aEW-5Y-NRE"/>
+                            <constraint firstItem="7yZ-QW-QzF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="14" id="aEW-5Y-NRE"/>
                             <constraint firstItem="aCX-dL-Nnr" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="f5H-ts-t8T"/>
                             <constraint firstItem="7yZ-QW-QzF" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lHm-Rl-9o6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <nil key="simulatedTopBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -49,6 +49,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="108" height="108"/>
+        <image name="logo" width="72" height="72"/>
     </resources>
 </document>

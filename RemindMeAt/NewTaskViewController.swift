@@ -284,6 +284,9 @@ extension NewTaskViewController: UITableViewDelegate {
             } else if indexPath.row == 2 {
                 guard let mapsVC = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAMapVC.self)) as? RMAMapVC else { return }
                 mapsVC.locationDelegate = self
+                mapsVC.navigationItem.title = "Add location"
+                mapsVC.navigationItem.backBarButtonItem?.title = "Cancel"
+                mapsVC.navigationController?.navigationItem.leftBarButtonItem?.title = "Cancel"
                 mapsVC.isInAddLocationMode = true
                 navigationController?.pushViewController(mapsVC, animated: true)
                 print("add location")
