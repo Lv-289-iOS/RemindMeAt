@@ -18,12 +18,6 @@ class RMARealmManager {
         }
     }
     
-    static func addTagToTask(task: RMATask, tag: RMATag) {
-        try! uiRealm.write {
-            task.tags.append(tag)
-        }
-    }
-    
     static func getAllTasks() -> Results<RMATask> {
         // TODO: Consider returning [RMATaskList]
         // Since class Results conforms to protocol NSFastEnumeration,
@@ -43,12 +37,6 @@ class RMARealmManager {
         return uiRealm.objects(RMATask.self).filter("name CONTAINS '\(nameFilter)'")
     }
     
-    static func updateTagName(updatedTag: RMATag, tagName: String) {
-        try! uiRealm.write {
-            updatedTag.name = tagName
-        }
-    }
-    
     // MARK: - UPDATE functions for Task
     
     static func updateTaskName(updatedTask: RMATask, taskName: String) {
@@ -56,34 +44,24 @@ class RMARealmManager {
             updatedTask.name = taskName
         }
     }
-
-    static func updateTaskFullDescription(_ updatedTask: RMATask, fullDescription: String?) {
+    
+    static func updateTask(_ updatedTask: RMATask) {
+        let name = updatedTask.name
+        let fullDescription = updatedTask.fullDescription
+        let date = updatedTask.date
+        let location = updatedTask.location
+        let imageURL = updatedTask.imageURL
+        let isCompleted = updatedTask.isCompleted
+        
         try! uiRealm.write {
+            updatedTask.name = name
             updatedTask.fullDescription = fullDescription
-        }
-    }
-    
-    static func updateTaskDate(_ updatedTask: RMATask, date: NSDate?) {
-        try! uiRealm.write {
             updatedTask.date = date
-        }
-    }
-    
-    static func updateTaskDate(_ updatedTask: RMATask, location: RMALocation?) {
-        try! uiRealm.write {
             updatedTask.location = location
-        }
-    }
-    
-    static func updateTaskDate(_ updatedTask: RMATask, imageURL: String?) {
-        try! uiRealm.write {
             updatedTask.imageURL = imageURL
-        }
-    }
-    
-    static func updateTaskIsCompleted(_ updatedTask: RMATask, isCompleted: Bool) {
-        try! uiRealm.write {
             updatedTask.isCompleted = isCompleted
+            // TODO: updatedTask.tags
+            // task.tags.append(tag)
         }
     }
     
