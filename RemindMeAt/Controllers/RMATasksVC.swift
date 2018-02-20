@@ -16,8 +16,12 @@ private let reuseIdentifier = "listCell"
 class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
-
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    
     var taskList: Results<RMATask>?
+    
+    var searchResult = Array<RMATask>()
     
     var isEditingMode = false
     
@@ -27,6 +31,23 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var taskListsTableView: UITableView!
     
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        searchResult = Array(taskList!).filter({( task : RMATask) -> Bool in
+            return task.name.lowercased().contains(searchText.lowercased())
+        })
+        
+        taskListsTableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         readTasksAndUpdateUI()
     }
@@ -34,8 +55,21 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.requestAlwaysAuthorization()
+        searchController.searchResultsUpdater = self
+        //searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Tasks"
+        taskListsTableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.orange]
+        navigationController?.navigationBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        searchController.searchBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        searchController.searchBar.backgroundColor = UIColor.gray
+        
+        // navigationItem.searchController = searchController
+        definesPresentationContext = true
+        // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -106,7 +140,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 newTask.tags.append(newTag1)
                 newTask.tags.append(newTag2)
-
+                
                 newTask.location = RMALocation()
                 newTask.location?.name = "Lviv"
                 newTask.location?.latitude = 49.8383
@@ -137,6 +171,12 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: - UITableViewDataSource -
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        
+        if isFiltering() {
+            return searchResult.count
+        }
+        
         if let listsTasks = taskList {
             return listsTasks.count
         }
@@ -144,33 +184,51 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomTableViewCell
         
-        if let list = taskList?[indexPath.row] {
-            cell?.textLabel?.text = list.name
-            cell?.detailTextLabel?.text = "\(list.tags.count) tags"
+        func formatDate(date: NSDate) -> String {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
+            return dateFormatter.string(from: date as Date)
         }
         
-        return cell!
+        func extractNameFromLocation(){
+            
+        }
+        
+        if var task = taskList?[indexPath.row] {
+            
+            if isFiltering(){
+                task = searchResult[indexPath.row]
+            }
+            
+            cell.name.text = task.name
+            if task.date != nil{
+                cell.date.text = formatDate(date: task.date!)
+            }
+            // cell.location.text = task.location
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (deleteAction, indexPath) -> Void in
             // Deletion will go here
+            
             if let taskToBeDeleted = self.taskList?[indexPath.row] {
                 RMARealmManager.deleteTask(taskToBeDeleted: taskToBeDeleted)
                 self.readTasksAndUpdateUI()
             }
         }
-        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Edit") { (editAction, indexPath) -> Void in
-            // Editing will go here
-            if let taskToBeUpdated = self.taskList?[indexPath.row] {
-                self.displayAlertToAddTask(taskToBeUpdated)
-            }
-        }
-        return [deleteAction, editAction]
+        //        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Edit") { (editAction, indexPath) -> Void in
+        //            // Editing will go here
+        //            if let taskToBeUpdated = self.taskList?[indexPath.row] {
+        //                self.displayAlertToAddTask(taskToBeUpdated)
+        //            }
+        //        }
+        return [deleteAction/*, editAction*/]
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let selectedTaskList = self.taskList?[indexPath.row] {
             self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
@@ -178,11 +236,29 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let newTaskViewController = segue.destination as! NewTaskViewController
         newTaskViewController.taskToBeUpdated = sender as? RMATask
+        
+        /*       let task = taskList?[indexPath.row]
+         
+         if var task = taskList?[indexPath.row] {
+         if isFiltering() {
+         task = searchResult[indexPath.row]
+         } else {
+         task = taskList[indexPath.row]
+         }
+         }*/
     }
-
 }
+
+extension RMATasksVC: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        // TODO
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}
+
