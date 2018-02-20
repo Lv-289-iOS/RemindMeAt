@@ -15,5 +15,6 @@ class RMALocation: Object {
     @objc dynamic var latitude = CLLocationDegrees(0)
     @objc dynamic var longitude = CLLocationDegrees(0)
     @objc dynamic var radius = CLLocationDistance(0)
+    @objc dynamic var whenEnter = true
     
 }
