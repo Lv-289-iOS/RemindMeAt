@@ -10,13 +10,19 @@ import RealmSwift
 
 class RMATask: Object {
     
+    @objc dynamic var taskID = UUID().uuidString
     @objc dynamic var name = ""
     @objc dynamic var fullDescription: String?
     @objc dynamic var date: NSDate?
     @objc dynamic var location: RMALocation?
     @objc dynamic var imageURL: String? // TODO: it will be NSURL? (will use something like URL.absoluteString)
+    @objc dynamic var repeatPeriod: Int = 0
     @objc dynamic var isCompleted = false
     let tags = List<RMATag>() // Consider making this Set<RMATag> (not supported by Realm) or RLMArray or RLMLinkingObjects
+    
+    override static func primaryKey() -> String? {
+        return "taskID"
+    }
     
 // Specify properties to ignore (Realm won't persist these)
     
