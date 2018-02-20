@@ -25,6 +25,18 @@ class RMARealmManager {
         return uiRealm.objects(RMATask.self)
     }
     
+    static func getAllTasksByDate(_ date: NSDate) -> Results<RMATask> {
+        return getAllTasks().filter("date == '\(date)'")
+    }
+    
+    static func isTasksAvailableByDate(_ date: NSDate) -> Bool {
+        return getAllTasksByDate(date).count > 0
+    }
+    
+    static func getTasksWithLocation() -> Results<RMATask> {
+        return getAllTasks().filter("location != nil")
+    }
+    
     static func getAllTags() -> Results<RMATag> {
         return uiRealm.objects(RMATag.self)
     }
@@ -51,6 +63,7 @@ class RMARealmManager {
         let date = updatedTask.date
         let location = updatedTask.location
         let imageURL = updatedTask.imageURL
+        let repeatPeriod = updatedTask.repeatPeriod
         let isCompleted = updatedTask.isCompleted
         
         try! uiRealm.write {
@@ -59,6 +72,7 @@ class RMARealmManager {
             updatedTask.date = date
             updatedTask.location = location
             updatedTask.imageURL = imageURL
+            updatedTask.repeatPeriod = repeatPeriod
             updatedTask.isCompleted = isCompleted
             // TODO: updatedTask.tags
             // task.tags.append(tag)
