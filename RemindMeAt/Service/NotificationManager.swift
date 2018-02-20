@@ -12,7 +12,7 @@ import UserNotifications
 
 class NotificationManager{
     
-    var badgeCount: NSNumber = 0
+    
     
     func setNotification(with task: RMATask){
         let content = UNMutableNotificationContent()
@@ -20,9 +20,9 @@ class NotificationManager{
         if let description = task.fullDescription{
             content.body = description
         }
-        content.badge = NSNumber(value: badgeCount.intValue + 1)
+        content.badge = 1
         content.sound = UNNotificationSound.default()
-//        content.categoryIdentifier = "category"
+        content.categoryIdentifier = "category"
         //add userinfo for identifing
 //        content.userInfo
         
@@ -65,5 +65,31 @@ class NotificationManager{
         components.month = calendar.component(.month, from: date)
         components.year = calendar.component(.year, from: date)
         return components
+    }
+    
+    //called when your app is running in the foreground and receives a notification
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        //        let content = notification.request.content
+        // Process notification content
+        
+        
+        completionHandler([.alert, .sound]) // Display notification as regular alert and play sound
+    }
+    
+    //called when the user interacts with a notification for your app in any way,
+    //including dismissing it or opening your app from it
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let actionIdentifier = response.actionIdentifier
+        
+        switch actionIdentifier {
+        case UNNotificationDismissActionIdentifier: // Notification was dismissed by user
+            // Do something
+            completionHandler()
+        case UNNotificationDefaultActionIdentifier: // App was opened from notification
+            // Do something
+            completionHandler()
+        default:
+            completionHandler()
+        }
     }
 }
