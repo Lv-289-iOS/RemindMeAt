@@ -48,6 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //        for not in notifications!{
 //            not.userInfo
 //        }
+<<<<<<< HEAD
+=======
+        
+        
+>>>>>>> master
         return true
     }
     

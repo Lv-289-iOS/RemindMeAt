@@ -9,6 +9,7 @@
 
 import UIKit
 import RealmSwift
+import CoreLocation
 
 private let reuseIdentifier = "listCell"
 
@@ -22,6 +23,8 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var currentCreateAction: UIAlertAction!
     
+    var locationManager = CLLocationManager()
+    
     @IBOutlet weak var taskListsTableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,7 +33,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        locationManager.requestAlwaysAuthorization()
     }
 
     override func didReceiveMemoryWarning() {
