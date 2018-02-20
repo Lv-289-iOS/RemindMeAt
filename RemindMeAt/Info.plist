@@ -20,6 +20,12 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera is used for adding pictures into your task</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow app to determine your location</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gallery is used for adding pictures into your task</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

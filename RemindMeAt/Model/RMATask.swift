@@ -23,4 +23,5 @@ class RMATask: Object {
 //  override static func ignoredProperties() -> [String] {
 //    return []
 //  }
+    
 }
