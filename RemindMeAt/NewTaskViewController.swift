@@ -31,6 +31,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     var descr: String?
     
     var picker = UIImagePickerController()
+    let datePicker = UIDatePicker()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -124,7 +125,10 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         picker.delegate = self
         
+        self.tabBarController?.tabBar.isHidden = true
+        
         dataFromTask()
+        addDatePicker()
         
         tagTableView.layer.cornerRadius = 15
         tagView.layer.cornerRadius = 30
@@ -200,8 +204,23 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func formatDate(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
+        dateFormatter.dateFormat = "MMM dd, yyyy hh:mm a"
         return dateFormatter.string(from: date as Date)
+    }
+    
+    func addDatePicker() {
+        
+        datePicker.frame = CGRect(x: 10, y: self.view.frame.height , width: self.view.frame.width - 20, height: 200)
+        datePicker.timeZone = NSTimeZone.local
+        datePicker.backgroundColor = UIColor.white
+        datePicker.addTarget(self, action: #selector(self.datePickerValueChanged(_:)), for: .valueChanged)
+        self.view.addSubview(datePicker)
+        
+    }
+    
+    @objc func datePickerValueChanged(_ sender: UIDatePicker){
+        date = sender.date as NSDate
+        tableView.reloadData()
     }
     
     func cameraGalery() {
@@ -275,9 +294,12 @@ extension NewTaskViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             if indexPath.row == 1 {
-                //performSegue(withIdentifier: "toCalendar", sender: self)
-                //add date picker as popUp view
-                print("add date")
+                UIView.animate(withDuration: 1, animations: {
+                    self.date = NSDate()
+                    tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                    self.datePicker.frame.origin.y = self.view.frame.height - 200
+                    self.datePicker.layoutIfNeeded()
+                })
             } else if indexPath.row == 2 {
                 guard let mapsVC = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAMapVC.self)) as? RMAMapVC else { return }
                 mapsVC.locationDelegate = self
@@ -292,6 +314,12 @@ extension NewTaskViewController: UITableViewDelegate {
                 UIView.animate(withDuration: 1) {
                     self.view.layoutIfNeeded()
                 }
+            }
+            if indexPath.row != 1 {
+                UIView.animate(withDuration: 1, animations: {
+                    self.datePicker.frame.origin.y = self.view.frame.height
+                    self.datePicker.layoutIfNeeded()
+                })
             }
         } else {
             let oneTag = allTagsResults[indexPath.row]
@@ -489,10 +517,8 @@ extension NewTaskViewController: SetLocationDelegate {
         print("\(String(describing: self.location))")
     }
     
-//    func setLocation(location: TaskLocation) {
-//        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
-//        print("\(self.location)")
-//    }
+    //    func setLocation(location: TaskLocation) {
+    //        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
+    //        print("\(self.location)")
+    //    }
 }
-
-
