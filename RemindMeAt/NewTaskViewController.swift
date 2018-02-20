@@ -11,10 +11,11 @@ import UIKit
 class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let notificationManager = NotificationManager()
-    
+    var imageDoc = RMAFileManager()
     var taskToBeUpdated: RMATask?
     var editIsTapped = false
     var taskIdentifier = 0
+    var imageURL: String?
     
     let allTagsResults = RMARealmManager.getAllTags()
     var tagList = Array<RMATag>()
@@ -46,6 +47,14 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.title = taskToBeUpdated.name
             name = taskToBeUpdated.name
             date = taskToBeUpdated.date
+            //            imageURL = taskToBeUpdated.imageURL
+            print("imageURLFromDB: \(String(describing: imageURL))")
+            if let temp = taskToBeUpdated.imageURL {
+                image = imageDoc.loadImageFromPath(imageURL: temp)
+            }
+            //            if imageURL != nil {
+            //                image = imageDoc.loadImageFromPath(imageURL: imageURL!)
+            //            }
             descr = taskToBeUpdated.fullDescription
             for tag in taskToBeUpdated.tags {
                 tagList.append(tag)
@@ -72,14 +81,18 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             newTask.fullDescription = descr
         }
         
+        if imageURL != nil {
+            newTask.imageURL = imageURL
+        }
+        
         for tag in tagList {
-                    newTask.tags.append(tag)
+            newTask.tags.append(tag)
         }
         RMARealmManager.addTask(newTask: newTask)
         
         newTask.location?.latitude = 49.8327
         newTask.location?.longitude = 23.9992
-//        newTask.date =
+        //        newTask.date =
         notificationManager.setNotification(with: newTask)
     }
     
@@ -176,7 +189,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                           completion: nil);
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
-
+    
     
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -187,7 +200,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     func formatDate(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
@@ -222,6 +235,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
             image = newImage
+            let tempImage = newImage
+            let imageDate = Date()
+            //            imageURL = imageDoc.addToUrl((image)!, create: date)
+            imageDoc.addToUrl(tempImage, create: imageDate)
+            imageURL = String(describing: imageDate)
+            print("imageURLTooDB: \(String(describing: imageURL))")
             self.tableView.reloadData()
             picker.dismiss(animated: true, completion: nil)
         }
@@ -265,6 +284,9 @@ extension NewTaskViewController: UITableViewDelegate {
             } else if indexPath.row == 2 {
                 guard let mapsVC = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAMapVC.self)) as? RMAMapVC else { return }
                 mapsVC.locationDelegate = self
+                mapsVC.navigationItem.title = "Add location"
+                mapsVC.navigationItem.backBarButtonItem?.title = "Cancel"
+                mapsVC.navigationController?.navigationItem.leftBarButtonItem?.title = "Cancel"
                 mapsVC.isInAddLocationMode = true
                 navigationController?.pushViewController(mapsVC, animated: true)
                 print("add location")
@@ -465,10 +487,15 @@ extension NewTaskViewController: UITextViewDelegate {
 }
 
 extension NewTaskViewController: SetLocationDelegate {
-    func setLocation(location: TaskLocation) {
-        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
-        print("\(self.location)")
+    func setLocation(location: RMALocation) {
+        self.location = "\(location.latitude), \(location.latitude)"
+        print("\(String(describing: self.location))")
     }
+    
+//    func setLocation(location: TaskLocation) {
+//        self.location = "\(location.coordinates.latitude), \(location.coordinates.latitude)"
+//        print("\(self.location)")
+//    }
 }
 
 

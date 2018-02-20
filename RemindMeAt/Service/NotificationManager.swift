@@ -12,6 +12,8 @@ import UserNotifications
 
 class NotificationManager{
     
+    
+    
     func setNotification(with task: RMATask){
         let content = UNMutableNotificationContent()
         content.title = task.name
@@ -21,6 +23,8 @@ class NotificationManager{
         content.badge = 1
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "category"
+        //add userinfo for identifing
+//        content.userInfo
         
         if let nsDate =  task.date{
             let dataInfo = dateParser(nsDate: nsDate)
@@ -49,7 +53,7 @@ class NotificationManager{
                 }
             }
         }
-        
+    
     }
     
     func dateParser(nsDate : NSDate) -> DateComponents{
