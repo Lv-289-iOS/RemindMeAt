@@ -70,8 +70,8 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         if location != nil {
             let newLocation = RMALocation()
-            newLocation.latitude = 0.0
-            newLocation.longitude = 0.0
+            newLocation.latitude = 49.8327
+            newLocation.longitude = 23.9992
             newLocation.radius = 50.0
             newLocation.name = location!
             newTask.location = newLocation
@@ -89,9 +89,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
             newTask.tags.append(tag)
         }
         RMARealmManager.addTask(newTask: newTask)
-        
-        newTask.location?.latitude = 49.8327
-        newTask.location?.longitude = 23.9992
         //        newTask.date =
         notificationManager.setNotification(with: newTask)
     }
