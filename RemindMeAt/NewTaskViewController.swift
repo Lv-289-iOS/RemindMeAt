@@ -11,6 +11,7 @@ import UIKit
 class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let notificationManager = NotificationManager()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var taskToBeUpdated: RMATask?
     var editIsTapped = false
@@ -82,6 +83,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         newTask.location?.longitude = 23.9992
 //        newTask.date =
         notificationManager.setNotification(with: newTask)
+//        appDelegate.setNotification(with: newTask)
     }
     
     
