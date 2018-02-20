@@ -11,18 +11,32 @@ import GooglePlaces
 import GoogleMaps
 import CoreLocation
 
+struct TaskLocation {
+    var name = ""
+    var coordinates = CLLocationCoordinate2D()
+    var radius: CLLocationDegrees?
+}
+
 class RMAMapVC: UIViewController {
+    @IBAction func showSearch(_ sender: UIBarButtonItem) {
+    }
     @IBOutlet weak var showSearch: UIBarButtonItem!
+    
     @IBOutlet weak var mapView: GMSMapView!
+    
+    @IBOutlet weak var searchBarView: UIView!
+    
     @IBOutlet weak var addLocationButton: UIButton!
-    @IBOutlet weak var radiusSlider: UISlider!
-    @IBAction func radiusSlider(_ sender: UISlider) {
+    
+    @IBAction func addLocationButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
     
     var isInAddLocationMode = false
+    
     weak var locationDelegate: SetLocationDelegate?
     lazy var currentPlace = GMSPlace()
-    var taskLocation = RMALocation()
+    var taskLocation = TaskLocation()
     
     var locationManager = CLLocationManager()
     var userLocation = CLLocation()
@@ -32,24 +46,17 @@ class RMAMapVC: UIViewController {
     var searchController: UISearchController?
     var resultView: UITextView?
     var marker = GMSMarker()
-    var radiusCircle = GMSCircle()
     let defaultCamera = GMSCameraPosition.camera(withLatitude: 0.0,
                                                  longitude: 0.0,
                                                  zoom: 14.0)
-    var shouldAllowPan: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(scaleRadius))
-//        panGesture.delegate = self
-//        mapView.addGestureRecognizer(panGesture)
-        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
         locationManager.delegate = self
-        
         mapView.delegate = self
         mapView.camera = defaultCamera
         mapView.isMyLocationEnabled = true
@@ -65,15 +72,6 @@ class RMAMapVC: UIViewController {
             marker.position = userLocation.coordinate
             marker.map = mapView
             showSearch.tintColor = .gray
-            taskLocation.latitude = userLocation.coordinate.latitude
-            taskLocation.longitude = userLocation.coordinate.longitude
-            reverseGeocodeCoordinate(userLocation.coordinate)
-            
-            radiusCircle.position = userLocation.coordinate
-            radiusCircle.radius = 200
-            radiusCircle.fillColor = UIColor.Maps.circleFill
-            radiusCircle.strokeColor = UIColor.Maps.circleStroke
-            radiusCircle.map = mapView
         } else {
             showSearch.tintColor = .clear
         }
@@ -83,8 +81,8 @@ class RMAMapVC: UIViewController {
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
+        searchBarView.addSubview((searchController?.searchBar)!)
         searchController?.hidesNavigationBarDuringPresentation = false
-        searchController?.dimsBackgroundDuringPresentation = false
         
         // When UISearchController presents the results view, present it in
         // this view controller, not one further up the chain.
@@ -96,11 +94,8 @@ class RMAMapVC: UIViewController {
         searchController?.searchBar.frame.size.height = 44.0
         
         addLocationButton.isHidden = !isInAddLocationMode
-        addLocationButton.frame.size.width = view.frame.size.width/2
-        addLocationButton.layer.backgroundColor = UIColor.Maps.addLocationButton.cgColor
         showSearch.isEnabled = isInAddLocationMode
-        //radiusSlider.isHidden = true
-        //radiusSlider.transform = CGAffineTransformMakeRotation()
+        searchBarView.isHidden = true
     }
     
     private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
@@ -112,42 +107,10 @@ class RMAMapVC: UIViewController {
             self.taskLocation.name = name
         }
     }
-    
     private func animateCameraTo(coordinate: CLLocationCoordinate2D, zoom: Float = 14.0) {
         let camera = GMSCameraPosition.camera(withTarget: coordinate, zoom: zoom)
         mapView.animate(to: camera)
     }
-    
-    @objc func scaleRadius(sender: UIPanGestureRecognizer) {
-        let panInterval = sender.translation(in: self.mapView)
-        var isChangingRadius = false
-        var startingPoint = CGPoint()
-        switch sender.state {
-        case .began:
-            startingPoint = sender.location(in: self.mapView)
-            isChangingRadius = true
-        case .changed:
-            print(panInterval)
-        case .ended:
-            isChangingRadius = false
-        case .cancelled, .failed, .possible:
-            return
-        }
-    }
-    
-    @IBAction func addLocationButton(_ sender: UIButton) {
-        locationDelegate?.setLocation(location: taskLocation)
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func showSearch(_ sender: UIBarButtonItem) {
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController = searchController
-        } else {
-            navigationItem.titleView = searchController?.searchBar
-        }
-    }
-    
 }
 
 extension RMAMapVC: GMSAutocompleteViewControllerDelegate, GMSAutocompleteResultsViewControllerDelegate {
@@ -156,12 +119,8 @@ extension RMAMapVC: GMSAutocompleteViewControllerDelegate, GMSAutocompleteResult
         searchController?.isActive = false
         animateCameraTo(coordinate: place.coordinate)
         searchController?.searchBar.text = place.formattedAddress ?? "Just text..."
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController?.dismiss(animated: true, completion: nil)
-        } else {
-            navigationItem.titleView = nil
-        }
     }
+    
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didFailAutocompleteWithError error: Error){
@@ -192,22 +151,19 @@ extension RMAMapVC: GMSAutocompleteViewControllerDelegate, GMSAutocompleteResult
 
 extension RMAMapVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        
     }
+    
 }
 
 extension RMAMapVC: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        
         marker.position = coordinate
-        radiusCircle.position = coordinate
-        radiusCircle.map = mapView
         reverseGeocodeCoordinate(coordinate)
-        taskLocation.latitude = coordinate.latitude
-        taskLocation.longitude = coordinate.longitude
-        taskLocation.radius = radiusCircle.radius
+        taskLocation.coordinates = coordinate
     }
     func mapViewDidFinishTileRendering(_ mapView: GMSMapView) {
-        
     }
     func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
         animateCameraTo(coordinate: userLocation.coordinate)
@@ -222,15 +178,10 @@ extension RMAMapVC: UISearchBarDelegate, UISearchControllerDelegate {
         present(autocompleteController, animated: true, completion: nil)
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        
     }
     
     func didPresentSearchController(_ searchController: UISearchController) {
-        
-    }
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
-    }
-    func didDismissSearchController(_ searchController: UISearchController) {
         
     }
 }
@@ -240,3 +191,5 @@ extension RMAMapVC: UINavigationControllerDelegate {
         // (viewController as! ViewController).place = currentPlace
     }
 }
+
+

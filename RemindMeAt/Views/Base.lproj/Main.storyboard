@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="umc-5c-4uq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="umc-5c-4uq">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map-->
+        <!--Location-->
         <scene sceneID="2ZX-a8-dwT">
             <objects>
                 <viewController storyboardIdentifier="RMAMapVC" id="hD2-v5-uUH" customClass="RMAMapVC" customModule="RemindMeAt" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,11 +22,18 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" red="0.93844011272021499" green="0.94773159898477155" blue="0.94773159898477155" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip7-41-XZA">
-                                <rect key="frame" x="79.5" y="453" width="160" height="48"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nmw-Wx-byn">
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="O7t-Ty-F0I"/>
+                                    <constraint firstAttribute="height" constant="44" id="xqm-jn-Mn3"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip7-41-XZA">
+                                <rect key="frame" x="63" y="441" width="194" height="48"/>
+                                <color key="backgroundColor" red="0.41563736765976234" green="0.6558619806204955" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="194" id="O7t-Ty-F0I"/>
                                     <constraint firstAttribute="height" constant="48" id="Obd-rA-i9H"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -44,13 +51,16 @@
                             <constraint firstItem="dfn-rU-v3j" firstAttribute="bottom" secondItem="bHg-eM-u2k" secondAttribute="bottom" id="2Vt-yn-i3P"/>
                             <constraint firstItem="Ip7-41-XZA" firstAttribute="centerX" secondItem="bHg-eM-u2k" secondAttribute="centerX" id="AeO-ni-RrU"/>
                             <constraint firstItem="dfn-rU-v3j" firstAttribute="top" secondItem="bHg-eM-u2k" secondAttribute="top" id="NEe-pY-NUY"/>
-                            <constraint firstItem="bHg-eM-u2k" firstAttribute="bottom" secondItem="Ip7-41-XZA" secondAttribute="bottom" constant="18" id="PNF-bn-nzz"/>
+                            <constraint firstItem="bHg-eM-u2k" firstAttribute="bottom" secondItem="Ip7-41-XZA" secondAttribute="bottom" constant="30" id="PNF-bn-nzz"/>
+                            <constraint firstItem="nmw-Wx-byn" firstAttribute="top" secondItem="bHg-eM-u2k" secondAttribute="top" id="hFt-Qq-XUe"/>
                             <constraint firstItem="dfn-rU-v3j" firstAttribute="width" secondItem="Xb9-rX-1v8" secondAttribute="width" id="sN9-6z-fWD"/>
+                            <constraint firstItem="nmw-Wx-byn" firstAttribute="centerX" secondItem="bHg-eM-u2k" secondAttribute="centerX" id="skE-xV-vkd"/>
                             <constraint firstItem="dfn-rU-v3j" firstAttribute="centerX" secondItem="bHg-eM-u2k" secondAttribute="centerX" id="wXF-Hh-cVM"/>
+                            <constraint firstItem="nmw-Wx-byn" firstAttribute="width" secondItem="Xb9-rX-1v8" secondAttribute="width" id="x3q-B7-QNZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bHg-eM-u2k"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Map" id="6Vq-kX-Z0b">
+                    <navigationItem key="navigationItem" title="Location" id="6Vq-kX-Z0b">
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="search" id="T8i-YU-0es">
                             <connections>
                                 <action selector="showSearch:" destination="hD2-v5-uUH" id="vQV-me-3Tm"/>
@@ -60,6 +70,7 @@
                     <connections>
                         <outlet property="addLocationButton" destination="Ip7-41-XZA" id="vK2-bL-k6k"/>
                         <outlet property="mapView" destination="dfn-rU-v3j" id="QvI-4v-QR6"/>
+                        <outlet property="searchBarView" destination="nmw-Wx-byn" id="an0-bu-O7s"/>
                         <outlet property="showSearch" destination="T8i-YU-0es" id="wgX-eD-D5D"/>
                     </connections>
                 </viewController>
@@ -203,7 +214,7 @@
         <!--Add Task-->
         <scene sceneID="CoC-TV-Zhc">
             <objects>
-                <viewController storyboardIdentifier="NewTaskViewController" title="Add Task" id="jS2-sR-Lky" customClass="NewTaskViewController" customModule="RemindMeAt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Add Task" id="jS2-sR-Lky" customClass="NewTaskViewController" customModule="RemindMeAt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6Kl-aZ-sE7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -486,7 +497,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="C5s-j5-QRc" kind="relationship" relationship="viewControllers" id="tse-xK-6pO"/>
@@ -503,9 +513,7 @@
         <scene sceneID="24m-HK-mN6">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="C5s-j5-QRc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="TaskList" image="task_list" id="8U2-lO-OKP">
-                        <color key="badgeColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="TaskList" id="8U2-lO-OKP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UFa-Ya-TT7">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -524,7 +532,7 @@
         <scene sceneID="ZTk-VS-hXR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LX2-p1-Rtc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" image="map" id="TyF-zg-6HE"/>
+                    <tabBarItem key="tabBarItem" title="Map" id="TyF-zg-6HE"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="c6V-QZ-Rl0">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -543,7 +551,7 @@
         <scene sceneID="3q9-xA-EQf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Vg7-4I-pgg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar" id="Uf4-tF-KfJ"/>
+                    <tabBarItem key="tabBarItem" title="Calendar" id="Uf4-tF-KfJ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wyk-m6-R4Q">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -562,7 +570,7 @@
         <scene sceneID="Rf8-kY-uPf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2sS-8f-NTS" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="4Xj-aP-Cw6"/>
+                    <tabBarItem key="tabBarItem" title="Settings" id="4Xj-aP-Cw6"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="95K-JT-JjT">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -578,10 +586,4 @@
             <point key="canvasLocation" x="431" y="-401"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="calendar" width="28" height="28"/>
-        <image name="map" width="30" height="30"/>
-        <image name="settings" width="25" height="33"/>
-        <image name="task_list" width="28" height="35"/>
-    </resources>
 </document>

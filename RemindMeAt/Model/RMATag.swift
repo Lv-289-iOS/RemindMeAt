@@ -10,7 +10,6 @@ import RealmSwift
 
 class RMATag: Object {
     
-    @objc dynamic var tagID = UUID().uuidString
     @objc dynamic var name = ""
     @objc dynamic var color: String = UIColor.clear.hexString()
     
@@ -19,9 +18,4 @@ class RMATag: Object {
         self.name = tagName
         self.color = tagColor.hexString()
     }
-    
-    override static func primaryKey() -> String? {
-        return "tagID"
-    }
-    
 }
