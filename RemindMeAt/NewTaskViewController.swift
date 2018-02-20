@@ -24,10 +24,11 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     let NAME_PLACEHOLDER = "put a name for the task here"
     var name: String?
     var date: NSDate?
-    var formattedDate: String?
     var location: String?
     var image: UIImage?
     var descr: String?
+    
+    let datePicker = UIDatePicker()
     
     var picker = UIImagePickerController()
     
@@ -115,6 +116,9 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         picker.delegate = self
         
         dataFromTask()
+        self.tabBarController?.tabBar.isHidden = true
+        
+        addDataPicker()
         
         tagTableView.layer.cornerRadius = 15
         tagView.layer.cornerRadius = 30
@@ -152,8 +156,11 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                     present(alertController, animated: false, completion: nil)
                     editIsTapped = !editIsTapped
                 } else {
-                    rightBarButton.image = #imageLiteral(resourceName: "edit_small")
-                    addNewTaskToDB()
+//                    rightBarButton.image = #imageLiteral(resourceName: "edit_small")
+                    if taskToBeUpdated == nil {
+                         addNewTaskToDB()
+                    }
+                   
                     let controllerIndex = self.navigationController?.viewControllers.index(where: { (viewController) -> Bool in
                         return viewController is RMATasksVC
                     })
@@ -177,6 +184,20 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
 
+    func addDataPicker() {
+
+        datePicker.frame = CGRect(x: 10, y: self.view.frame.height , width: self.view.frame.width - 20, height: 200)
+        datePicker.timeZone = NSTimeZone.local
+        datePicker.backgroundColor = UIColor.white
+        datePicker.addTarget(self, action: #selector(self.datePickerValueChanged(_:)), for: .valueChanged)
+        self.view.addSubview(datePicker)
+
+    }
+
+    @objc func datePickerValueChanged(_ sender: UIDatePicker){
+        date = sender.date as NSDate
+        tableView.reloadData()
+    }
     
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -190,7 +211,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     func formatDate(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MMM-yyyy HH:mm"
+        dateFormatter.dateFormat = "MMM dd, yyyy hh:mm a"
         return dateFormatter.string(from: date as Date)
     }
     
@@ -204,7 +225,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         let secondAction: UIAlertAction = UIAlertAction(title: "Galery", style: .default) { action -> Void in
             print("Galery choosen")
             self.openGallery()
-            
         }
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
@@ -259,6 +279,12 @@ extension NewTaskViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.tableView {
             if indexPath.row == 1 {
+                UIView.animate(withDuration: 1, animations: {
+                    self.date = NSDate()
+                    tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                    self.datePicker.frame.origin.y = self.view.frame.height - 200
+                    self.datePicker.layoutIfNeeded()
+                })
                 //performSegue(withIdentifier: "toCalendar", sender: self)
                 //add date picker as popUp view
                 print("add date")
@@ -273,6 +299,12 @@ extension NewTaskViewController: UITableViewDelegate {
                 UIView.animate(withDuration: 1) {
                     self.view.layoutIfNeeded()
                 }
+            }
+            if indexPath.row != 1 {
+                UIView.animate(withDuration: 1, animations: {
+                    self.datePicker.frame.origin.y = self.view.frame.height
+                    self.datePicker.layoutIfNeeded()
+                })
             }
         } else {
             let oneTag = allTagsResults[indexPath.row]
