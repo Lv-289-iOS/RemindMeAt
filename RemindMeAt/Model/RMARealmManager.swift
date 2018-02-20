@@ -18,17 +18,23 @@ class RMARealmManager {
         }
     }
     
-    static func addTagToTask(task: RMATask, tag: RMATag) {
-        try! uiRealm.write {
-            task.tags.append(tag)
-        }
-    }
-    
     static func getAllTasks() -> Results<RMATask> {
         // TODO: Consider returning [RMATaskList]
         // Since class Results conforms to protocol NSFastEnumeration,
         // it is possible to access each separate RMATaskList through it's index like [index]
         return uiRealm.objects(RMATask.self)
+    }
+    
+    static func getAllTasksByDate(_ date: NSDate) -> Results<RMATask> {
+        return getAllTasks().filter("date == '\(date)'")
+    }
+    
+    static func isTasksAvailableByDate(_ date: NSDate) -> Bool {
+        return getAllTasksByDate(date).count > 0
+    }
+    
+    static func getTasksWithLocation() -> Results<RMATask> {
+        return getAllTasks().filter("location != nil")
     }
     
     static func getAllTags() -> Results<RMATag> {
@@ -43,17 +49,37 @@ class RMARealmManager {
         return uiRealm.objects(RMATask.self).filter("name CONTAINS '\(nameFilter)'")
     }
     
-    static func updateTagName(updatedTag: RMATag, tagName: String) {
-        try! uiRealm.write {
-            updatedTag.name = tagName
-        }
-    }
+    // MARK: - UPDATE functions for Task
     
     static func updateTaskName(updatedTask: RMATask, taskName: String) {
         try! uiRealm.write {
             updatedTask.name = taskName
         }
     }
+    
+    static func updateTask(_ updatedTask: RMATask) {
+        let name = updatedTask.name
+        let fullDescription = updatedTask.fullDescription
+        let date = updatedTask.date
+        let location = updatedTask.location
+        let imageURL = updatedTask.imageURL
+        let repeatPeriod = updatedTask.repeatPeriod
+        let isCompleted = updatedTask.isCompleted
+        
+        try! uiRealm.write {
+            updatedTask.name = name
+            updatedTask.fullDescription = fullDescription
+            updatedTask.date = date
+            updatedTask.location = location
+            updatedTask.imageURL = imageURL
+            updatedTask.repeatPeriod = repeatPeriod
+            updatedTask.isCompleted = isCompleted
+            // TODO: updatedTask.tags
+            // task.tags.append(tag)
+        }
+    }
+    
+    // MARK: - DELETE functions for Realm
     
     static func deleteTag(tagToBeDeleted: RMATag) {
         try! uiRealm.write {
