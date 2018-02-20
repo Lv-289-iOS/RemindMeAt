@@ -11,5 +11,5 @@ import GoogleMaps
 import GooglePlaces
 
 protocol SetLocationDelegate: class {
-    func setLocation(location: TaskLocation)
+    func setLocation(location: RMALocation)
 }

@@ -11,9 +11,15 @@ import CoreLocation
 
 class RMALocation: Object {
     
+    @objc dynamic var locationID = UUID().uuidString
     @objc dynamic var name = ""
     @objc dynamic var latitude = CLLocationDegrees(0)
     @objc dynamic var longitude = CLLocationDegrees(0)
     @objc dynamic var radius = CLLocationDistance(0)
+    @objc dynamic var whenEnter = true
+    
+    override static func primaryKey() -> String? {
+        return "locationID"
+    }
     
 }
