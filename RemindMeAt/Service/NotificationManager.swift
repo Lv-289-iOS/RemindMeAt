@@ -11,7 +11,7 @@ import CoreLocation
 import UserNotifications
 
 class NotificationManager{
-    
+
     func setNotification(with task: RMATask){
         let content = UNMutableNotificationContent()
         content.title = task.name
@@ -24,13 +24,13 @@ class NotificationManager{
         //add userinfo for identifing
         //content.userInfo
         
-        if let nsDate =  task.date{
+        if let nsDate = task.date{
             let dataInfo = dateParser(nsDate: nsDate)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dataInfo, repeats: true)
             let request = UNNotificationRequest(identifier: "calendarNotification", content: content, trigger: calendarTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if let _ = error {
-                    // Do something with error
+                    print("Notification wasn't set")
                 }else {
                     // Request was added successfully
                 }
@@ -45,13 +45,12 @@ class NotificationManager{
             let request = UNNotificationRequest(identifier: "locationNotification", content: content, trigger: locationTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if let _ = error {
-                    // Do something with error
+                    print("Notification wasn't set")
                 } else {
                     // Request was added successfully
                 }
             }
         }
-    
     }
     
     func dateParser(nsDate : NSDate) -> DateComponents{
@@ -64,4 +63,5 @@ class NotificationManager{
         components.year = calendar.component(.year, from: date)
         return components
     }
+
 }

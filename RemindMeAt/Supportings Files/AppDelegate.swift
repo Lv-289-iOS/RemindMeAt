@@ -20,9 +20,10 @@ let uiRealm = try! Realm()
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         RMARealmManager.seedData()
+//        UIApplication.shared.applicationIconBadgeNumber = 0
         // Ask user's permision for sending notifications
         UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
@@ -51,11 +52,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
+    func incrementBadgeNumberBy(badgeNumberIncrement: Int) {
+        let currentBadgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        let updatedBadgeNumber = currentBadgeNumber + badgeNumberIncrement
+        if (updatedBadgeNumber > -1) {
+            UIApplication.shared.applicationIconBadgeNumber = updatedBadgeNumber
+        }
+    }
+    
     //called when your app is running in the foreground and receives a notification
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        //        let content = notification.request.content
-        // Process notification content
-        
         
         completionHandler([.alert, .sound]) // Display notification as regular alert and play sound
     }
@@ -75,6 +81,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         default:
             completionHandler()
         }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        incrementBadgeNumberBy(badgeNumberIncrement: 1)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
