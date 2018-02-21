@@ -40,7 +40,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         searchResult = Array(taskList!).filter({( task : RMATask) -> Bool in
             return task.name.lowercased().contains(searchText.lowercased())
         })
-        
+        print(searchResult)
         taskListsTableView.reloadData()
     }
     
@@ -56,7 +56,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         locationManager.requestAlwaysAuthorization()
         searchController.searchResultsUpdater = self
-        //searchController.obscuresBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Tasks"
         taskListsTableView.tableHeaderView = searchController.searchBar
         searchController.searchBar.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
@@ -230,8 +230,13 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let selectedTaskList = self.taskList?[indexPath.row] {
+        if searchController.isActive{
+        let selectedTaskList = self.searchResult[indexPath.row]
             self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
+        }else{
+            if let selectedTaskList = self.taskList?[indexPath.row] {
+                self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
+            }
         }
     }
     
@@ -242,15 +247,23 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let newTaskViewController = segue.destination as! NewTaskViewController
         newTaskViewController.taskToBeUpdated = sender as? RMATask
         
-        /*       let task = taskList?[indexPath.row]
+        
+        
+        
+//        if let indexPath = taskListsTableView.indexPathForSelectedRow{
+//            let destinationController = segue.destination as! NewTaskViewController
+//            destinationController.task = (searchController.isActive) ? searchResult[indexPath.row] : taskList[indexPath.row]
+//        }
+        
+        
          
-         if var task = taskList?[indexPath.row] {
-         if isFiltering() {
-         task = searchResult[indexPath.row]
-         } else {
-         task = taskList[indexPath.row]
-         }
-         }*/
+//    let task: RMATask
+//         if isFiltering() {
+//         task = searchResult[indexPath.row]
+//         } else {
+//         task = taskList[indexPath.row]
+//         }
+        
     }
 }
 
