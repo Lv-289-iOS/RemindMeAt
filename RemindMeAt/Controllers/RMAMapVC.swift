@@ -60,29 +60,6 @@ class RMAMapVC: UIViewController {
             userLocation = loc
             animateCameraTo(coordinate: userLocation.coordinate)
         }
-        
-        if isInAddLocationMode {
-            marker.position = userLocation.coordinate
-            marker.map = mapView
-            showSearch.tintColor = .gray
-            
-            radiusCircle.position = userLocation.coordinate
-            radiusCircle.radius = 200
-            radiusCircle.fillColor = UIColor.Maps.circleFill
-            radiusCircle.strokeColor = UIColor.Maps.circleStroke
-            radiusCircle.map = mapView
-        } else {
-            showSearch.tintColor = .clear
-            
-            let tasksWithLocations  = RMARealmManager.getTasksWithLocation()
-            for task in tasksWithLocations {
-                print("\(String(describing: task.location?.latitude)), \(String(describing: task.location?.longitude))\n")
-                let markerForLocation = GMSMarker()
-                markerForLocation.position = CLLocationCoordinate2D(latitude: (task.location?.latitude)!, longitude: (task.location?.longitude)!)
-                markerForLocation.map = mapView
-            }
-        }
-        
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self
         
@@ -108,6 +85,30 @@ class RMAMapVC: UIViewController {
         //radiusSlider.transform = CGAffineTransformMakeRotation()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if isInAddLocationMode {
+            marker.position = userLocation.coordinate
+            marker.map = mapView
+            showSearch.tintColor = .gray
+            
+            radiusCircle.position = userLocation.coordinate
+            radiusCircle.radius = 200
+            radiusCircle.fillColor = UIColor.Maps.circleFill
+            radiusCircle.strokeColor = UIColor.Maps.circleStroke
+            radiusCircle.map = mapView
+        } else {
+            showSearch.tintColor = .clear
+            
+            let tasksWithLocations  = RMARealmManager.getTasksWithLocation()
+            for task in tasksWithLocations {
+                print("\(String(describing: task.location?.latitude)), \(String(describing: task.location?.longitude))\n")
+                let markerForLocation = GMSMarker()
+                markerForLocation.position = CLLocationCoordinate2D(latitude: (task.location?.latitude)!, longitude: (task.location?.longitude)!)
+                markerForLocation.map = mapView
+            }
+        }
+    }
+    
     func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) -> String {
         let geocoder = GMSGeocoder()
         var locationName = ""
@@ -115,7 +116,7 @@ class RMAMapVC: UIViewController {
             guard let address = response?.firstResult() else {
                 return
             }
-            locationName = address.locality!
+            locationName = (address.lines?.first) ?? ""
         }
         return locationName
     }
