@@ -73,6 +73,14 @@ class RMAMapVC: UIViewController {
             radiusCircle.map = mapView
         } else {
             showSearch.tintColor = .clear
+            
+            let tasksWithLocations  = RMARealmManager.getTasksWithLocation()
+            for task in tasksWithLocations {
+                print("\(String(describing: task.location?.latitude)), \(String(describing: task.location?.longitude))\n")
+                let markerForLocation = GMSMarker()
+                markerForLocation.position = CLLocationCoordinate2D(latitude: (task.location?.latitude)!, longitude: (task.location?.longitude)!)
+                markerForLocation.map = mapView
+            }
         }
         
         resultsViewController = GMSAutocompleteResultsViewController()
