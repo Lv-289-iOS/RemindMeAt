@@ -65,9 +65,6 @@ class RMAMapVC: UIViewController {
             marker.position = userLocation.coordinate
             marker.map = mapView
             showSearch.tintColor = .gray
-            taskLocation.latitude = userLocation.coordinate.latitude
-            taskLocation.longitude = userLocation.coordinate.longitude
-            reverseGeocodeCoordinate(userLocation.coordinate)
             
             radiusCircle.position = userLocation.coordinate
             radiusCircle.radius = 200
@@ -103,14 +100,16 @@ class RMAMapVC: UIViewController {
         //radiusSlider.transform = CGAffineTransformMakeRotation()
     }
     
-    private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
+    func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) -> String {
         let geocoder = GMSGeocoder()
+        var locationName = ""
         geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
-            guard let address = response?.firstResult(), let name = address.lines?.first else {
+            guard let address = response?.firstResult() else {
                 return
             }
-            self.taskLocation.name = name
+            locationName = address.locality!
         }
+        return locationName
     }
     
     private func animateCameraTo(coordinate: CLLocationCoordinate2D, zoom: Float = 14.0) {
@@ -136,7 +135,12 @@ class RMAMapVC: UIViewController {
     }
     
     @IBAction func addLocationButton(_ sender: UIButton) {
-        reverseGeocodeCoordinate(marker.position)
+        let locatioName = reverseGeocodeCoordinate(marker.position)
+        if locatioName == "" {
+            taskLocation.name = "Loc: \(marker.position.latitude), \(marker.position.longitude)"
+        } else {
+            taskLocation.name = locatioName
+        }
         taskLocation.latitude = marker.position.latitude
         taskLocation.longitude = marker.position.longitude
         taskLocation.radius = radiusCircle.radius
