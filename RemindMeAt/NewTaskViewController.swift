@@ -14,8 +14,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     var imageDoc = RMAFileManager()
     var taskToBeUpdated: RMATask?
     var currentTask: RMATask?
-    //var currenttaskToBeUpdated: RMATask?
-    var isNewTask = true
     var editIsTapped = false
     var taskIdentifier = 0
     var imageURL: String?
@@ -66,9 +64,13 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     //        }
     //    }
     
-    func addNewTaskToDB() {
-        RMARealmManager.addTask(newTask: currentTask!)
-        notificationManager.setNotification(with: currentTask!)
+    func addNewTaskOrUpdateTaskInDB() {
+        if let taskToBeUpdated = taskToBeUpdated {
+            RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
+        } else {
+            RMARealmManager.addTask(newTask: currentTask!)
+            notificationManager.setNotification(with: currentTask!)
+        }
     }
     
     
@@ -94,7 +96,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         if let taskToBeUpdated = taskToBeUpdated {
             currentTask = taskToBeUpdated.clone()
             self.title = taskToBeUpdated.name
-            isNewTask = false
             // TODO: fill the controls accoding to taskToBeUpdated
         } else {
             currentTask = RMATask()
@@ -124,7 +125,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func startBarButton(rightBarButton: UIBarButtonItem) {
-        if !isNewTask {
+        if taskToBeUpdated != nil {
             editIsTapped = false
             rightBarButton.image = #imageLiteral(resourceName: "edit_small")
         } else {
@@ -148,7 +149,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                     editIsTapped = !editIsTapped
                 } else {
                     rightBarButton.image = #imageLiteral(resourceName: "edit_small")
-                    addNewTaskToDB()
+                    addNewTaskOrUpdateTaskInDB()
                     let controllerIndex = self.navigationController?.viewControllers.index(where: { (viewController) -> Bool in
                         return viewController is RMATasksVC
                     })
