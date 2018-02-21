@@ -7,15 +7,6 @@
 //
 
 import Foundation
-//
-//  RMAFileManager.swift
-//  RemindMeAt
-//
-//  Created by Ostin Ostwald on 2/19/18.
-//  Copyright © 2018 SoftServe Academy. All rights reserved.
-//
-
-import Foundation
 import UIKit
 
 class RMAFileManager {
