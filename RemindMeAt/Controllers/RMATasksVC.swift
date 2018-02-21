@@ -49,8 +49,11 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         readTasksAndUpdateUI()
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +67,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         navigationController?.navigationBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         searchController.searchBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         searchController.searchBar.backgroundColor = UIColor.gray
+        
         
         // navigationItem.searchController = searchController
         definesPresentationContext = true
