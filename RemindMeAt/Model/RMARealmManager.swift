@@ -57,23 +57,15 @@ class RMARealmManager {
         }
     }
     
-    static func updateTask(_ updatedTask: RMATask) {
-        let name = updatedTask.name
-        let fullDescription = updatedTask.fullDescription
-        let date = updatedTask.date
-        let location = updatedTask.location
-        let imageURL = updatedTask.imageURL
-        let repeatPeriod = updatedTask.repeatPeriod
-        let isCompleted = updatedTask.isCompleted
-        
+    static func updateTask(_ updatedTask: RMATask, withData: RMATask) {
         try! uiRealm.write {
-            updatedTask.name = name
-            updatedTask.fullDescription = fullDescription
-            updatedTask.date = date
-            updatedTask.location = location
-            updatedTask.imageURL = imageURL
-            updatedTask.repeatPeriod = repeatPeriod
-            updatedTask.isCompleted = isCompleted
+            updatedTask.name = withData.name
+            updatedTask.fullDescription = withData.fullDescription
+            updatedTask.date = withData.date
+            updatedTask.location = withData.location
+            updatedTask.imageURL = withData.imageURL
+            updatedTask.repeatPeriod = withData.repeatPeriod
+            updatedTask.isCompleted = withData.isCompleted
             // TODO: updatedTask.tags
             // task.tags.append(tag)
         }
