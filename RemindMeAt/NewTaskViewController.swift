@@ -493,9 +493,8 @@ extension NewTaskViewController: UITextViewDelegate {
 }
 
 extension NewTaskViewController: SetLocationDelegate {
-    
     func setLocation(location: RMALocation) {
-        taskToBeUpdated?.location?.name = "\(String(describing: taskToBeUpdated?.location?.latitude)), \(String(describing: taskToBeUpdated?.location?.latitude))"
+        taskToBeUpdated?.location? = location
         print("\(String(describing: taskToBeUpdated?.location))")
     }
     
