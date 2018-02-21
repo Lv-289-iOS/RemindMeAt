@@ -136,6 +136,10 @@ class RMAMapVC: UIViewController {
     }
     
     @IBAction func addLocationButton(_ sender: UIButton) {
+        reverseGeocodeCoordinate(marker.position)
+        taskLocation.latitude = marker.position.latitude
+        taskLocation.longitude = marker.position.longitude
+        taskLocation.radius = radiusCircle.radius
         locationDelegate?.setLocation(location: taskLocation)
         navigationController?.popViewController(animated: true)
     }
@@ -197,14 +201,9 @@ extension RMAMapVC: CLLocationManagerDelegate {
 
 extension RMAMapVC: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        
         marker.position = coordinate
         radiusCircle.position = coordinate
         radiusCircle.map = mapView
-        reverseGeocodeCoordinate(coordinate)
-        taskLocation.latitude = coordinate.latitude
-        taskLocation.longitude = coordinate.longitude
-        taskLocation.radius = radiusCircle.radius
     }
     func mapViewDidFinishTileRendering(_ mapView: GMSMapView) {
         
