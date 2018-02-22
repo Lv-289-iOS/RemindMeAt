@@ -488,6 +488,10 @@
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt;
+				DEVELOPMENT_TEAM = 9YL9NSJ599;
+				INFOPLIST_FILE = RemindMeAt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt567;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -504,6 +508,10 @@
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt;
+				DEVELOPMENT_TEAM = 9YL9NSJ599;
+				INFOPLIST_FILE = RemindMeAt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt567;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

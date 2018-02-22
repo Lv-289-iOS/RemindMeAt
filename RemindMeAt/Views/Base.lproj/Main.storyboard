@@ -62,11 +62,12 @@
                         <outlet property="addLocationButton" destination="Ip7-41-XZA" id="vK2-bL-k6k"/>
                         <outlet property="mapView" destination="dfn-rU-v3j" id="QvI-4v-QR6"/>
                         <outlet property="showSearch" destination="T8i-YU-0es" id="wgX-eD-D5D"/>
+                        <segue destination="jS2-sR-Lky" kind="show" identifier="SegueToTask" id="9cO-fm-9de"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dqB-Ma-GEF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1491" y="331"/>
+            <point key="canvasLocation" x="-1419" y="332"/>
         </scene>
         <!--Calendar-->
         <scene sceneID="fG0-C1-eWo">
@@ -614,4 +615,7 @@
         <image name="settings" width="25" height="33"/>
         <image name="task_list" width="28" height="35"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="9cO-fm-9de"/>
+    </inferredMetricsTieBreakers>
 </document>

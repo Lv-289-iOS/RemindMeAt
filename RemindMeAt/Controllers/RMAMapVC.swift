@@ -20,9 +20,12 @@ class RMAMapVC: UIViewController {
     }
     
     var isInAddLocationMode = false
+    var task: RMATask?
     weak var locationDelegate: SetLocationDelegate?
     lazy var currentPlace = GMSPlace()
     var taskLocation = RMALocation()
+    var taskForMarker = [GMSMarker: RMATask]()
+    var imageLoader = RMAFileManager()
     
     var locationManager = CLLocationManager()
     var userLocation = CLLocation()
@@ -40,10 +43,6 @@ class RMAMapVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(scaleRadius))
-//        panGesture.delegate = self
-//        mapView.addGestureRecognizer(panGesture)
         
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 50
@@ -104,8 +103,57 @@ class RMAMapVC: UIViewController {
                 print("\(String(describing: task.location?.latitude)), \(String(describing: task.location?.longitude))\n")
                 let markerForLocation = GMSMarker()
                 markerForLocation.position = CLLocationCoordinate2D(latitude: (task.location?.latitude)!, longitude: (task.location?.longitude)!)
+                markerForLocation.title = task.name
                 markerForLocation.map = mapView
+                taskForMarker[markerForLocation] = task
+                let radiusForLocation = GMSCircle()
+                radiusForLocation.position = CLLocationCoordinate2D(latitude: (task.location?.latitude)!, longitude: (task.location?.longitude)!)
+                radiusForLocation.radius = 200
+                radiusForLocation.fillColor = UIColor.Maps.circleFill
+                radiusForLocation.strokeColor = UIColor.Maps.circleStroke
+                radiusForLocation.map = mapView
             }
+        }
+    }
+    
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        
+        let view = UIView(frame: CGRect.init(x: 0, y: 0, width: 200, height: 160))
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 15
+        
+        let pictureInInfoWindow = UIImageView(frame: CGRect(x: 50, y: 10, width: 100, height: 100))
+        if let task = taskForMarker[marker] {
+            if let imageURL = task.imageURL {
+                pictureInInfoWindow.image = imageLoader.loadImageFromPath(imageURL: imageURL)
+            } else {
+                pictureInInfoWindow.image = #imageLiteral(resourceName: "logo")
+            }
+        } else {
+            pictureInInfoWindow.image = #imageLiteral(resourceName: "logo")
+        }
+        
+        pictureInInfoWindow.contentMode = UIViewContentMode.scaleAspectFit
+        
+        let label = UILabel(frame: CGRect.init(x: 10, y: 120, width: 180, height: 20))
+        label.text = marker.title
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textAlignment = .center
+        
+        view.addSubview(pictureInInfoWindow)
+        view.addSubview(label)
+        return view
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        task = taskForMarker[marker]
+        performSegue(withIdentifier: "SegueToTask", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SegueToTask" {
+            let holder = segue.destination as! NewTaskViewController
+            holder.taskToBeUpdated = task
         }
     }
     
@@ -252,3 +300,4 @@ extension RMAMapVC: UINavigationControllerDelegate {
         // (viewController as! ViewController).place = currentPlace
     }
 }
+
