@@ -1,3 +1,4 @@
+
 //
 //  RMATasksVC.swift
 //  RemindMeAt
@@ -220,24 +221,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let taskToChange = self.taskList?[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
             // Deletion will go here
-<<<<<<< HEAD
             
-            if let taskToBeDeleted = self.taskList?[indexPath.row] {
-                RMARealmManager.deleteTask(taskToBeDeleted: taskToBeDeleted)
-                let notifications = UIApplication.shared.scheduledLocalNotifications
-                
-//                if let nots = notifications{
-//                    for notification in nots{
-//                        let userInfos = notification.userInfo?.values
-//                        for userInfo in userInfos!{
-//                            if String(describing: userInfo) == taskToBeDeleted.taskID{
-//                                nots.remove
-//                            }
-//                        }
-//                    }
-//                }
-                
-=======
             RMARealmManager.deleteTask(taskToBeDeleted: taskToChange!)
             self.readTasksAndUpdateUI()
         }
@@ -259,7 +243,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 cell.accessoryType = .disclosureIndicator
                 
                 RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: false)
->>>>>>> origin/develop
                 self.readTasksAndUpdateUI()
                 // method to rewrite isCompleted for task in DB
             }
@@ -276,7 +259,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchController.isActive{
-        let selectedTaskList = self.searchResult[indexPath.row]
+            let selectedTaskList = self.searchResult[indexPath.row]
             self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
         }else{
             if let selectedTaskList = self.taskList?[indexPath.row] {
@@ -295,19 +278,19 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         
         
-//        if let indexPath = taskListsTableView.indexPathForSelectedRow{
-//            let destinationController = segue.destination as! NewTaskViewController
-//            destinationController.task = (searchController.isActive) ? searchResult[indexPath.row] : taskList[indexPath.row]
-//        }
+        //        if let indexPath = taskListsTableView.indexPathForSelectedRow{
+        //            let destinationController = segue.destination as! NewTaskViewController
+        //            destinationController.task = (searchController.isActive) ? searchResult[indexPath.row] : taskList[indexPath.row]
+        //        }
         
         
-         
-//    let task: RMATask
-//         if isFiltering() {
-//         task = searchResult[indexPath.row]
-//         } else {
-//         task = taskList[indexPath.row]
-//         }
+        
+        //    let task: RMATask
+        //         if isFiltering() {
+        //         task = searchResult[indexPath.row]
+        //         } else {
+        //         task = taskList[indexPath.row]
+        //         }
         
     }
 }
@@ -319,4 +302,3 @@ extension RMATasksVC: UISearchResultsUpdating {
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }
-
