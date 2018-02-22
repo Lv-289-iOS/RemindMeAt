@@ -68,6 +68,11 @@ class RMARealmManager {
     }
     
     static func updateTask(_ updatedTask: RMATask, withData: RMATask) {
+        var newLocation: RMALocation? = nil
+        if let withDataLocation = withData.location {
+            newLocation = withDataLocation.clone()
+        }
+        
         try! uiRealm.write {
             if let previousLocation = updatedTask.location {
                 uiRealm.delete(previousLocation)
@@ -78,7 +83,7 @@ class RMARealmManager {
             updatedTask.name = withData.name
             updatedTask.fullDescription = withData.fullDescription
             updatedTask.date = withData.date
-            updatedTask.location = withData.location
+            updatedTask.location = newLocation
             updatedTask.imageURL = withData.imageURL
             updatedTask.repeatPeriod = withData.repeatPeriod
             updatedTask.isCompleted = withData.isCompleted
