@@ -57,23 +57,23 @@ class RMARealmManager {
         }
     }
     
-    static func updateTask(_ updatedTask: RMATask) {
-        let name = updatedTask.name
-        let fullDescription = updatedTask.fullDescription
-        let date = updatedTask.date
-        let location = updatedTask.location
-        let imageURL = updatedTask.imageURL
-        let repeatPeriod = updatedTask.repeatPeriod
-        let isCompleted = updatedTask.isCompleted
-        
+    
+    static func updateTaskCompletion(updatedTask: RMATask, taskIsCompleted: Bool) {
         try! uiRealm.write {
-            updatedTask.name = name
-            updatedTask.fullDescription = fullDescription
-            updatedTask.date = date
-            updatedTask.location = location
-            updatedTask.imageURL = imageURL
-            updatedTask.repeatPeriod = repeatPeriod
-            updatedTask.isCompleted = isCompleted
+            updatedTask.isCompleted = taskIsCompleted
+        }
+    }
+
+    
+    static func updateTask(_ updatedTask: RMATask, withData: RMATask) {
+        try! uiRealm.write {
+            updatedTask.name = withData.name
+            updatedTask.fullDescription = withData.fullDescription
+            updatedTask.date = withData.date
+            updatedTask.location = withData.location
+            updatedTask.imageURL = withData.imageURL
+            updatedTask.repeatPeriod = withData.repeatPeriod
+            updatedTask.isCompleted = withData.isCompleted
             // TODO: updatedTask.tags
             // task.tags.append(tag)
         }
@@ -119,6 +119,40 @@ class RMARealmManager {
                 uiRealm.add(RMATag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)))
                 uiRealm.add(RMATag(tagName: "other", tagColor: #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1)))
             }
+            seedDataForDemo()
+        }
+    }
+    
+    static func seedDataForDemo() {
+        let task1 = RMATask()
+        task1.name = "Demo #2"
+        task1.fullDescription = "Provide presentation for demo"
+        task1.date = NSDate()
+        task1.imageURL = nil
+        task1.repeatPeriod = 0
+        task1.isCompleted = false
+        task1.location = RMALocation()
+        task1.location?.name = "5, Pasternaka str."
+        task1.location?.latitude = 49.8326268373183
+        task1.location?.longitude = 23.9990768954158
+        task1.location?.radius = 200
+        
+        let task2 = RMATask()
+        task2.name = "Visit main office"
+        task2.fullDescription = nil
+        task2.date = NSDate()
+        task2.imageURL = nil
+        task2.repeatPeriod = 0
+        task2.isCompleted = false
+        task2.location = RMALocation()
+        task2.location?.name = "8, Sadova str."
+        task2.location?.latitude = 49.8227211
+        task2.location?.longitude = 23.9852429
+        task2.location?.radius = 200
+        
+        try! uiRealm.write {
+            uiRealm.add(task1)
+            uiRealm.add(task2)
         }
     }
         

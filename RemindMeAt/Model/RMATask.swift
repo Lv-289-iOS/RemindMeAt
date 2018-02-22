@@ -24,6 +24,18 @@ class RMATask: Object {
         return "taskID"
     }
     
+    func clone() -> RMATask {
+        let result = RMATask()
+        result.name = self.name
+        result.fullDescription = self.fullDescription
+        result.date = self.date
+        result.location = self.location
+        result.imageURL = self.imageURL
+        result.repeatPeriod = self.repeatPeriod
+        result.isCompleted = self.isCompleted
+        return result
+    }
+    
 // Specify properties to ignore (Realm won't persist these)
     
 //  override static func ignoredProperties() -> [String] {

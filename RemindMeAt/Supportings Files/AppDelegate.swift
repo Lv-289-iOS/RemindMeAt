@@ -20,9 +20,10 @@ let uiRealm = try! Realm()
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         RMARealmManager.seedData()
+//        UIApplication.shared.applicationIconBadgeNumber = 0
         // Ask user's permision for sending notifications
         UNUserNotificationCenter.current().delegate = self
         let center = UNUserNotificationCenter.current()
@@ -44,19 +45,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         GMSServices.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
         GMSPlacesClient.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
-//        let notifications = UIApplication.shared.scheduledLocalNotifications
-//        for not in notifications!{
-//            not.userInfo
-//        }
         return true
+    }
+    
+    func incrementBadgeNumberBy(badgeNumberIncrement: Int) {
+        let currentBadgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        let updatedBadgeNumber = currentBadgeNumber + badgeNumberIncrement
+        if (updatedBadgeNumber > -1) {
+            UIApplication.shared.applicationIconBadgeNumber = updatedBadgeNumber
+        }
     }
     
     //called when your app is running in the foreground and receives a notification
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        //        let content = notification.request.content
-        // Process notification content
-        
-        
         completionHandler([.alert, .sound]) // Display notification as regular alert and play sound
     }
     
@@ -76,6 +77,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             completionHandler()
         }
     }
+    
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        print("notification appeared")
+    }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

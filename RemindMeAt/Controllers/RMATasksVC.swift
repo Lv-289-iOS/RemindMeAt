@@ -1,3 +1,4 @@
+
 //
 //  RMATasksVC.swift
 //  RemindMeAt
@@ -40,7 +41,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         searchResult = Array(taskList!).filter({( task : RMATask) -> Bool in
             return task.name.lowercased().contains(searchText.lowercased())
         })
-        
+        print(searchResult)
         taskListsTableView.reloadData()
     }
     
@@ -49,14 +50,17 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         readTasksAndUpdateUI()
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.requestAlwaysAuthorization()
         searchController.searchResultsUpdater = self
-        //searchController.obscuresBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Tasks"
         taskListsTableView.tableHeaderView = searchController.searchBar
         searchController.searchBar.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
@@ -64,6 +68,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         navigationController?.navigationBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         searchController.searchBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         searchController.searchBar.backgroundColor = UIColor.gray
+        
         
         // navigationItem.searchController = searchController
         definesPresentationContext = true
@@ -212,26 +217,54 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (deleteAction, indexPath) -> Void in
+        
+        let taskToChange = self.taskList?[indexPath.row]
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
             // Deletion will go here
             
-            if let taskToBeDeleted = self.taskList?[indexPath.row] {
-                RMARealmManager.deleteTask(taskToBeDeleted: taskToBeDeleted)
-                self.readTasksAndUpdateUI()
-            }
+            RMARealmManager.deleteTask(taskToBeDeleted: taskToChange!)
+            self.readTasksAndUpdateUI()
         }
-        //        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Edit") { (editAction, indexPath) -> Void in
-        //            // Editing will go here
-        //            if let taskToBeUpdated = self.taskList?[indexPath.row] {
-        //                self.displayAlertToAddTask(taskToBeUpdated)
-        //            }
-        //        }
-        return [deleteAction/*, editAction*/]
+        
+        let completeAction: UITableViewRowAction?
+        if !(taskToChange?.isCompleted)! {
+            completeAction = UITableViewRowAction(style: .default, title: "Complete"){(completeAction, indexPath) -> Void in
+                
+                let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
+                cell.accessoryType = .checkmark
+                RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: true)
+                self.readTasksAndUpdateUI()
+                // method to rewrite isCompleted for task in DB
+            }
+        } else {
+            completeAction = UITableViewRowAction(style: .default, title: "Incomplete"){(incompleteAction, indexPath) -> Void in
+                
+                let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
+                cell.accessoryType = .disclosureIndicator
+                
+                RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: false)
+                self.readTasksAndUpdateUI()
+                // method to rewrite isCompleted for task in DB
+            }
+            
+        }
+        
+        
+        deleteAction.backgroundColor = UIColor.red
+        completeAction?.backgroundColor = UIColor.darkGray
+        
+        return [deleteAction, completeAction!]
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let selectedTaskList = self.taskList?[indexPath.row] {
+        if searchController.isActive{
+            let selectedTaskList = self.searchResult[indexPath.row]
             self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
+        }else{
+            if let selectedTaskList = self.taskList?[indexPath.row] {
+                self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
+            }
         }
     }
     
@@ -242,15 +275,23 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let newTaskViewController = segue.destination as! NewTaskViewController
         newTaskViewController.taskToBeUpdated = sender as? RMATask
         
-        /*       let task = taskList?[indexPath.row]
-         
-         if var task = taskList?[indexPath.row] {
-         if isFiltering() {
-         task = searchResult[indexPath.row]
-         } else {
-         task = taskList[indexPath.row]
-         }
-         }*/
+        
+        
+        
+        //        if let indexPath = taskListsTableView.indexPathForSelectedRow{
+        //            let destinationController = segue.destination as! NewTaskViewController
+        //            destinationController.task = (searchController.isActive) ? searchResult[indexPath.row] : taskList[indexPath.row]
+        //        }
+        
+        
+        
+        //    let task: RMATask
+        //         if isFiltering() {
+        //         task = searchResult[indexPath.row]
+        //         } else {
+        //         task = taskList[indexPath.row]
+        //         }
+        
     }
 }
 
@@ -261,4 +302,3 @@ extension RMATasksVC: UISearchResultsUpdating {
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }
-

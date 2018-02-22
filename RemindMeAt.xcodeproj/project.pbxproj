@@ -17,7 +17,6 @@
 		63F2145B203AE218001CA31B /* Functionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F2145A203AE218001CA31B /* Functionality.swift */; };
 		6F3AFC39203B657E000BC0B1 /* RMAFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AFC38203B657E000BC0B1 /* RMAFileManager.swift */; };
 		6FC39A39203C4B7A00A1BF96 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC39A38203C4B7A00A1BF96 /* CustomTableViewCell.swift */; };
-		A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36BA19E2032583B001B940F /* UIColorExtension.swift */; };
 		A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B39202DB2DC00127811 /* RMALocation.swift */; };
 		A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CB9B3B202DB4E300127811 /* RMATag.swift */; };
 		A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CCE371202C9B12009D9354 /* RMARealmManager.swift */; };
@@ -45,7 +44,6 @@
 		63F2145A203AE218001CA31B /* Functionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functionality.swift; sourceTree = "<group>"; };
 		6F3AFC38203B657E000BC0B1 /* RMAFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAFileManager.swift; sourceTree = "<group>"; };
 		6FC39A38203C4B7A00A1BF96 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomTableViewCell.swift; path = RemindMeAt/CustomTableViewCell.swift; sourceTree = SOURCE_ROOT; };
-		A36BA19E2032583B001B940F /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		A3CB9B39202DB2DC00127811 /* RMALocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMALocation.swift; sourceTree = "<group>"; };
 		A3CB9B3B202DB4E300127811 /* RMATag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATag.swift; sourceTree = "<group>"; };
 		A3CCE371202C9B12009D9354 /* RMARealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMARealmManager.swift; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 				A3CB9B3B202DB4E300127811 /* RMATag.swift */,
 				A3CB9B39202DB2DC00127811 /* RMALocation.swift */,
 				A3CCE371202C9B12009D9354 /* RMARealmManager.swift */,
-				A36BA19E2032583B001B940F /* UIColorExtension.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -342,7 +339,6 @@
 				D3A911602033449B00150693 /* NameTVCell.swift in Sources */,
 				4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */,
 				4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */,
-				A36BA19F2032583B001B940F /* UIColorExtension.swift in Sources */,
 				19E50A062039A1B700BE80AA /* NotificationManager.swift in Sources */,
 				D3A91167203344C600150693 /* TagsTVCell.swift in Sources */,
 				A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */,
@@ -492,6 +488,10 @@
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt;
+				DEVELOPMENT_TEAM = 9YL9NSJ599;
+				INFOPLIST_FILE = RemindMeAt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt567;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -508,6 +508,10 @@
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt;
+				DEVELOPMENT_TEAM = 9YL9NSJ599;
+				INFOPLIST_FILE = RemindMeAt/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt567;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
