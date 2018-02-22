@@ -115,7 +115,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
             PositionIndex = NextNumberOfEmphtyBox
             
         case chosenMonth.previous:  // previos month
-            PreviousNumberOfEmphtyBox = ((7 - DayInMonth[month] - PositionIndex) % 7)
+            PreviousNumberOfEmphtyBox = (7 - (DayInMonth[month] - PositionIndex) % 7)
             if PreviousNumberOfEmphtyBox == 7 {
                 PreviousNumberOfEmphtyBox = 0
             }

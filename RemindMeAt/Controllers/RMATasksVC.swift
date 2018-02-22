@@ -51,6 +51,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.tintColor = UIColor.Screens.tabBarTintColor
         readTasksAndUpdateUI()
     }
     
