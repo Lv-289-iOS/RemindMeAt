@@ -45,10 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         GMSServices.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
         GMSPlacesClient.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
-//        let notifications = UIApplication.shared.scheduledLocalNotifications
-//        for not in notifications!{
-//            not.userInfo
-//        }
         return true
     }
     
@@ -62,7 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     //called when your app is running in the foreground and receives a notification
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
         completionHandler([.alert, .sound]) // Display notification as regular alert and play sound
     }
     
@@ -83,9 +78,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        incrementBadgeNumberBy(badgeNumberIncrement: 1)
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        print("notification appeared")
     }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

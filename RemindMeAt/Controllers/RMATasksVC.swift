@@ -221,6 +221,19 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             if let taskToBeDeleted = self.taskList?[indexPath.row] {
                 RMARealmManager.deleteTask(taskToBeDeleted: taskToBeDeleted)
+                let notifications = UIApplication.shared.scheduledLocalNotifications
+                
+//                if let nots = notifications{
+//                    for notification in nots{
+//                        let userInfos = notification.userInfo?.values
+//                        for userInfo in userInfos!{
+//                            if String(describing: userInfo) == taskToBeDeleted.taskID{
+//                                nots.remove
+//                            }
+//                        }
+//                    }
+//                }
+                
                 self.readTasksAndUpdateUI()
             }
         }
