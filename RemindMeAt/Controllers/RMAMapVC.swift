@@ -100,6 +100,7 @@ class RMAMapVC: UIViewController {
             showSearch.tintColor = .clear
             
             let tasksWithLocations  = RMARealmManager.getTasksWithLocation()
+            
             for task in tasksWithLocations {
                 print("\(String(describing: task.location?.latitude)), \(String(describing: task.location?.longitude))\n")
                 let markerForLocation = GMSMarker()
