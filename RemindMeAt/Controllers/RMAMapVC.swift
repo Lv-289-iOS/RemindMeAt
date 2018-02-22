@@ -28,7 +28,6 @@ class RMAMapVC: UIViewController {
     var userLocation = CLLocation()
     var selectedLocation = CLLocation()
     
-    lazy var geocoder = GMSGeocoder()
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     var resultView: UITextView?
@@ -110,6 +109,18 @@ class RMAMapVC: UIViewController {
         }
     }
     
+    func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) -> String {
+        let geocoder = GMSGeocoder()
+        var locationName = ""
+        geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
+            guard let address = response?.firstResult() else {
+                return
+            }
+            locationName = (address.lines?.first) ?? ""
+        }
+        return locationName
+    }
+    
     private func animateCameraTo(coordinate: CLLocationCoordinate2D, zoom: Float = 14.0) {
         let camera = GMSCameraPosition.camera(withTarget: coordinate, zoom: zoom)
         mapView.animate(to: camera)
@@ -133,6 +144,12 @@ class RMAMapVC: UIViewController {
     }
     
     @IBAction func addLocationButton(_ sender: UIButton) {
+        let locatioName = reverseGeocodeCoordinate(marker.position)
+        if locatioName == "" {
+            taskLocation.name = "Loc: \(marker.position.latitude), \(marker.position.longitude)"
+        } else {
+            taskLocation.name = locatioName
+        }
         taskLocation.latitude = marker.position.latitude
         taskLocation.longitude = marker.position.longitude
         taskLocation.radius = radiusCircle.radius
@@ -200,16 +217,6 @@ extension RMAMapVC: GMSMapViewDelegate {
         marker.position = coordinate
         radiusCircle.position = coordinate
         radiusCircle.map = mapView
-        
-        geocoder.reverseGeocodeCoordinate(coordinate) { (response, error) in
-            guard error == nil else {
-                return
-            }
-            
-            if let result = response?.firstResult()?.lines?.first {
-                self.taskLocation.name = result
-            }
-        }
     }
     func mapViewDidFinishTileRendering(_ mapView: GMSMapView) {
         

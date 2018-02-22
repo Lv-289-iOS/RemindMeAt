@@ -57,14 +57,6 @@ class RMARealmManager {
         }
     }
     
-    
-    static func updateTaskCompletion(updatedTask: RMATask, taskIsCompleted: Bool) {
-        try! uiRealm.write {
-            updatedTask.isCompleted = taskIsCompleted
-        }
-    }
-
-    
     static func updateTask(_ updatedTask: RMATask, withData: RMATask) {
         try! uiRealm.write {
             updatedTask.name = withData.name

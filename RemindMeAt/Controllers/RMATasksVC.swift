@@ -216,11 +216,8 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        let taskToChange = self.taskList?[indexPath.row]
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (deleteAction, indexPath) -> Void in
             // Deletion will go here
-<<<<<<< HEAD
             
             if let taskToBeDeleted = self.taskList?[indexPath.row] {
                 RMARealmManager.deleteTask(taskToBeDeleted: taskToBeDeleted)
@@ -237,41 +234,16 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 //                    }
 //                }
                 
-=======
-            RMARealmManager.deleteTask(taskToBeDeleted: taskToChange!)
-            self.readTasksAndUpdateUI()
-        }
-        
-        let completeAction: UITableViewRowAction?
-        if !(taskToChange?.isCompleted)! {
-            completeAction = UITableViewRowAction(style: .default, title: "Complete"){(completeAction, indexPath) -> Void in
-                
-                let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
-                cell.accessoryType = .checkmark
-                RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: true)
                 self.readTasksAndUpdateUI()
-                // method to rewrite isCompleted for task in DB
             }
-        } else {
-            completeAction = UITableViewRowAction(style: .default, title: "Incomplete"){(incompleteAction, indexPath) -> Void in
-                
-                let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
-                cell.accessoryType = .disclosureIndicator
-                
-                RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: false)
->>>>>>> origin/develop
-                self.readTasksAndUpdateUI()
-                // method to rewrite isCompleted for task in DB
-            }
-            
         }
-        
-        
-        deleteAction.backgroundColor = UIColor.red
-        completeAction?.backgroundColor = UIColor.darkGray
-        
-        return [deleteAction, completeAction!]
-        
+        //        let editAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Edit") { (editAction, indexPath) -> Void in
+        //            // Editing will go here
+        //            if let taskToBeUpdated = self.taskList?[indexPath.row] {
+        //                self.displayAlertToAddTask(taskToBeUpdated)
+        //            }
+        //        }
+        return [deleteAction/*, editAction*/]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
