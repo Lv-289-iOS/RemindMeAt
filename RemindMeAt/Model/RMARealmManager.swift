@@ -66,8 +66,6 @@ class RMARealmManager {
             updatedTask.imageURL = withData.imageURL
             updatedTask.repeatPeriod = withData.repeatPeriod
             updatedTask.isCompleted = withData.isCompleted
-            // TODO: updatedTask.tags
-            // task.tags.append(tag)
         }
     }
     
@@ -128,6 +126,8 @@ class RMARealmManager {
         task1.location?.latitude = 49.8326268373183
         task1.location?.longitude = 23.9990768954158
         task1.location?.radius = 200
+//        task1.tags.append(RMATag(tagName: "other", tagColor: #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1)))
+//        task1.tags.append(RMATag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)))
         
         let task2 = RMATask()
         task2.name = "Visit main office"
@@ -141,6 +141,8 @@ class RMARealmManager {
         task2.location?.latitude = 49.8227211
         task2.location?.longitude = 23.9852429
         task2.location?.radius = 200
+//        task2.tags.append(RMATag(tagName: "home", tagColor: #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1)))
+//        task2.tags.append(RMATag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)))
         
         try! uiRealm.write {
             uiRealm.add(task1)

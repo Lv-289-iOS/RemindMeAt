@@ -23,5 +23,11 @@ class RMATag: Object {
     override static func primaryKey() -> String? {
         return "tagID"
     }
-    
+}
+
+
+extension RMATag {
+    func isTagTheSame(_ tag: RMATag) -> Bool {
+        return self.tagID == tag.tagID
+    }
 }

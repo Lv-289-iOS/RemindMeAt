@@ -24,12 +24,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     let defaultImage = #imageLiteral(resourceName: "defaultPic")
     let DESCRIPTION_PLACEHOLDER = "put a task description here, if you wish :)"
     let NAME_PLACEHOLDER = "put a name for the task here"
-    //    var name: String?
-    //    var date: NSDate?
-    //    var formattedDate: String?
-    //    var location: String?
     var image: UIImage?
-    //    var descr: String?
     
     var picker = UIImagePickerController()
     let datePicker = UIDatePicker()
@@ -44,36 +39,21 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var tagTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTagViewConstraint: NSLayoutConstraint!
     
-    //    func dataFromTask() {
-    //        if let taskToBeUpdated = taskToBeUpdated {
-    //            self.title = taskToBeUpdated.name
-    //            name = taskToBeUpdated.name
-    //            date = taskToBeUpdated.date
-    //            //            imageURL = taskToBeUpdated.imageURL
-    //            print("imageURLFromDB: \(String(describing: imageURL))")
-    //            if let temp = taskToBeUpdated.imageURL {
-    //                image = imageDoc.loadImageFromPath(imageURL: temp)
-    //            }
-    //            //            if imageURL != nil {
-    //            //                image = imageDoc.loadImageFromPath(imageURL: imageURL!)
-    //            //            }
-    //            descr = taskToBeUpdated.fullDescription
-    //            for tag in taskToBeUpdated.tags {
-    //                tagList.append(tag)
-    //            }
-    //        }
-    //    }
-    
     func addNewTaskOrUpdateTaskInDB() {
         if let taskToBeUpdated = taskToBeUpdated {
             RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
+            for tag in tagList {
+                taskToBeUpdated.tags.append(tag)
+            }
         } else {
+            for tag in tagList {
+                currentTask?.tags.append(tag)
+            }
             RMARealmManager.addTask(newTask: currentTask!)
             notificationManager.setNotification(with: currentTask!)
         }
+        
     }
-    
-    
     
     @IBAction func saveTagsButton(_ sender: UIButton) {
         bottomTagViewConstraint.constant = -tagViewHeightConstraint.constant
@@ -94,9 +74,11 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let taskToBeUpdated = taskToBeUpdated {
+            for tag in taskToBeUpdated.tags {
+                tagList.append(tag)
+            }
             currentTask = taskToBeUpdated.clone()
             self.title = taskToBeUpdated.name
-            // TODO: fill the controls accoding to taskToBeUpdated
         } else {
             currentTask = RMATask()
         }
@@ -108,7 +90,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         picker.delegate = self
         
         self.tabBarController?.tabBar.isHidden = true
-        
         //        dataFromTask()
         addDatePicker()
         
@@ -304,9 +285,8 @@ extension NewTaskViewController: UITableViewDelegate {
             }
         } else {
             let oneTag = allTagsResults[indexPath.row]
-            if tagList.contains(where: {$0.name == oneTag.name}) {
-                let index = tagList.index(where: {$0.name == oneTag.name})
-                tagList.remove(at: index!)
+            if let index = tagList.index(where: {$0.isTagTheSame(oneTag)}) {
+                tagList.remove(at: index)
             } else {
                 tagList.append(oneTag)
             }
@@ -435,7 +415,7 @@ extension NewTaskViewController: UITableViewDataSource {
             cell.tagColorView.layer.borderWidth = 2
             cell.tagColorView.backgroundColor = UIColor.fromHexString(tagForCell.color)
             cell.tagLabel.text = tagForCell.name
-            if tagList.contains(where: {$0.name == tagForCell.name}) {
+            if tagList.contains(where: { $0.isTagTheSame(tagForCell) }) {
                 cell.tagIsChoosePic.image = #imageLiteral(resourceName: "check")
             } else  {
                 cell.tagIsChoosePic.image = #imageLiteral(resourceName: "uncheck")
@@ -498,7 +478,6 @@ extension NewTaskViewController: UITextViewDelegate {
 
 extension NewTaskViewController: SetLocationDelegate {
     func setLocation(location: RMALocation) {
-        currentTask?.name = "Test"
         var tempLoc = RMALocation()
         tempLoc = location
         currentTask?.location = tempLoc
