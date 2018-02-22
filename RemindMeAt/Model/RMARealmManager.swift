@@ -23,7 +23,14 @@ class RMARealmManager {
     }
     
     static func getAllTasksByDate(_ date: NSDate) -> Results<RMATask> {
-        return getAllTasks().filter("date == %@", date)
+        let dateAndTime = date as Date
+        let startOfDay = dateAndTime.startOfDay
+        let endOfDayOptional = dateAndTime.endOfDay
+        var endOfDay = dateAndTime
+        if let endOfDayUnwrapped = endOfDayOptional {
+            endOfDay = endOfDayUnwrapped
+        }
+        return getAllTasks().filter("(date >= %@) AND (date <= %@)", startOfDay, endOfDay)
     }
     
     static func isTasksAvailableByDate(_ date: NSDate) -> Bool {
