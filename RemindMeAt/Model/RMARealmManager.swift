@@ -75,7 +75,18 @@ class RMARealmManager {
         
         try! uiRealm.write {
             if let previousLocation = updatedTask.location {
-                uiRealm.delete(previousLocation)
+                if let newLocationUnwrapped = newLocation {
+                    previousLocation.name = newLocationUnwrapped.name
+                    previousLocation.latitude = newLocationUnwrapped.latitude
+                    previousLocation.longitude = newLocationUnwrapped.longitude
+                    previousLocation.radius = newLocationUnwrapped.radius
+                    previousLocation.whenEnter = newLocationUnwrapped.whenEnter
+                } else {
+                    uiRealm.delete(previousLocation)
+                }
+            }
+            else {
+                updatedTask.location = withData.location
             }
         }
         
@@ -83,7 +94,6 @@ class RMARealmManager {
             updatedTask.name = withData.name
             updatedTask.fullDescription = withData.fullDescription
             updatedTask.date = withData.date
-            updatedTask.location = newLocation
             updatedTask.imageURL = withData.imageURL
             updatedTask.repeatPeriod = withData.repeatPeriod
             updatedTask.isCompleted = withData.isCompleted
