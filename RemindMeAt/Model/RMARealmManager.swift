@@ -23,7 +23,7 @@ class RMARealmManager {
     }
     
     static func getAllTasksByDate(_ date: NSDate) -> Results<RMATask> {
-        return getAllTasks().filter("date == '\(date)'")
+        return getAllTasks().filter("date == %@", date)
     }
     
     static func isTasksAvailableByDate(_ date: NSDate) -> Bool {
