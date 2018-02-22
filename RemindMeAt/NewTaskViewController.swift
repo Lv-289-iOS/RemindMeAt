@@ -473,10 +473,12 @@ extension NewTaskViewController: UITextViewDelegate {
 
 extension NewTaskViewController: SetLocationDelegate {
     func setLocation(location: RMALocation) {
-        currentTask?.name = "Test"
         var tempLoc = RMALocation()
         tempLoc = location
         currentTask?.location = tempLoc
-        print("\(String(describing: currentTask?.location))")
+        self.tableView.reloadData()
+        if let loc = (currentTask?.location?.description) {
+            print(loc)
+        }
     }
 }
