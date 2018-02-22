@@ -17,6 +17,12 @@ extension UIColor {
         static var addLocationButton : UIColor { return UIColor(red:0.57, green:0.74, blue:0.98, alpha:0.84) }
     }
     
+    struct Screens {
+        static var navigationBarTintColor : UIColor { return UIColor(red:0.83, green:0.83, blue:0.82, alpha:1.0) } // UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        static var searchBarTintColor : UIColor { return UIColor(red:0.83, green:0.83, blue:0.82, alpha:1.0) } // UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
+        static var searchBarBackgroundColor : UIColor { return UIColor(red:0.83, green:0.83, blue:0.82, alpha:1.0) } // UIColor.gray
+    }
+    
     /** Hex string of a UIColor instance, fails to empty string. */
     public func hexString() -> String  {
         var r: CGFloat = 0
