@@ -1,0 +1,99 @@
+
+/* Class = "UILabel"; text = "Fri"; ObjectID = "4Ja-SM-cYS"; */
+"4Ja-SM-cYS.text" = "ПТ";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "4Xj-aP-Cw6"; */
+"4Xj-aP-Cw6.title" = "Налаштування";
+
+/* Class = "UISegmentedControl"; 5xM-SL-V1q.segmentTitles[0] = "A-Z"; ObjectID = "5xM-SL-V1q"; */
+"5xM-SL-V1q.segmentTitles[0]" = "А-Я";
+
+/* Class = "UISegmentedControl"; 5xM-SL-V1q.segmentTitles[1] = "Date"; ObjectID = "5xM-SL-V1q"; */
+"5xM-SL-V1q.segmentTitles[1]" = "Дата";
+
+/* Class = "UINavigationItem"; title = "Map"; ObjectID = "6Vq-kX-Z0b"; */
+"6Vq-kX-Z0b.title" = "Карта";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "79P-WY-PEq"; */
+"79P-WY-PEq.text" = "Ім'я";
+
+/* Class = "UITabBarItem"; title = "TaskList"; ObjectID = "8U2-lO-OKP"; */
+"8U2-lO-OKP.title" = "Список нагадувань";
+
+/* Class = "UILabel"; text = "Month"; ObjectID = "9Bl-KA-MrX"; */
+"9Bl-KA-MrX.text" = "Місяць";
+
+/* Class = "UILabel"; text = "Sun"; ObjectID = "9jd-Vk-A6B"; */
+"9jd-Vk-A6B.text" = "Нд";
+
+/* Class = "UILabel"; text = "Sat"; ObjectID = "DLl-pp-nCQ"; */
+"DLl-pp-nCQ.text" = "Сб";
+
+/* Class = "UILabel"; text = "Tue"; ObjectID = "EZj-DS-V4H"; */
+"EZj-DS-V4H.text" = "Вт";
+
+/* Class = "UILabel"; text = "Full dark mode"; ObjectID = "GLw-e1-DDj"; */
+"GLw-e1-DDj.text" = "Темний режим";
+
+/* Class = "UIButton"; normalTitle = "Add Location"; ObjectID = "Ip7-41-XZA"; */
+"Ip7-41-XZA.normalTitle" = "Додати локацію";
+
+/* Class = "UILabel"; text = "Date/Location"; ObjectID = "K4D-Nd-120"; */
+"K4D-Nd-120.text" = "Дата/Локація";
+
+/* Class = "UILabel"; text = "DataLabel"; ObjectID = "PEw-Sw-1s0"; */
+"PEw-Sw-1s0.text" = "DataLabel";
+
+/* Class = "UILabel"; text = "Language:"; ObjectID = "QBB-jD-KWR"; */
+"QBB-jD-KWR.text" = "Мова:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "R4w-FO-v6t"; */
+"R4w-FO-v6t.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "Spf-LC-T8c"; */
+"Spf-LC-T8c.normalTitle" = "Ок";
+
+/* Class = "UINavigationItem"; title = "Calendar"; ObjectID = "Swe-WV-Goq"; */
+"Swe-WV-Goq.title" = "Календар";
+
+/* Class = "UILabel"; text = "Mon"; ObjectID = "TRd-8p-chO"; */
+"TRd-8p-chO.text" = "Пн";
+
+/* Class = "UITabBarItem"; title = "Map"; ObjectID = "TyF-zg-6HE"; */
+"TyF-zg-6HE.title" = "Карта";
+
+/* Class = "UITabBarItem"; title = "Calendar"; ObjectID = "Uf4-tF-KfJ"; */
+"Uf4-tF-KfJ.title" = "Календар";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "YyU-7d-1qf"; */
+"YyU-7d-1qf.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Next"; ObjectID = "cA9-N1-NFc"; */
+"cA9-N1-NFc.normalTitle" = "Далі";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "fOp-vD-yJu"; */
+"fOp-vD-yJu.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "fZt-c1-kpp"; */
+"fZt-c1-kpp.title" = "Налаштування";
+
+/* Class = "UILabel"; text = "Thu"; ObjectID = "ggR-mK-52F"; */
+"ggR-mK-52F.text" = "Чт";
+
+/* Class = "UIButton"; normalTitle = "Back"; ObjectID = "igm-5F-HpH"; */
+"igm-5F-HpH.normalTitle" = "Назад";
+
+/* Class = "UIViewController"; title = "Add Task"; ObjectID = "jS2-sR-Lky"; */
+"jS2-sR-Lky.title" = "Додати нагадування";
+
+/* Class = "UILabel"; text = "Wed"; ObjectID = "twa-xW-bjH"; */
+"twa-xW-bjH.text" = "Ср";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet"; ObjectID = "yD6-e9-nlv"; */
+"yD6-e9-nlv.text" = "Lorem ipsum dolor sit er elit lamet";
+
+/* Class = "UILabel"; text = "tags"; ObjectID = "z0Z-dz-gHa"; */
+"z0Z-dz-gHa.text" = "tags";
+
+/* Class = "UINavigationItem"; title = "Tasks"; ObjectID = "za2-rY-0WP"; */
+"za2-rY-0WP.title" = "Завдання";

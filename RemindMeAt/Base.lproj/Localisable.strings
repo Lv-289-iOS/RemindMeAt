@@ -1,0 +1,10 @@
+/* 
+  Localisable.strings
+  RemindMeAt
+
+  Created by Ostin Ostwald on 2/22/18.
+  Copyright © 2018 SoftServe Academy. All rights reserved.
+*/
+addLocation = "Add location";
+cancel = "Cancel";
+name = "Name: ";
