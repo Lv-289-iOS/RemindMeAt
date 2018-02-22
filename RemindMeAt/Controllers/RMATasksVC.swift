@@ -59,15 +59,16 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.requestAlwaysAuthorization()
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black], for: .normal)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Tasks"
         taskListsTableView.tableHeaderView = searchController.searchBar
         searchController.searchBar.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.orange]
-        navigationController?.navigationBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
-        searchController.searchBar.barTintColor = UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
-        searchController.searchBar.backgroundColor = UIColor.gray
+        navigationController?.navigationBar.barTintColor = UIColor.Screens.navigationBarTintColor
+        searchController.searchBar.barTintColor = UIColor.Screens.searchBarTintColor
+        searchController.searchBar.backgroundColor = UIColor.Screens.searchBarBackgroundColor
         
         
         // navigationItem.searchController = searchController
