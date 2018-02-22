@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		19E50A062039A1B700BE80AA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E50A052039A1B700BE80AA /* NotificationManager.swift */; };
+		1B3E1084203EF587001E6D26 /* CalendarsVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E1083203EF587001E6D26 /* CalendarsVars.swift */; };
+		1B3E108A203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E1089203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift */; };
 		4AE4401A0FE727B4CC94A79F /* Pods_RemindMeAt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E38290176121108086710B0C /* Pods_RemindMeAt.framework */; };
 		4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D5E202B3395005AD091 /* RMATasksVC.swift */; };
 		4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D60202B33AB005AD091 /* RMAMapVC.swift */; };
@@ -36,6 +38,8 @@
 /* Begin PBXFileReference section */
 		0BF19FF328AB07B49A868DE4 /* Pods-RemindMeAt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindMeAt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RemindMeAt/Pods-RemindMeAt.debug.xcconfig"; sourceTree = "<group>"; };
 		19E50A052039A1B700BE80AA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		1B3E1083203EF587001E6D26 /* CalendarsVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsVars.swift; sourceTree = "<group>"; };
+		1B3E1089203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDataCollectionViewCell.swift; sourceTree = "<group>"; };
 		4B315D5E202B3395005AD091 /* RMATasksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATasksVC.swift; sourceTree = "<group>"; };
 		4B315D60202B33AB005AD091 /* RMAMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAMapVC.swift; sourceTree = "<group>"; };
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
@@ -157,9 +161,11 @@
 				D3A91166203344C600150693 /* TagScreenTVCell.swift */,
 				D3A91163203344C500150693 /* TagsTVCell.swift */,
 				D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */,
+				1B3E1083203EF587001E6D26 /* CalendarsVars.swift */,
 				D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */,
 				D3A9115D2033449A00150693 /* NameTVCell.swift */,
 				4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */,
+				1B3E1089203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift */,
 				A3D66632202B0883003E29D8 /* Model */,
 				4B315D67202B3514005AD091 /* Controllers */,
 				19E50A042039A19600BE80AA /* Service */,
@@ -330,10 +336,12 @@
 				A3D66631202B087C003E29D8 /* RMATask.swift in Sources */,
 				A3CCE372202C9B12009D9354 /* RMARealmManager.swift in Sources */,
 				6F3AFC39203B657E000BC0B1 /* RMAFileManager.swift in Sources */,
+				1B3E1084203EF587001E6D26 /* CalendarsVars.swift in Sources */,
 				6FC39A39203C4B7A00A1BF96 /* CustomTableViewCell.swift in Sources */,
 				D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */,
 				D3A911622033449B00150693 /* DateOrLocationTVCell.swift in Sources */,
 				4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */,
+				1B3E108A203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift in Sources */,
 				4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */,
 				4BC9DB632039E5E800D86598 /* SetLocationDelegate.swift in Sources */,
 				A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */,
@@ -485,10 +493,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z4QUG2MZQ5;
+				DEVELOPMENT_TEAM = 3W6QZF2EK2;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = temarez.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt5671;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -501,10 +509,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z4QUG2MZQ5;
+				DEVELOPMENT_TEAM = 3W6QZF2EK2;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = temarez.academy.softserve.RemindMeAt;
+				PRODUCT_BUNDLE_IDENTIFIER = shvedd.academy.softserve.RemindMeAt5671;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
