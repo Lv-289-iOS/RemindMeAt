@@ -91,6 +91,9 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         self.tabBarController?.tabBar.isHidden = true
         //        dataFromTask()
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_small"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(testTest))
+        self.navigationItem.leftBarButtonItem = newBackButton
         addDatePicker()
         
         tagTableView.layer.cornerRadius = 15
@@ -103,6 +106,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.tableView.reloadData()
         updateConstraints()
         self.hideKeyboardWhenTappedAround()
+    }
+    
+    @objc func testTest(){
+        print("testTest")
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func startBarButton(rightBarButton: UIBarButtonItem) {
@@ -131,15 +140,8 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                 } else {
                     rightBarButton.image = #imageLiteral(resourceName: "edit_small")
                     addNewTaskOrUpdateTaskInDB()
-                    let controllerIndex = self.navigationController?.viewControllers.index(where: { (viewController) -> Bool in
-                        return viewController is RMATasksVC
-                    })
-                    let destination = self.navigationController?.viewControllers[controllerIndex!]
-                    let transition = CATransition()
-                    transition.duration = 0.5
-                    transition.type = kCATransitionFade
-                    self.navigationController?.view.layer.add(transition, forKey: nil)
-                    self.navigationController?.popToViewController(destination!, animated: false)
+                    self.navigationController?.popToRootViewController(animated: true)
+                    self.tabBarController?.selectedIndex = 0
                 }
             }
         }
@@ -481,6 +483,9 @@ extension NewTaskViewController: SetLocationDelegate {
         var tempLoc = RMALocation()
         tempLoc = location
         currentTask?.location = tempLoc
-        print("\(String(describing: currentTask?.location))")
+        self.tableView.reloadData()
+        if let loc = (currentTask?.location?.description) {
+            print(loc)
+        }
     }
 }

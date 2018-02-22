@@ -11,6 +11,18 @@ import CoreLocation
 import UserNotifications
 
 class NotificationManager{
+    
+    var counter = idForTask()
+    static var stCounter = 0
+    static func idForTask()->Int{
+        return stCounter + 1
+    }
+    
+    var badgeNumber = 0
+    func increment() -> Int{
+        return badgeNumber + 1
+    }
+   
 
     func setNotification(with task: RMATask){
         let content = UNMutableNotificationContent()
@@ -18,36 +30,39 @@ class NotificationManager{
         if let description = task.fullDescription{
             content.body = description
         }
-        content.badge = 1
+        content.badge = NSNumber(value: increment())
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "category"
         //add userinfo for identifing
-        //content.userInfo
+        content.userInfo = [counter:task.taskID]
         
         if let nsDate = task.date{
             let dataInfo = dateParser(nsDate: nsDate)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dataInfo, repeats: true)
-            let request = UNNotificationRequest(identifier: "calendarNotification", content: content, trigger: calendarTrigger)
+            let request = UNNotificationRequest(identifier: task.taskID, content: content, trigger: calendarTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if let _ = error {
                     print("Notification wasn't set")
                 }else {
                     // Request was added successfully
+                    print("date added succesfully")
                 }
             }
+            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         }
         if let place = task.location{
             let center = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
             let region = CLCircularRegion(center: center, radius: place.radius, identifier: "Location")
-            region.notifyOnEntry = true;
-            region.notifyOnExit = false;
+            region.notifyOnEntry = place.whenEnter
+            region.notifyOnExit = !place.whenEnter
             let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
-            let request = UNNotificationRequest(identifier: "locationNotification", content: content, trigger: locationTrigger)
+            let request = UNNotificationRequest(identifier: task.taskID, content: content, trigger: locationTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if let _ = error {
                     print("Notification wasn't set")
                 } else {
                     // Request was added successfully
+                    print("location added succesfully")
                 }
             }
         }
