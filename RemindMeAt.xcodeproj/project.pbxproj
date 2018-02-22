@@ -27,12 +27,10 @@
 		A3D66629202B055E003E29D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D66627202B055E003E29D8 /* LaunchScreen.storyboard */; };
 		A3D66631202B087C003E29D8 /* RMATask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D66630202B087C003E29D8 /* RMATask.swift */; };
 		D31F642720333F2D005F8D8C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D66622202B055E003E29D8 /* Main.storyboard */; };
-		D3A911602033449B00150693 /* NameTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115D2033449A00150693 /* NameTVCell.swift */; };
-		D3A911612033449B00150693 /* ImageAndDescrTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */; };
-		D3A911622033449B00150693 /* DateOrLocationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */; };
-		D3A91167203344C600150693 /* TagsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91163203344C500150693 /* TagsTVCell.swift */; };
-		D3A9116A203344C600150693 /* TagScreenTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91166203344C600150693 /* TagScreenTVCell.swift */; };
-		D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91164203344C500150693 /* NewTaskViewController.swift */; };
+		D3A911602033449B00150693 /* RMASingleTaskFieldsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115D2033449A00150693 /* RMASingleTaskFieldsTVCell.swift */; };
+		D3A911612033449B00150693 /* RMAImageAndDescrTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115E2033449B00150693 /* RMAImageAndDescrTVCell.swift */; };
+		D3A9116A203344C600150693 /* RMATagScreenTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91166203344C600150693 /* RMATagScreenTVCell.swift */; };
+		D3A9116B203344EE00150693 /* RMANewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91164203344C500150693 /* RMANewTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,12 +57,10 @@
 		A3D6662A202B055E003E29D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3D66630202B087C003E29D8 /* RMATask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATask.swift; sourceTree = "<group>"; };
 		B5468DD6610EB97818B797F7 /* Pods-RemindMeAt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindMeAt.release.xcconfig"; path = "Pods/Target Support Files/Pods-RemindMeAt/Pods-RemindMeAt.release.xcconfig"; sourceTree = "<group>"; };
-		D3A9115D2033449A00150693 /* NameTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTVCell.swift; sourceTree = "<group>"; };
-		D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndDescrTVCell.swift; sourceTree = "<group>"; };
-		D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOrLocationTVCell.swift; sourceTree = "<group>"; };
-		D3A91163203344C500150693 /* TagsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsTVCell.swift; sourceTree = "<group>"; };
-		D3A91164203344C500150693 /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
-		D3A91166203344C600150693 /* TagScreenTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagScreenTVCell.swift; sourceTree = "<group>"; };
+		D3A9115D2033449A00150693 /* RMASingleTaskFieldsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMASingleTaskFieldsTVCell.swift; sourceTree = "<group>"; };
+		D3A9115E2033449B00150693 /* RMAImageAndDescrTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAImageAndDescrTVCell.swift; sourceTree = "<group>"; };
+		D3A91164203344C500150693 /* RMANewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMANewTaskViewController.swift; sourceTree = "<group>"; };
+		D3A91166203344C600150693 /* RMATagScreenTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATagScreenTVCell.swift; sourceTree = "<group>"; };
 		E38290176121108086710B0C /* Pods_RemindMeAt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindMeAt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -100,6 +96,7 @@
 		4B315D67202B3514005AD091 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D3A91164203344C500150693 /* RMANewTaskViewController.swift */,
 				4B315D5E202B3395005AD091 /* RMATasksVC.swift */,
 				4B315D60202B33AB005AD091 /* RMAMapVC.swift */,
 				4B315D62202B33C3005AD091 /* RMACalendarVC.swift */,
@@ -155,15 +152,10 @@
 		A3D6661D202B055E003E29D8 /* RemindMeAt */ = {
 			isa = PBXGroup;
 			children = (
-				D3A91164203344C500150693 /* NewTaskViewController.swift */,
+				D3FACA94203F7D5000997CF6 /* Cells */,
 				63F2145A203AE218001CA31B /* Functionality.swift */,
 				6FC39A38203C4B7A00A1BF96 /* CustomTableViewCell.swift */,
-				D3A91166203344C600150693 /* TagScreenTVCell.swift */,
-				D3A91163203344C500150693 /* TagsTVCell.swift */,
-				D3A9115F2033449B00150693 /* DateOrLocationTVCell.swift */,
 				1B3E1083203EF587001E6D26 /* CalendarsVars.swift */,
-				D3A9115E2033449B00150693 /* ImageAndDescrTVCell.swift */,
-				D3A9115D2033449A00150693 /* NameTVCell.swift */,
 				4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */,
 				1B3E1089203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift */,
 				A3D66632202B0883003E29D8 /* Model */,
@@ -186,6 +178,16 @@
 				A3CCE371202C9B12009D9354 /* RMARealmManager.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D3FACA94203F7D5000997CF6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D3A91166203344C600150693 /* RMATagScreenTVCell.swift */,
+				D3A9115E2033449B00150693 /* RMAImageAndDescrTVCell.swift */,
+				D3A9115D2033449A00150693 /* RMASingleTaskFieldsTVCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,21 +340,19 @@
 				6F3AFC39203B657E000BC0B1 /* RMAFileManager.swift in Sources */,
 				1B3E1084203EF587001E6D26 /* CalendarsVars.swift in Sources */,
 				6FC39A39203C4B7A00A1BF96 /* CustomTableViewCell.swift in Sources */,
-				D3A9116B203344EE00150693 /* NewTaskViewController.swift in Sources */,
-				D3A911622033449B00150693 /* DateOrLocationTVCell.swift in Sources */,
+				D3A9116B203344EE00150693 /* RMANewTaskViewController.swift in Sources */,
 				4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */,
 				1B3E108A203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift in Sources */,
 				4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */,
 				4BC9DB632039E5E800D86598 /* SetLocationDelegate.swift in Sources */,
 				A3CB9B3A202DB2DC00127811 /* RMALocation.swift in Sources */,
-				D3A911602033449B00150693 /* NameTVCell.swift in Sources */,
+				D3A911602033449B00150693 /* RMASingleTaskFieldsTVCell.swift in Sources */,
 				4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */,
 				4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */,
 				19E50A062039A1B700BE80AA /* NotificationManager.swift in Sources */,
-				D3A91167203344C600150693 /* TagsTVCell.swift in Sources */,
 				A3D6661F202B055E003E29D8 /* AppDelegate.swift in Sources */,
-				D3A911612033449B00150693 /* ImageAndDescrTVCell.swift in Sources */,
-				D3A9116A203344C600150693 /* TagScreenTVCell.swift in Sources */,
+				D3A911612033449B00150693 /* RMAImageAndDescrTVCell.swift in Sources */,
+				D3A9116A203344C600150693 /* RMATagScreenTVCell.swift in Sources */,
 				63F2145B203AE218001CA31B /* Functionality.swift in Sources */,
 				A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */,
 			);
