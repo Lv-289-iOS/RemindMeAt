@@ -7,5 +7,9 @@ target 'RemindMeAt' do
 
   # Pods for RemindMeAt
   pod 'RealmSwift'
+  pod 'GoogleMaps'
+  pod ‘GooglePlaces’
+  pod 'GooglePlacePicker'
+
 
 end

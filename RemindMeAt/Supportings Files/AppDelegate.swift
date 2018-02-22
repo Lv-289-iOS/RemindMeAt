@@ -7,20 +7,81 @@
 //
 
 import UIKit
+import CoreData
+import GoogleMaps
+import GooglePlaces
 import RealmSwift
+import UserNotifications
+import CoreLocation
 
 let uiRealm = try! Realm()
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        RMARealmManager.seedData()
+//        UIApplication.shared.applicationIconBadgeNumber = 0
+        // Ask user's permision for sending notifications
+        UNUserNotificationCenter.current().delegate = self
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+        center.requestAuthorization(options: options) { (granted, error) in
+            if granted {
+                DispatchQueue.main.async(execute: {
+                    application.registerForRemoteNotifications()
+                })
+                
+            }
+        }
+        //define actions FIXME: will be changed
+        let remindLaterAction = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
+        let markAsSeenAction = UNNotificationAction(identifier: "markAsSeen", title: "Mark as seen", options: [])
+        
+        let category = UNNotificationCategory(identifier: "category", actions: [remindLaterAction,markAsSeenAction], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        GMSServices.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
+        GMSPlacesClient.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
         return true
     }
+    
+    func incrementBadgeNumberBy(badgeNumberIncrement: Int) {
+        let currentBadgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        let updatedBadgeNumber = currentBadgeNumber + badgeNumberIncrement
+        if (updatedBadgeNumber > -1) {
+            UIApplication.shared.applicationIconBadgeNumber = updatedBadgeNumber
+        }
+    }
+    
+    //called when your app is running in the foreground and receives a notification
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound]) // Display notification as regular alert and play sound
+    }
+    
+    //called when the user interacts with a notification for your app in any way,
+    //including dismissing it or opening your app from it
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let actionIdentifier = response.actionIdentifier
+        
+        switch actionIdentifier {
+        case UNNotificationDismissActionIdentifier: // Notification was dismissed by user
+            // Do something
+            completionHandler()
+        case UNNotificationDefaultActionIdentifier: // App was opened from notification
+            // Do something
+            completionHandler()
+        default:
+            completionHandler()
+        }
+    }
+    
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        print("notification appeared")
+    }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -43,7 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 
