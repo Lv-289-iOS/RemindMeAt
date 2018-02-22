@@ -42,6 +42,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     func addNewTaskOrUpdateTaskInDB() {
         if let taskToBeUpdated = taskToBeUpdated {
             RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
+            notificationManager.setNotification(with: currentTask!)
             for tag in tagList {
                 taskToBeUpdated.tags.append(tag)
             }

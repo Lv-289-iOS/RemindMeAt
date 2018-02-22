@@ -20,7 +20,8 @@ class NotificationManager{
     
     var badgeNumber = 0
     func increment() -> Int{
-        return badgeNumber + 1
+         badgeNumber += 1
+        return badgeNumber
     }
    
 
@@ -28,10 +29,13 @@ class NotificationManager{
         let identifier = task.taskID
         let content = UNMutableNotificationContent()
         content.title = task.name
+        print(increment())
+        print(badgeNumber + 1)
         if let description = task.fullDescription{
             content.body = description
         }
-        content.badge = NSNumber(value: increment())
+        
+        content.badge = NSNumber(value: badgeNumber + 1)
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "category"
         //add userinfo for identifing

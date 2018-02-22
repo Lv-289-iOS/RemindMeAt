@@ -69,6 +69,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         navigationController?.navigationBar.barTintColor = UIColor.Screens.navigationBarTintColor
         searchController.searchBar.barTintColor = UIColor.Screens.searchBarTintColor
         searchController.searchBar.backgroundColor = UIColor.Screens.searchBarBackgroundColor
+
         
         
         // navigationItem.searchController = searchController
