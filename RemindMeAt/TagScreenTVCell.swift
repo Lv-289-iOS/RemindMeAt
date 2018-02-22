@@ -9,7 +9,7 @@
 import UIKit
 
 class TagScreenTVCell: UITableViewCell {
-
+    
     @IBOutlet weak var tagColorView: UIView!
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var tagIsChoosePic: UIImageView!
