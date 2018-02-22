@@ -25,6 +25,7 @@ class NotificationManager{
    
 
     func setNotification(with task: RMATask){
+        let identifier = task.taskID
         let content = UNMutableNotificationContent()
         content.title = task.name
         if let description = task.fullDescription{
@@ -37,28 +38,34 @@ class NotificationManager{
         content.userInfo = [counter:task.taskID]
         
         if let nsDate = task.date{
+            if task.location != nil{
+                content.subtitle = "You have a task at \(task.location!.name)"
+            }
             let dataInfo = dateParser(nsDate: nsDate)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dataInfo, repeats: true)
-            let request = UNNotificationRequest(identifier: task.taskID, content: content, trigger: calendarTrigger)
+            let request = UNNotificationRequest(identifier: identifier+"date", content: content, trigger: calendarTrigger)
             UNUserNotificationCenter.current().add(request) { error in
-                if let _ = error {
+                if error != nil {
                     print("Notification wasn't set")
                 }else {
                     // Request was added successfully
-                    print("date added succesfully")
+                    print("date added successfully")
                 }
             }
-            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+//            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         }
         if let place = task.location{
+            if task.date != nil{
+                content.subtitle = "You have a task here at \(String(describing: task.date))"
+            }
             let center = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
             let region = CLCircularRegion(center: center, radius: place.radius, identifier: "Location")
             region.notifyOnEntry = place.whenEnter
             region.notifyOnExit = !place.whenEnter
             let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
-            let request = UNNotificationRequest(identifier: task.taskID, content: content, trigger: locationTrigger)
+            let request = UNNotificationRequest(identifier: identifier+"loc", content: content, trigger: locationTrigger)
             UNUserNotificationCenter.current().add(request) { error in
-                if let _ = error {
+                if error != nil {
                     print("Notification wasn't set")
                 } else {
                     // Request was added successfully
