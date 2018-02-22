@@ -57,15 +57,19 @@ class RMARealmManager {
         }
     }
     
-    
     static func updateTaskCompletion(updatedTask: RMATask, taskIsCompleted: Bool) {
         try! uiRealm.write {
             updatedTask.isCompleted = taskIsCompleted
         }
     }
 
-    
     static func updateTask(_ updatedTask: RMATask, withData: RMATask) {
+        try! uiRealm.write {
+            if let previousLocation = updatedTask.location {
+                uiRealm.delete(previousLocation)
+            }
+        }
+        
         try! uiRealm.write {
             updatedTask.name = withData.name
             updatedTask.fullDescription = withData.fullDescription
@@ -74,8 +78,6 @@ class RMARealmManager {
             updatedTask.imageURL = withData.imageURL
             updatedTask.repeatPeriod = withData.repeatPeriod
             updatedTask.isCompleted = withData.isCompleted
-            // TODO: updatedTask.tags
-            // task.tags.append(tag)
         }
     }
     
@@ -132,10 +134,12 @@ class RMARealmManager {
         task1.repeatPeriod = 0
         task1.isCompleted = false
         task1.location = RMALocation()
-        task1.location?.name = "5, Pasternaka str."
-        task1.location?.latitude = 49.8326268373183
+        task1.location?.name = "Yaroslava Pasternaka Street, 5, L'viv, Lviv Oblast, Ukraine"
+        task1.location?.latitude = 49.8326244584506
         task1.location?.longitude = 23.9990768954158
         task1.location?.radius = 200
+//        task1.tags.append(RMATag(tagName: "other", tagColor: #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1)))
+//        task1.tags.append(RMATag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)))
         
         let task2 = RMATask()
         task2.name = "Visit main office"
@@ -145,10 +149,12 @@ class RMARealmManager {
         task2.repeatPeriod = 0
         task2.isCompleted = false
         task2.location = RMALocation()
-        task2.location?.name = "8, Sadova str."
-        task2.location?.latitude = 49.8227211
-        task2.location?.longitude = 23.9852429
+        task2.location?.name = "Sadova Street, 8, L'viv, Lviv Oblast, Ukraine"
+        task2.location?.latitude = 49.8227035625848
+        task2.location?.longitude = 23.985345326364
         task2.location?.radius = 200
+//        task2.tags.append(RMATag(tagName: "home", tagColor: #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1)))
+//        task2.tags.append(RMATag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)))
         
         try! uiRealm.write {
             uiRealm.add(task1)
