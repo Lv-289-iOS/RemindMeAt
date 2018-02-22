@@ -24,12 +24,7 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     let defaultImage = #imageLiteral(resourceName: "defaultPic")
     let DESCRIPTION_PLACEHOLDER = "put a task description here, if you wish :)"
     let NAME_PLACEHOLDER = "put a name for the task here"
-    //    var name: String?
-    //    var date: NSDate?
-    //    var formattedDate: String?
-    //    var location: String?
     var image: UIImage?
-    //    var descr: String?
     
     var picker = UIImagePickerController()
     let datePicker = UIDatePicker()
@@ -43,26 +38,6 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var tagViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tagTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTagViewConstraint: NSLayoutConstraint!
-    
-    //    func dataFromTask() {
-    //        if let taskToBeUpdated = taskToBeUpdated {
-    //            self.title = taskToBeUpdated.name
-    //            name = taskToBeUpdated.name
-    //            date = taskToBeUpdated.date
-    //            //            imageURL = taskToBeUpdated.imageURL
-    //            print("imageURLFromDB: \(String(describing: imageURL))")
-    //            if let temp = taskToBeUpdated.imageURL {
-    //                image = imageDoc.loadImageFromPath(imageURL: temp)
-    //            }
-    //            //            if imageURL != nil {
-    //            //                image = imageDoc.loadImageFromPath(imageURL: imageURL!)
-    //            //            }
-    //            descr = taskToBeUpdated.fullDescription
-    //            for tag in taskToBeUpdated.tags {
-    //                tagList.append(tag)
-    //            }
-    //        }
-    //    }
     
     func addNewTaskOrUpdateTaskInDB() {
         if let taskToBeUpdated = taskToBeUpdated {
@@ -108,8 +83,9 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         picker.delegate = self
         
         self.tabBarController?.tabBar.isHidden = true
-        
-        //        dataFromTask()
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_small"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(testTest))
+        self.navigationItem.leftBarButtonItem = newBackButton
         addDatePicker()
         
         tagTableView.layer.cornerRadius = 15
@@ -122,6 +98,12 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.tableView.reloadData()
         updateConstraints()
         self.hideKeyboardWhenTappedAround()
+    }
+    
+    @objc func testTest(){
+        print("testTest")
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func startBarButton(rightBarButton: UIBarButtonItem) {
@@ -150,15 +132,8 @@ class NewTaskViewController: UIViewController, UIImagePickerControllerDelegate, 
                 } else {
                     rightBarButton.image = #imageLiteral(resourceName: "edit_small")
                     addNewTaskOrUpdateTaskInDB()
-                    let controllerIndex = self.navigationController?.viewControllers.index(where: { (viewController) -> Bool in
-                        return viewController is RMATasksVC
-                    })
-                    let destination = self.navigationController?.viewControllers[controllerIndex!]
-                    let transition = CATransition()
-                    transition.duration = 0.5
-                    transition.type = kCATransitionFade
-                    self.navigationController?.view.layer.add(transition, forKey: nil)
-                    self.navigationController?.popToViewController(destination!, animated: false)
+                    self.navigationController?.popToRootViewController(animated: true)
+                    self.tabBarController?.selectedIndex = 0
                 }
             }
         }
