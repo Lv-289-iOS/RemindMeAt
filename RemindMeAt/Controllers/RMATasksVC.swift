@@ -1,4 +1,3 @@
-
 //
 //  RMATasksVC.swift
 //  RemindMeAt
@@ -12,19 +11,15 @@ import UIKit
 import RealmSwift
 import CoreLocation
 
-private let reuseIdentifier = "listCell"
+private let reuseIdentifier = "cell"
 
 class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     let searchController = UISearchController(searchResultsController: nil)
     
     var taskList: Results<RMATask>?
     
     var searchResult = Array<RMATask>()
-    
-    var currentCreateAction: UIAlertAction!
     
     var locationManager = CLLocationManager()
     
@@ -36,10 +31,9 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        searchResult = Array(taskList!).filter({( task : RMATask) -> Bool in
+        searchResult = Array(taskList!).filter({ ( task: RMATask) -> Bool in
             return task.name.lowercased().contains(searchText.lowercased())
         })
-        print(searchResult)
         taskListsTableView.reloadData()
     }
     
@@ -53,24 +47,25 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         readTasksAndUpdateUI()
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.requestAlwaysAuthorization()
-        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black], for: .normal)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Tasks"
+        definesPresentationContext = true
+        setScreenStyle()
+    }
+    
+    func setScreenStyle() {
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black], for: .normal)
         taskListsTableView.tableHeaderView = searchController.searchBar
-        searchController.searchBar.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.orange]
         navigationController?.navigationBar.barTintColor = UIColor.Screens.navigationBarTintColor
+        searchController.searchBar.placeholder = "Search Tasks"
+        searchController.searchBar.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         searchController.searchBar.barTintColor = UIColor.Screens.searchBarTintColor
         searchController.searchBar.backgroundColor = UIColor.Screens.searchBarBackgroundColor
-        definesPresentationContext = true
     }
-
     
     func readTasksAndUpdateUI() {
         taskList = RMARealmManager.getAllTasks()
@@ -78,26 +73,9 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.taskListsTableView.reloadData()
     }
     
-    // MARK: - User Actions -
-    
-   /* @IBAction func didSelectSortCriteria(_ sender: UISegmentedControl) {
-        if let tasks = taskList {
-            if sender.selectedSegmentIndex == 0 {
-                self.taskList = RMARealmManager.sortTasksByName(listsTasks: tasks)
-            } else {
-                self.taskList = RMARealmManager.sortTasksByDate(listsTasks: tasks)
-            }
-            self.taskListsTableView.reloadData()
-        }
-    }
-    */
-
-    
     // MARK: - UITableViewDataSource -
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        
         if isFiltering() {
             return searchResult.count
         }
@@ -105,11 +83,12 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if let listsTasks = taskList {
             return listsTasks.count
         }
+        
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! CustomTableViewCell
         
         func formatDate(date: NSDate) -> String {
             let dateFormatter = DateFormatter()
@@ -117,18 +96,14 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             return dateFormatter.string(from: date as Date)
         }
         
-        func extractNameFromLocation(){
-            
-        }
-        
         if var task = taskList?[indexPath.row] {
             
-            if isFiltering(){
+            if isFiltering() {
                 task = searchResult[indexPath.row]
             }
             
             cell.name.text = task.name
-            if task.date != nil{
+            if task.date != nil {
                 cell.date.text = formatDate(date: task.date!)
             }
         }
@@ -136,7 +111,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
         let taskToChange = self.taskList?[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
             RMARealmManager.deleteTask(taskToBeDeleted: taskToChange!)
@@ -145,7 +119,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         let completeAction: UITableViewRowAction?
         if !(taskToChange?.isCompleted)! {
-            completeAction = UITableViewRowAction(style: .default, title: "Complete"){(completeAction, indexPath) -> Void in
+            completeAction = UITableViewRowAction(style: .default, title: "Complete") { (completeAction, indexPath) -> Void in
                 
                 let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
                 cell.accessoryType = .checkmark
@@ -153,7 +127,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.readTasksAndUpdateUI()
             }
         } else {
-            completeAction = UITableViewRowAction(style: .default, title: "Incomplete"){(incompleteAction, indexPath) -> Void in
+            completeAction = UITableViewRowAction(style: .default, title: "Incomplete") { (incompleteAction, indexPath) -> Void in
                 
                 let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
                 cell.accessoryType = .disclosureIndicator
@@ -164,19 +138,17 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
         
-        
         deleteAction.backgroundColor = UIColor.red
         completeAction?.backgroundColor = UIColor.darkGray
         
         return [deleteAction, completeAction!]
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if searchController.isActive{
+        if searchController.isActive {
             let selectedTaskList = self.searchResult[indexPath.row]
             self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
-        }else{
+        } else {
             if let selectedTaskList = self.taskList?[indexPath.row] {
                 self.performSegue(withIdentifier: "TaskListVCToNewTaskVC", sender: selectedTaskList)
             }
@@ -195,7 +167,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 extension RMATasksVC: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-       
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }
