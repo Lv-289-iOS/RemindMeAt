@@ -13,7 +13,6 @@ import UIKit
 
 class NotificationManager {
     var imageDoc = RMAFileManager()
-    
     var counter = idForTask()
     static var stCounter = 0
     
@@ -38,7 +37,7 @@ class NotificationManager {
         let imageUrl = imageDoc.loadImageUrl(imageURL: image)
             if let attachment = try? UNNotificationAttachment(identifier: identifier, url: imageUrl, options: nil){
             content.attachments = [attachment]
-        }
+            }
         }
         if let nsDate = task.date {
             if task.location != nil {
