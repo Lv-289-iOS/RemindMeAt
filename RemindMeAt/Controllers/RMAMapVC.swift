@@ -28,7 +28,6 @@ class RMAMapVC: UIViewController {
     var isInAddLocationMode = false
     var task: RMATask?
     weak var locationDelegate: SetLocationDelegate?
-    lazy var currentPlace = GMSPlace()
     var taskLocation = RMALocation()
     var taskForMarker = [GMSMarker: RMATask]()
     var imageLoader = RMAFileManager()
@@ -36,20 +35,17 @@ class RMAMapVC: UIViewController {
     
     var locationManager = CLLocationManager()
     var userLocation = CLLocation()
-    var selectedLocation = CLLocation()
     
     lazy var geocoder = GMSGeocoder()
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
-    var resultView: UITextView?
     var marker = GMSMarker()
     var radiusCircle = GMSCircle()
     let defaultCamera = GMSCameraPosition.camera(withLatitude: 49.8383,
                                                  longitude: 24.0232,
-                                                 zoom: 12.0)
+                                                 zoom: 13.0)
     var isAddLocationTapped = false
     var isGeocodeCompleted = false
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +56,6 @@ class RMAMapVC: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
-        locationManager.delegate = self
         
         mapView.delegate = self
         //mapView.camera = defaultCamera
@@ -79,7 +74,6 @@ class RMAMapVC: UIViewController {
         searchController?.searchResultsUpdater = resultsViewController
         searchController?.hidesNavigationBarDuringPresentation = false
         searchController?.dimsBackgroundDuringPresentation = false
-        
         definesPresentationContext = true
         
         startupSetup()
@@ -123,7 +117,7 @@ class RMAMapVC: UIViewController {
             radiusCircle.strokeColor = UIColor.Maps.circleStroke
             radiusCircle.map = mapView
         } else {
-            let tasksWithLocations  = RMARealmManager.getTasksWithLocation()
+            let tasksWithLocations = RMARealmManager.getTasksWithLocation()
             
             for task in tasksWithLocations {
                 let markerForLocation = GMSMarker()
@@ -199,9 +193,7 @@ class RMAMapVC: UIViewController {
         } else {
             notifyLabel.text = "Leaving mode"
         }
-        
     }
-    
 }
 
 extension RMAMapVC: GMSAutocompleteViewControllerDelegate, GMSAutocompleteResultsViewControllerDelegate {
@@ -209,17 +201,12 @@ extension RMAMapVC: GMSAutocompleteViewControllerDelegate, GMSAutocompleteResult
                            didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
         animateCameraTo(coordinate: place.coordinate)
-        searchController?.searchBar.text = place.formattedAddress ?? "Just text..."
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController?.dismiss(animated: true, completion: nil)
-        } else {
-            navigationItem.titleView = nil
-        }
+        searchController?.searchBar.text = place.formattedAddress ?? "Search..."
+        navigationItem.searchController?.dismiss(animated: true, completion: nil)
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
-                           didFailAutocompleteWithError error: Error){
-        // TODO: handle the error.
+                           didFailAutocompleteWithError error: Error) {
         print("Error: ", error.localizedDescription)
     }
     
@@ -241,11 +228,6 @@ extension RMAMapVC: GMSAutocompleteViewControllerDelegate, GMSAutocompleteResult
     
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
         print("Canceling")
-    }
-}
-
-extension RMAMapVC: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     }
 }
 
@@ -322,12 +304,6 @@ extension RMAMapVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return String(Int(radiusValues[row]))
-    }
-}
-
-extension RMAMapVC: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        // (viewController as! ViewController).place = currentPlace
     }
 }
 
