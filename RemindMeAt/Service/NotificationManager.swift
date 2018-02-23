@@ -9,8 +9,10 @@
 import Foundation
 import CoreLocation
 import UserNotifications
+import UIKit
 
 class NotificationManager{
+    var imageDoc = RMAFileManager()
     
     var counter = idForTask()
     static var stCounter = 0
@@ -31,12 +33,19 @@ class NotificationManager{
         if let description = task.fullDescription{
             content.body = description
         }
-        content.badge = NSNumber(value: increment())
+        content.badge = NSNumber(value: counter)
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "category"
         //add userinfo for identifing
         content.userInfo = [counter:task.taskID]
-        
+        if let image = task.imageURL{
+            print("url is \(image)")
+            let imageUrl = imageDoc.loadImageUrl(imageURL: image)
+            if let attachment = try? UNNotificationAttachment(identifier: identifier, url: imageUrl, options: nil){
+                content.attachments = [attachment]
+            }
+        }
+
         if let nsDate = task.date{
             if task.location != nil{
                 content.subtitle = "You have a task at \(task.location!.name)"

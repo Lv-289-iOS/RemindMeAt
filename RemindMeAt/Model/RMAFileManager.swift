@@ -29,6 +29,14 @@ class RMAFileManager {
         return nil
     }
     
+    func loadImageUrl(imageURL: String) -> URL {
+        let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+        var pathURL: URL!
+        pathURL = URL(fileURLWithPath: documentDirectoryPath.appendingPathComponent("\(imageURL).jpg"))
+        return pathURL
+    }
+
+    
     func addToUrl(_ photo: UIImage, create: Date)  {
         let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
         let imgPath = URL(fileURLWithPath: documentDirectoryPath.appendingPathComponent("\(create).jpg"))
