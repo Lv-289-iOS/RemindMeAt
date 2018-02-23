@@ -333,7 +333,9 @@ extension RMANewTaskViewController: UITableViewDataSource {
                 if let imageFromDB = currentTask?.imageURL {
                     image = imageDoc.loadImageFromPath(imageURL: imageFromDB)
                 }
-                cell.cellParameters(name: currentTask?.fullDescription, placeholder: descriptionPlaceholder, image: image!)
+                if let imageUrl = image{
+                cell.cellParameters(name: currentTask?.fullDescription, placeholder: descriptionPlaceholder, image: imageUrl)
+                }
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imgTapped(sender:)))
                 cell.pictureView.addGestureRecognizer(tapGesture)
                 cell.descrTextView.delegate = self
