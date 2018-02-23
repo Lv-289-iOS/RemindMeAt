@@ -9,7 +9,7 @@
 import UIKit
 
 class TagsTVCell: UITableViewCell {
-
+    
     @IBOutlet weak var tagesLabel: UILabel!
-
+    
 }

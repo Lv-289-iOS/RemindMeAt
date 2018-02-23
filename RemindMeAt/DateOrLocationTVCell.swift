@@ -9,9 +9,8 @@
 import UIKit
 
 class DateOrLocationTVCell: UITableViewCell {
-
+    
     @IBOutlet weak var fieldNameLabel: UILabel!
     @IBOutlet weak var informationLabel: UILabel!
     
-
 }

@@ -19,14 +19,18 @@ class RMARealmManager {
     }
     
     static func getAllTasks() -> Results<RMATask> {
-        // TODO: Consider returning [RMATaskList]
-        // Since class Results conforms to protocol NSFastEnumeration,
-        // it is possible to access each separate RMATaskList through it's index like [index]
         return uiRealm.objects(RMATask.self)
     }
     
     static func getAllTasksByDate(_ date: NSDate) -> Results<RMATask> {
-        return getAllTasks().filter("date == '\(date)'")
+        let dateAndTime = date as Date
+        let startOfDay = dateAndTime.startOfDay
+        let endOfDayOptional = dateAndTime.endOfDay
+        var endOfDay = dateAndTime
+        if let endOfDayUnwrapped = endOfDayOptional {
+            endOfDay = endOfDayUnwrapped
+        }
+        return getAllTasks().filter("(date >= %@) AND (date <= %@)", startOfDay, endOfDay)
     }
     
     static func isTasksAvailableByDate(_ date: NSDate) -> Bool {
@@ -62,11 +66,27 @@ class RMARealmManager {
             updatedTask.isCompleted = taskIsCompleted
         }
     }
-
+    
     static func updateTask(_ updatedTask: RMATask, withData: RMATask) {
+        var newLocation: RMALocation? = nil
+        if let withDataLocation = withData.location {
+            newLocation = withDataLocation.clone()
+        }
+        
         try! uiRealm.write {
             if let previousLocation = updatedTask.location {
-                uiRealm.delete(previousLocation)
+                if let newLocationUnwrapped = newLocation {
+                    previousLocation.name = newLocationUnwrapped.name
+                    previousLocation.latitude = newLocationUnwrapped.latitude
+                    previousLocation.longitude = newLocationUnwrapped.longitude
+                    previousLocation.radius = newLocationUnwrapped.radius
+                    previousLocation.whenEnter = newLocationUnwrapped.whenEnter
+                } else {
+                    uiRealm.delete(previousLocation)
+                }
+            }
+            else {
+                updatedTask.location = withData.location
             }
         }
         
@@ -74,7 +94,6 @@ class RMARealmManager {
             updatedTask.name = withData.name
             updatedTask.fullDescription = withData.fullDescription
             updatedTask.date = withData.date
-            updatedTask.location = withData.location
             updatedTask.imageURL = withData.imageURL
             updatedTask.repeatPeriod = withData.repeatPeriod
             updatedTask.isCompleted = withData.isCompleted
@@ -138,8 +157,6 @@ class RMARealmManager {
         task1.location?.latitude = 49.8326244584506
         task1.location?.longitude = 23.9990768954158
         task1.location?.radius = 200
-//        task1.tags.append(RMATag(tagName: "other", tagColor: #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1)))
-//        task1.tags.append(RMATag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)))
         
         let task2 = RMATask()
         task2.name = "Visit main office"
@@ -153,13 +170,11 @@ class RMARealmManager {
         task2.location?.latitude = 49.8227035625848
         task2.location?.longitude = 23.985345326364
         task2.location?.radius = 200
-//        task2.tags.append(RMATag(tagName: "home", tagColor: #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1)))
-//        task2.tags.append(RMATag(tagName: "studying", tagColor: #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)))
         
         try! uiRealm.write {
             uiRealm.add(task1)
             uiRealm.add(task2)
         }
     }
-        
+    
 }

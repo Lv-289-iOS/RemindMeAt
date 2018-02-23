@@ -16,8 +16,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
     
     @IBOutlet weak var MonthLable: UILabel!
     
-    let Month = ["Janury","Febarury","March","April","May","June","July","August","September","October","November","December"]
-    let DayOfMonth = ["Monday","Thusday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+    let Month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     let DayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
     let curentWeek = (second : 7, third : 14, fourth : 21, fifth : 28)
     let chosenMonth = (current : 0, next : 1, previous : -1)
@@ -29,7 +28,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
     var NextNumberOfEmphtyBox = Int()
     var PreviousNumberOfEmphtyBox = Int()
     
-    var DirectionOfMonth = 0 // position of mounth
+    var DirectionOfMonth = 1 // position of mounth
     var PositionIndex = 0 // emthy boxes
     
     
@@ -38,13 +37,14 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         
         currentMonth = Month[month]
         MonthLable.text = "\(currentMonth)\(year)"
+        
     }
     
     
     
     @IBAction func BackButton(_ sender: Any) {
         switch currentMonth {
-        case "Janury":
+        case "January":
             month = 11
             year -= 1
             DirectionOfMonth = -1
@@ -115,7 +115,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
             PositionIndex = NextNumberOfEmphtyBox
             
         case chosenMonth.previous:  // previos month
-            PreviousNumberOfEmphtyBox = ((7 - DayInMonth[month] - PositionIndex) % 7)
+            PreviousNumberOfEmphtyBox = (7 - (DayInMonth[month] - PositionIndex) % 7)
             if PreviousNumberOfEmphtyBox == 7 {
                 PreviousNumberOfEmphtyBox = 0
             }
@@ -147,20 +147,16 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // click
-        // if dbmanager.anyTaskFor(date: ) {
-        // show all task for date
-        //  }
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
+        
         if currentMonth == Month[calendar.component(.month, from:date ) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 == day {
             cell.backgroundColor = UIColor.red
-            //        } else if indexPath.row % 6 == 0
-            //            /*dbmanager.anyTaskFor(date: )*/ {
-            //            cell.backgroundColor = .cyan
-        } else {
+        }  else if RMARealmManager.isTasksAvailableByDate(date as NSDate) {
+            cell.backgroundColor = .yellow } else {
             cell.backgroundColor = .gray
         }
     }
@@ -186,12 +182,13 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
             fatalError("Error in cell drawing.")
         }
         
+        
         if Int(cell.DateLable.text!)! < 1 {
             cell.isHidden = true
         }
         switch indexPath.row {
         case 5,6,12,13,19,20,26,27,33,34:
-            if Int(cell.DateLable.text!)! > 0{
+            if Int(cell.DateLable.text!)! > 0 {
                 cell.DateLable.textColor = UIColor.blue
             }
         default:
@@ -199,9 +196,4 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         }
         return cell
     }
-    
-    
-
-   
-
 }

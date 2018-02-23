@@ -22,4 +22,14 @@ class RMALocation: Object {
         return "locationID"
     }
     
+    func clone() -> RMALocation {
+        let result = RMALocation()
+        result.name = self.name
+        result.latitude = self.latitude
+        result.longitude = self.longitude
+        result.radius = self.radius
+        result.whenEnter = self.whenEnter
+        return result
+    }
+    
 }

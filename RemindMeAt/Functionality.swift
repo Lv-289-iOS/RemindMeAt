@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 
 extension UIColor {
+    
     struct Maps {
         static var circleFill: UIColor  { return UIColor(red:0.85, green:0.95, blue:0.86, alpha:0.7) }
         static var circleStroke: UIColor { return UIColor(red:0.59, green:0.59, blue:0.59, alpha:0.7) }
@@ -18,6 +19,7 @@ extension UIColor {
     }
     
     struct Screens {
+        static var tabBarTintColor : UIColor { return UIColor(red:0.99, green:0.56, blue:0.09, alpha:1.0) }
         static var navigationBarTintColor : UIColor { return UIColor(red:0.83, green:0.83, blue:0.82, alpha:1.0) } // UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         static var searchBarTintColor : UIColor { return UIColor(red:0.83, green:0.83, blue:0.82, alpha:1.0) } // UIColor(red: 20.0/255.0, green:20.0/255.0, blue: 20.0/255.0, alpha: 1.0)
         static var searchBarBackgroundColor : UIColor { return UIColor(red:0.83, green:0.83, blue:0.82, alpha:1.0) } // UIColor.gray
@@ -65,3 +67,28 @@ extension UIColor {
     }
     
 }
+
+extension Double {
+    
+    mutating func roundTo(_ places: Int) {
+        let multiplier = pow(10, Double(places))
+        self = Darwin.round(self * multiplier) / multiplier
+    }
+    
+}
+
+extension Date {
+    
+    var startOfDay: Date {
+        return NSCalendar.current.startOfDay(for: self)
+    }
+    
+    var endOfDay: Date? {
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        return NSCalendar.current.date(byAdding: components, to: startOfDay)
+    }
+    
+}
+
