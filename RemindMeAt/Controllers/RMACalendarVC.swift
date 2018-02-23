@@ -10,13 +10,12 @@ import UIKit
 
 class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
     
-
     @IBOutlet weak var Calendar: UICollectionView!
-    
     
     @IBOutlet weak var MonthLable: UILabel!
     
     let Month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+
     let DayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
     let curentWeek = (second : 7, third : 14, fourth : 21, fifth : 28)
     let chosenMonth = (current : 0, next : 1, previous : -1)
@@ -37,7 +36,6 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         
         currentMonth = Month[month]
         MonthLable.text = "\(currentMonth)\(year)"
-        
     }
     
     
@@ -147,9 +145,9 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
     }
     
+
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
         
@@ -157,8 +155,12 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
             cell.backgroundColor = UIColor.red
         }  else if RMARealmManager.isTasksAvailableByDate(date as NSDate) {
             cell.backgroundColor = .yellow } else {
+
             cell.backgroundColor = .gray
         }
+        
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -169,6 +171,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         if cell.isHidden == true {
             cell.isHidden = false
         }
+        
         
         // draw in cell
         switch DirectionOfMonth {
@@ -181,11 +184,17 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         default:
             fatalError("Error in cell drawing.")
         }
-        
+
         
         if Int(cell.DateLable.text!)! < 1 {
             cell.isHidden = true
         }
+        
+        
+//        if component == chosenDrum.Levels.rawValue {
+//            pickerView.reloadComponent(chosenDrum.Cards.rawValue)
+//        }
+
         switch indexPath.row {
         case 5,6,12,13,19,20,26,27,33,34:
             if Int(cell.DateLable.text!)! > 0 {
