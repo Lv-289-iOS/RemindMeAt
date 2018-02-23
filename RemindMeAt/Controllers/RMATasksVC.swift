@@ -24,8 +24,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var searchResult = Array<RMATask>()
     
-    var isEditingMode = false
-    
     var currentCreateAction: UIAlertAction!
     
     var locationManager = CLLocationManager()
@@ -70,18 +68,9 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         navigationController?.navigationBar.barTintColor = UIColor.Screens.navigationBarTintColor
         searchController.searchBar.barTintColor = UIColor.Screens.searchBarTintColor
         searchController.searchBar.backgroundColor = UIColor.Screens.searchBarBackgroundColor
-
-        
-        
-        // navigationItem.searchController = searchController
         definesPresentationContext = true
-        // Do any additional setup after loading the view.
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     
     func readTasksAndUpdateUI() {
         taskList = RMARealmManager.getAllTasks()
@@ -91,7 +80,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - User Actions -
     
-    @IBAction func didSelectSortCriteria(_ sender: UISegmentedControl) {
+   /* @IBAction func didSelectSortCriteria(_ sender: UISegmentedControl) {
         if let tasks = taskList {
             if sender.selectedSegmentIndex == 0 {
                 self.taskList = RMARealmManager.sortTasksByName(listsTasks: tasks)
@@ -101,80 +90,8 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             self.taskListsTableView.reloadData()
         }
     }
-    
-    @IBAction func didClickOnEditButton(_ sender: UIBarButtonItem) {
-        isEditingMode = !isEditingMode
-        self.taskListsTableView.setEditing(isEditingMode, animated: true)
-    }
-    
-    @IBAction func didClickOnAddButton(_ sender: UIBarButtonItem) {
-        displayAlertToAddTask(nil)
-    }
-    
-    // Enable the create action of the alert only if textfield text is not empty
-    @objc func listNameFieldDidChange(_ textField: UITextField) {
-        self.currentCreateAction.isEnabled = (textField.text?.count)! > 0
-    }
-    
-    func displayAlertToAddTask(_ updatedTask: RMATask!) {
-        var title = "New Task"
-        var doneTitle = "Create"
-        if updatedTask != nil {
-            title = "Update Task"
-            doneTitle = "Update"
-        }
-        
-        let alertController = UIAlertController(title: title, message: "Write the name of your task.", preferredStyle: UIAlertControllerStyle.alert)
-        let createAction = UIAlertAction(title: doneTitle, style: UIAlertActionStyle.default) { (action) -> Void in
-            
-            let newTaskName = alertController.textFields?.first?.text
-            
-            if updatedTask != nil {
-                // update mode
-                RMARealmManager.updateTaskName(updatedTask: updatedTask, taskName: newTaskName!)
-                self.readTasksAndUpdateUI()
-            } else {
-                let newTask = RMATask()
-                newTask.name = newTaskName!
-                
-                newTask.date = NSDate()
-                
-                let newTag1 = RMATag()
-                newTag1.name = "Tag #1"
-                
-                let newTag2 = RMATag()
-                newTag2.name = "Tag #2"
-                newTag2.color = UIColor.blue.hexString()
-                
-                newTask.tags.append(newTag1)
-                newTask.tags.append(newTag2)
-                
-                newTask.location = RMALocation()
-                newTask.location?.name = "Lviv"
-                newTask.location?.latitude = 49.8383
-                newTask.location?.longitude = 24.0232
-                
-                RMARealmManager.addTask(newTask: newTask)
-                self.readTasksAndUpdateUI()
-            }
-        }
-        
-        alertController.addAction(createAction)
-        createAction.isEnabled = false
-        self.currentCreateAction = createAction
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-        
-        alertController.addTextField { (textField) -> Void in
-            textField.placeholder = "Task Name"
-            textField.addTarget(self, action: #selector(RMATasksVC.listNameFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-            if updatedTask != nil {
-                textField.text = updatedTask.name
-            }
-        }
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
+    */
+
     
     // MARK: - UITableViewDataSource -
     
@@ -214,7 +131,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             if task.date != nil{
                 cell.date.text = formatDate(date: task.date!)
             }
-            // cell.location.text = task.location
         }
         return cell
     }
@@ -223,8 +139,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         let taskToChange = self.taskList?[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
-            // Deletion will go here
-            
             RMARealmManager.deleteTask(taskToBeDeleted: taskToChange!)
             self.readTasksAndUpdateUI()
         }
@@ -237,7 +151,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 cell.accessoryType = .checkmark
                 RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: true)
                 self.readTasksAndUpdateUI()
-                // method to rewrite isCompleted for task in DB
             }
         } else {
             completeAction = UITableViewRowAction(style: .default, title: "Incomplete"){(incompleteAction, indexPath) -> Void in
@@ -247,7 +160,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: false)
                 self.readTasksAndUpdateUI()
-                // method to rewrite isCompleted for task in DB
             }
             
         }
@@ -275,33 +187,15 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let newTaskViewController = segue.destination as! NewTaskViewController
+        let newTaskViewController = segue.destination as! RMANewTaskViewController
         newTaskViewController.taskToBeUpdated = sender as? RMATask
-        
-        
-        
-        
-        //        if let indexPath = taskListsTableView.indexPathForSelectedRow{
-        //            let destinationController = segue.destination as! NewTaskViewController
-        //            destinationController.task = (searchController.isActive) ? searchResult[indexPath.row] : taskList[indexPath.row]
-        //        }
-        
-        
-        
-        //    let task: RMATask
-        //         if isFiltering() {
-        //         task = searchResult[indexPath.row]
-        //         } else {
-        //         task = taskList[indexPath.row]
-        //         }
-        
     }
 }
 
 extension RMATasksVC: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-        // TODO
+       
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }

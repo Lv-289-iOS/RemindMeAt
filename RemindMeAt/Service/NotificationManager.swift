@@ -10,28 +10,30 @@ import Foundation
 import CoreLocation
 import UserNotifications
 
-class NotificationManager{
+class NotificationManager {
     
     var counter = idForTask()
     static var stCounter = 0
-    static func idForTask()->Int{
+    
+    static func idForTask() -> Int {
         return stCounter + 1
     }
     
     var badgeNumber = 0
-    func increment() -> Int{
-         badgeNumber += 1
+    
+    func increment() -> Int {
+        badgeNumber += 1
         return badgeNumber
     }
-   
-
-    func setNotification(with task: RMATask){
+    
+    
+    func setNotification(with task: RMATask) {
         let identifier = task.taskID
         let content = UNMutableNotificationContent()
         content.title = task.name
         print(increment())
         print(badgeNumber + 1)
-        if let description = task.fullDescription{
+        if let description = task.fullDescription {
             content.body = description
         }
         
@@ -39,27 +41,27 @@ class NotificationManager{
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "category"
         //add userinfo for identifing
-        content.userInfo = [counter:task.taskID]
+        content.userInfo = [counter: task.taskID]
         
-        if let nsDate = task.date{
-            if task.location != nil{
+        if let nsDate = task.date {
+            if task.location != nil {
                 content.subtitle = "You have a task at \(task.location!.name)"
             }
             let dataInfo = dateParser(nsDate: nsDate)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dataInfo, repeats: true)
-            let request = UNNotificationRequest(identifier: identifier+"date", content: content, trigger: calendarTrigger)
+            let request = UNNotificationRequest(identifier: identifier + "date", content: content, trigger: calendarTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if error != nil {
                     print("Notification wasn't set")
-                }else {
+                } else {
                     // Request was added successfully
                     print("date added successfully")
                 }
             }
-//            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            //            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         }
-        if let place = task.location{
-            if task.date != nil{
+        if let place = task.location {
+            if task.date != nil {
                 content.subtitle = "You have a task here at \(String(describing: task.date))"
             }
             let center = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
@@ -67,7 +69,7 @@ class NotificationManager{
             region.notifyOnEntry = place.whenEnter
             region.notifyOnExit = !place.whenEnter
             let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
-            let request = UNNotificationRequest(identifier: identifier+"loc", content: content, trigger: locationTrigger)
+            let request = UNNotificationRequest(identifier: identifier + "loc", content: content, trigger: locationTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if error != nil {
                     print("Notification wasn't set")
@@ -79,7 +81,7 @@ class NotificationManager{
         }
     }
     
-    func dateParser(nsDate : NSDate) -> DateComponents{
+    func dateParser(nsDate: NSDate) -> DateComponents {
         var components = DateComponents()
         let date = nsDate as Date
         let calendar = Calendar.current
@@ -89,5 +91,5 @@ class NotificationManager{
         components.year = calendar.component(.year, from: date)
         return components
     }
-
+    
 }
