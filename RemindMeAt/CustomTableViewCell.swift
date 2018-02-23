@@ -14,6 +14,5 @@ class CustomTableViewCell: UITableViewCell {
 
     @IBOutlet weak var date: UILabel!
  
-    @IBOutlet weak var location: UILabel!
 
 }

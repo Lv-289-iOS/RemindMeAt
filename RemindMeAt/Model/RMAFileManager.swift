@@ -16,16 +16,12 @@ class RMAFileManager {
         let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
         var pathURL: URL!
         pathURL = URL(fileURLWithPath: documentDirectoryPath.appendingPathComponent("\(imageURL).jpg"))
-        
-        print("loaded from: \(pathURL)")
-        
         do {
             let imageData = try Data(contentsOf: pathURL)
             return UIImage(data: imageData)
         } catch {
             print(error.localizedDescription)
         }
-        
         return nil
     }
     
@@ -39,7 +35,6 @@ class RMAFileManager {
     func addToUrl(_ photo: UIImage, create: Date) {
         let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
         let imgPath = URL(fileURLWithPath: documentDirectoryPath.appendingPathComponent("\(create).jpg"))
-        print("loaded in: \(imageString)")
         do {
             try UIImageJPEGRepresentation(photo, 1.0)?.write(to: imgPath, options: .atomic)
         } catch let error {
