@@ -157,6 +157,12 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         return dateFormatter.string(from: date as Date)
     }
     
+    func formatDateForImageName(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "ddMMMyyyyhhmm"
+        return dateFormatter.string(from: date as Date)
+    }
+    
     func addDatePicker() {
         datePicker.frame = CGRect(x: 10, y: self.view.frame.height , width: self.view.frame.width - 20, height: 200)
         datePicker.timeZone = NSTimeZone.local
@@ -194,9 +200,9 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
             let tempImage = newImage
-            let imageDate = Date()
+            let imageDate = formatDateForImageName(date: Date())
             imageDoc.addToUrl(tempImage, create: imageDate)
-            currentTask?.imageURL = String(describing: imageDate)
+            currentTask?.imageURL = imageDate
             self.tableView.reloadData()
             picker.dismiss(animated: true, completion: nil)
         }
@@ -317,10 +323,7 @@ extension RMANewTaskViewController: UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageAndDescr") as! RMAImageAndDescrTVCell
                 var image = defaultImage
                 if let imageFromDB = currentTask?.imageURL {
-                    image = imageDoc.loadImageFromPath(imageURL: imageFromDB)!
-                }
-                if let imageUrl = image{
-                    cell.cellParameters(name: currentTask?.fullDescription, placeholder: descriptionPlaceholder, image: imageUrl)
+                    image = imageDoc.loadImageFromPath(imageURL: imageFromDB)
                 }
                 cell.cellParameters(name: currentTask?.fullDescription, placeholder: descriptionPlaceholder, image: image)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imgTapped(sender:)))
