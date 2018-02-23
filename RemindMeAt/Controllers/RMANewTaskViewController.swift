@@ -26,7 +26,6 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     let locationPlaceholder = "tap to add a location"
     let descriptionPlaceholder = "put a task description here, if you wish :)"
     let tagsPlaceholder = "add tags"
-    var image: UIImage?
     
     var picker = UIImagePickerController()
     let datePicker = UIDatePicker()
@@ -143,7 +142,6 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
-    
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -152,6 +150,10 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+        UIView.animate(withDuration: 1, animations: {
+            self.datePicker.frame.origin.y = self.view.frame.height
+            self.datePicker.layoutIfNeeded()
+        })
     }
     
     func formatDate(date: NSDate) -> String {
@@ -163,7 +165,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     func addDatePicker() {
         datePicker.frame = CGRect(x: 10, y: self.view.frame.height , width: self.view.frame.width - 20, height: 200)
         datePicker.timeZone = NSTimeZone.local
-        datePicker.backgroundColor = UIColor.white
+        datePicker.backgroundColor = .clear
         datePicker.addTarget(self, action: #selector(self.datePickerValueChanged(_:)), for: .valueChanged)
         self.view.addSubview(datePicker)
     }
@@ -176,12 +178,10 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     func cameraGalery() {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let firstAction: UIAlertAction = UIAlertAction(title: "Camera", style: .default) { action -> Void in
-            print("Camera choosen")
             self.openCamera()
         }
         
         let secondAction: UIAlertAction = UIAlertAction(title: "Galery", style: .default) { action -> Void in
-            print("Galery choosen")
             self.openGallery()
         }
         
@@ -198,16 +198,13 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
-            image = newImage
             let tempImage = newImage
             let imageDate = Date()
             imageDoc.addToUrl(tempImage, create: imageDate)
             currentTask?.imageURL = String(describing: imageDate)
-//            print("imageURLTooDB: \(String(describing: imageURL))")
             self.tableView.reloadData()
             picker.dismiss(animated: true, completion: nil)
         }
-        print("it have to store image in local var")
     }
     
     func openGallery() {
@@ -265,13 +262,7 @@ extension RMANewTaskViewController: UITableViewDelegate {
                     self.view.layoutIfNeeded()
                 }
             default:
-                print(indexPath.row)
-            }
-            if indexPath.row != 1 {
-                UIView.animate(withDuration: 1, animations: {
-                    self.datePicker.frame.origin.y = self.view.frame.height
-                    self.datePicker.layoutIfNeeded()
-                })
+               return
             }
         } else {
             let oneTag = allTagsResults[indexPath.row]
@@ -329,11 +320,11 @@ extension RMANewTaskViewController: UITableViewDataSource {
                 return cell
             case 3:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageAndDescr") as! RMAImageAndDescrTVCell
-                image = #imageLiteral(resourceName: "defaultPic")
+                var image = defaultImage
                 if let imageFromDB = currentTask?.imageURL {
-                    image = imageDoc.loadImageFromPath(imageURL: imageFromDB)
+                    image = imageDoc.loadImageFromPath(imageURL: imageFromDB)!
                 }
-                cell.cellParameters(name: currentTask?.fullDescription, placeholder: descriptionPlaceholder, image: image!)
+                cell.cellParameters(name: currentTask?.fullDescription, placeholder: descriptionPlaceholder, image: image)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imgTapped(sender:)))
                 cell.pictureView.addGestureRecognizer(tapGesture)
                 cell.descrTextView.delegate = self
@@ -424,8 +415,5 @@ extension RMANewTaskViewController: SetLocationDelegate {
         tempLoc = location
         currentTask?.location = tempLoc
         self.tableView.reloadData()
-        if let loc = (currentTask?.location?.description) {
-            print(loc)
-        }
     }
 }
