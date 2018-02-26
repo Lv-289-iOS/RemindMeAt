@@ -18,7 +18,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     var imageURL: String?
     
     let allTagsResults = RMARealmManager.getAllTags()
-    var tagList = Array<RMATag>()
+    var tagList = [RMATag]()
     let defaultImage = #imageLiteral(resourceName: "defaultPic")
     
     let namePlaceholder = "put a name for the task here"
@@ -53,12 +53,11 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
             currentTask = RMATask()
         }
         
+        picker.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         tagTableView.delegate = self
         tagTableView.dataSource = self
-        
-        picker.delegate = self
         
         self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.hidesBackButton = true
@@ -376,7 +375,6 @@ extension RMANewTaskViewController: UITextViewDelegate {
             textView.text = currentTask?.name
         } else if textView.tag == 2 {
             textView.text = currentTask?.fullDescription
-            
         }
     }
     

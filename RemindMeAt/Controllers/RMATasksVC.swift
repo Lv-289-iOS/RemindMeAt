@@ -31,9 +31,9 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        searchResult = Array(taskList!).filter({ ( task: RMATask) -> Bool in
-            return task.name.lowercased().contains(searchText.lowercased())
-        })
+        searchResult = Array(taskList!).filter() {
+             $0.name.lowercased().contains(searchText.lowercased())
+        }
         taskListsTableView.reloadData()
     }
     
