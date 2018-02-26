@@ -13,25 +13,21 @@ import UIKit
 
 class NotificationManager {
     var imageDoc = RMAFileManager()
-    var counter = idForTask()
-    static var stCounter = 0
+   
     
-    static func idForTask() -> Int {
-        return stCounter + 1
-    }
     func setNotification(with task: RMATask) {
         let identifier = task.taskID
         let content = UNMutableNotificationContent()
         content.title = task.name
-        print(counter)
         if let description = task.fullDescription {
             content.body = description
         }
-        content.badge = NSNumber(value: counter)
+        content.badge = 1
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "category"
         //add userinfo for identifing
-        content.userInfo = [counter: task.taskID]
+        content.userInfo = [task.taskID : task.taskID]
+        print(task.taskID)
         if let image = task.imageURL{
             print("url is \(image)")
         let imageUrl = imageDoc.loadImageUrl(imageURL: image)
@@ -90,9 +86,12 @@ class NotificationManager {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
             for request in requests{
-                if (task.taskID == String(describing: request.content.userInfo)){
-                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.taskID+"loc",task.taskID+"date"])
+                for userInfo in request.content.userInfo.values{
+                    if (task.taskID == String(describing: userInfo)){
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.taskID+"loc",task.taskID+"date"])
+                    }
                 }
+
             }
         })
     }
