@@ -92,12 +92,12 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         if let taskToBeUpdated = taskToBeUpdated {
 
             RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
-            
-
             for tag in tagList {
                 currentTask?.tags.append(tag)
             }
             RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
+            notificationManager.updateNotifications(at: taskToBeUpdated)
+            notificationManager.setNotification(with: currentTask!)
         } else {
             for tag in tagList {
                 currentTask?.tags.append(tag)
