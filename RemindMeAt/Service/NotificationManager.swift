@@ -86,15 +86,15 @@ class NotificationManager {
         return components
     }
     
-    func updateNotifications(){
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-    
-        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: <#T##([UNNotification]) -> Void#>)
-        if let notifications = notifications{
-            for not in  notifications{
-            
-            }
-        }
-    }
+//    func updateNotifications(){
+//        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+//
+//        UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: <#T##([UNNotification]) -> Void#>)
+//        if let notifications = notifications{
+//            for not in  notifications{
+//
+//            }
+//        }
+//    }
     
 }
