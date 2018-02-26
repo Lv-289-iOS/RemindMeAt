@@ -10,39 +10,73 @@ import UIKit
 
 class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    let notificationManager = NotificationManager()
-    var imageDoc = RMAFileManager()
+    private let notificationManager = NotificationManager()
+    private var imageDoc = RMAFileManager()
     var taskToBeUpdated: RMATask?
-    var currentTask: RMATask?
-    var taskIdentifier = 0
-    var imageURL: String?
+    private var currentTask: RMATask?
+    private var taskIdentifier = 0
+    private var imageURL: String?
     
-    let allTagsResults = RMARealmManager.getAllTags()
-    var tagList = [RMATag]()
-    let defaultImage = #imageLiteral(resourceName: "defaultPic")
+    private let allTagsResults = RMARealmManager.getAllTags()
+    private var tagList = Array<RMATag>()
+    private let defaultImage = #imageLiteral(resourceName: "defaultPic")
     
-    let namePlaceholder = "put a name for the task here"
-    let datePlaceholder = "tap to add the date"
-    let locationPlaceholder = "tap to add a location"
-    let descriptionPlaceholder = "put a task description here, if you wish :)"
-    let tagsPlaceholder = "add tags"
+    private let namePlaceholder = "put a name for the task here"
+    private let datePlaceholder = "tap to add the date"
+    private let locationPlaceholder = "tap to add a location"
+    private let descriptionPlaceholder = "put a task description here, if you wish :)"
+    private let tagsPlaceholder = "add tags"
     
-    var picker = UIImagePickerController()
-    let datePicker = UIDatePicker()
-    
-    @IBOutlet weak var tableView: UITableView!
+    private var picker = UIImagePickerController()
+    private let datePicker = UIDatePicker()
     
     @IBOutlet weak var tagView: UIView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tagTableView: UITableView!
     @IBOutlet weak var tagViewSelectButton: UIButton!
     
     @IBOutlet weak var tagViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tagTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTagViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tagTableViewHeightConstraint: NSLayoutConstraint!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        picker.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tagTableView.delegate = self
+        tagTableView.dataSource = self
+        
+        isNewTask()
+        
+        addDatePicker()
+        hideTabBarAndNavigationController()
+        tagViewParameters()
+        
+        self.tableView.reloadData()
+        updateConstraints()
+        self.hideKeyboardWhenTappedAround()
+    }
+    
+    private func hideTabBarAndNavigationController(){
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_small"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(testTest))
+        self.navigationItem.leftBarButtonItem = newBackButton
+        let rightBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "save_small"), style: .plain, target: self, action: #selector(self.navigationControllerButton))
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    private func tagViewParameters() {
+        tagTableView.layer.cornerRadius = 15
+        tagView.layer.cornerRadius = 30
+        tagViewSelectButton.layer.cornerRadius = 15
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    private func isNewTask() {
         if let taskToBeUpdated = taskToBeUpdated {
             for tag in taskToBeUpdated.tags {
                 tagList.append(tag)
@@ -52,37 +86,18 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         } else {
             currentTask = RMATask()
         }
-        
-        picker.delegate = self
-        tableView.delegate = self
-        tableView.dataSource = self
-        tagTableView.delegate = self
-        tagTableView.dataSource = self
-        
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_small"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(testTest))
-        self.navigationItem.leftBarButtonItem = newBackButton
-        addDatePicker()
-        
-        tagTableView.layer.cornerRadius = 15
-        tagView.layer.cornerRadius = 30
-        tagViewSelectButton.layer.cornerRadius = 15
-        tableView.rowHeight = UITableViewAutomaticDimension
-        
-        let rightBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "save_small"), style: .plain, target: self, action: #selector(self.navigationControllerButton))
-        self.tableView.reloadData()
-        updateConstraints()
-        self.hideKeyboardWhenTappedAround()
-        self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
-    func addNewTaskOrUpdateTaskInDB() {
+    private func addNewTaskOrUpdateTaskInDB() {
         if let taskToBeUpdated = taskToBeUpdated {
+
             RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
+            
+
             for tag in tagList {
                 currentTask?.tags.append(tag)
             }
+            RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
         } else {
             for tag in tagList {
                 currentTask?.tags.append(tag)
@@ -100,7 +115,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         self.tableView.reloadData()
     }
     
-    func updateConstraints() {
+    private func updateConstraints() {
         tagTableView.rowHeight = 40
         tagTableViewHeightConstraint.constant = tagTableView.rowHeight * CGFloat(allTagsResults.count)
         tagViewHeightConstraint.constant = tagTableViewHeightConstraint.constant + 80
@@ -110,13 +125,13 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     
-    @objc func testTest(){
+    @objc private func testTest(){
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.popToRootViewController(animated: true)
     }
     
     
-    @objc func navigationControllerButton(rightBarButton: UIBarButtonItem) {
+    @objc private func navigationControllerButton(rightBarButton: UIBarButtonItem) {
             rightBarButton.image = #imageLiteral(resourceName: "save_small")
             if taskIdentifier == 0 {
                 if currentTask?.name == nil || (currentTask?.name.trimmingCharacters(in: .whitespaces).isEmpty)! || currentTask?.name.count == 0 {
@@ -136,13 +151,13 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
-    func hideKeyboardWhenTappedAround() {
+    private func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
         UIView.animate(withDuration: 1, animations: {
             self.datePicker.frame.origin.y = self.view.frame.height
@@ -150,7 +165,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         })
     }
     
-    func formatDate(date: NSDate) -> String {
+    private func formatDate(date: NSDate) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy hh:mm a"
         return dateFormatter.string(from: date as Date)
@@ -162,7 +177,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         return dateFormatter.string(from: date as Date)
     }
     
-    func addDatePicker() {
+    private func addDatePicker() {
         datePicker.frame = CGRect(x: 10, y: self.view.frame.height , width: self.view.frame.width - 20, height: 200)
         datePicker.timeZone = NSTimeZone.local
         datePicker.backgroundColor = .clear
@@ -170,12 +185,12 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         self.view.addSubview(datePicker)
     }
     
-    @objc func datePickerValueChanged(_ sender: UIDatePicker){
+    @objc private func datePickerValueChanged(_ sender: UIDatePicker){
         currentTask?.date = sender.date as NSDate
         tableView.reloadData()
     }
     
-    func cameraGalery() {
+    private func cameraGalery() {
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let firstAction: UIAlertAction = UIAlertAction(title: "Camera", style: .default) { action -> Void in
             self.openCamera()
@@ -207,14 +222,13 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
-    func openGallery() {
+    private func openGallery() {
         picker.allowsEditing = false
         picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         present(picker, animated: true, completion: nil)
     }
     
-    
-    func openCamera() {
+    private func openCamera() {
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)){
             picker.allowsEditing = false
             picker.sourceType = UIImagePickerControllerSourceType.camera
@@ -228,7 +242,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
     
-    @objc func imgTapped(sender: UITapGestureRecognizer) {
+    @objc private func imgTapped(sender: UITapGestureRecognizer) {
         cameraGalery()
     }
 }
@@ -278,7 +292,6 @@ extension RMANewTaskViewController: UITableViewDelegate {
 
 extension RMANewTaskViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if tableView == self.tableView {
             return 5
         }
@@ -288,7 +301,7 @@ extension RMANewTaskViewController: UITableViewDataSource {
         return 5
     }
     
-    func addTags(cell: RMASingleTaskFieldsTVCell) {
+    private func addTags(cell: RMASingleTaskFieldsTVCell) {
         var i: CGFloat = 1
         for tag in tagList {
             cell.addSubview(drawSquare(frameWidth: tableView.frame.width, number: i, color: UIColor.fromHexString(tag.color)))
@@ -357,7 +370,7 @@ extension RMANewTaskViewController: UITableViewDataSource {
         }
     }
     
-    func drawSquare(frameWidth: CGFloat, number: CGFloat, color: UIColor) -> UIView {
+    private func drawSquare(frameWidth: CGFloat, number: CGFloat, color: UIColor) -> UIView {
         let size: CGFloat = 20
         let space: CGFloat = 5
         let square = UIView(frame: CGRect(x: frameWidth - (size * number) - (space * number), y: 12, width: size, height: size))
