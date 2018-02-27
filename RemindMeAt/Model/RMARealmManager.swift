@@ -97,6 +97,10 @@ class RMARealmManager {
             updatedTask.imageURL = withData.imageURL
             updatedTask.repeatPeriod = withData.repeatPeriod
             updatedTask.isCompleted = withData.isCompleted
+            updatedTask.tags.removeAll()
+            for tag in withData.tags {
+                updatedTask.tags.append(tag)
+            }
         }
     }
     

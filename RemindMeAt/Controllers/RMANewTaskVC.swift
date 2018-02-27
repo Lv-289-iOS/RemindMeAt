@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private let notificationManager = NotificationManager()
     private var imageDoc = RMAFileManager()
@@ -26,6 +26,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     private let locationPlaceholder = "tap to add a location"
     private let descriptionPlaceholder = "put a task description here, if you wish :)"
     private let tagsPlaceholder = "add tags"
+    private let periodicityPlaceholder = "periodicity"
     
     private var picker = UIImagePickerController()
     private let datePicker = UIDatePicker()
@@ -89,6 +90,11 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     private func addNewTaskOrUpdateTaskInDB() {
+        //currentTask?.tags.clea
+        for tag in tagList {
+            currentTask?.tags.append(tag)
+        }
+        
         if let taskToBeUpdated = taskToBeUpdated {
             RMARealmManager.updateTaskCompletion(updatedTask: currentTask!, taskIsCompleted: false)
             
@@ -100,9 +106,6 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
             notificationManager.setNotification(with: currentTask!)
             
         } else {
-            for tag in tagList {
-                currentTask?.tags.append(tag)
-            }
             RMARealmManager.addTask(newTask: currentTask!)
             notificationManager.setNotification(with: currentTask!)
         }
@@ -229,6 +232,13 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
         present(picker, animated: true, completion: nil)
     }
     
+//    private func showPeriodicity() {
+//        guard let vc = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAPeriodicityViewController.self)) as? RMAPeriodicityViewController else { return }
+//        vc.view.backgroundColor = .clear
+//        vc.modalPresentationStyle = .overCurrentContext
+//        self.present(vc, animated: true, completion: nil)
+//    }
+    
     private func openCamera() {
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)){
             picker.allowsEditing = false
@@ -248,7 +258,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     }
 }
 
-extension RMANewTaskViewController: UITableViewDelegate {
+extension RMANewTaskVC: UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -263,7 +273,7 @@ extension RMANewTaskViewController: UITableViewDelegate {
                     self.datePicker.frame.origin.y = self.view.frame.height - 200
                     self.datePicker.layoutIfNeeded()
                 })
-            case 2:
+            case 3:
                 guard let mapsVC = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAMapVC.self)) as? RMAMapVC else { return }
                 mapsVC.locationDelegate = self
                 mapsVC.navigationItem.title = "Add location"
@@ -271,11 +281,14 @@ extension RMANewTaskViewController: UITableViewDelegate {
                 mapsVC.navigationController?.navigationItem.leftBarButtonItem?.title = "Cancel"
                 mapsVC.isInAddLocationMode = true
                 navigationController?.pushViewController(mapsVC, animated: true)
-            case 4:
+            case 5:
                 bottomTagViewConstraint.constant = 0
                 UIView.animate(withDuration: 1) {
                     self.view.layoutIfNeeded()
                 }
+            case 2:
+//                showPeriodicity()
+                performSegue(withIdentifier: "Periodicity", sender: self)
             default:
                return
             }
@@ -291,15 +304,15 @@ extension RMANewTaskViewController: UITableViewDelegate {
     }
 }
 
-extension RMANewTaskViewController: UITableViewDataSource {
+extension RMANewTaskVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableView {
-            return 5
+            return 6
         }
         if tableView == self.tagTableView {
             return allTagsResults.count
         }
-        return 5
+        return 6
     }
     
     private func addTags(cell: RMASingleTaskFieldsTVCell) {
@@ -328,11 +341,11 @@ extension RMANewTaskViewController: UITableViewDataSource {
                     cell.cellParameters(labelName: "date: ", name: nil, placeholder: datePlaceholder, isTextField: false)
                 }
                 return cell
-            case 2:
+            case 3:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! RMASingleTaskFieldsTVCell
                 cell.cellParameters(labelName: "location: ", name: currentTask?.location?.name, placeholder: locationPlaceholder, isTextField: false)
                 return cell
-            case 3:
+            case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageAndDescr") as! RMAImageAndDescrTVCell
                 var image = defaultImage
                 if let imageFromDB = currentTask?.imageURL {
@@ -344,7 +357,7 @@ extension RMANewTaskViewController: UITableViewDataSource {
                 cell.descrTextView.delegate = self
                 cell.descrTextView.tag = 2
                 return cell
-            case 4:
+            case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! RMASingleTaskFieldsTVCell
                 if tagList.count > 0 {
                     cell.cellParameters(labelName: "tags:", name: nil, placeholder: "", isTextField: false)
@@ -353,6 +366,10 @@ extension RMANewTaskViewController: UITableViewDataSource {
                 }
                 cell.cleanCell()
                 addTags(cell: cell)
+                return cell
+            case 2:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! RMASingleTaskFieldsTVCell
+                cell.cellParameters(labelName: "periodicity: ", name: nil, placeholder: periodicityPlaceholder, isTextField: false)
                 return cell
             default:
                 fatalError("you missed some cells")
@@ -383,7 +400,7 @@ extension RMANewTaskViewController: UITableViewDataSource {
     }
 }
 
-extension RMANewTaskViewController: UITextViewDelegate {
+extension RMANewTaskVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         if textView.tag == 1 {
@@ -422,7 +439,7 @@ extension RMANewTaskViewController: UITextViewDelegate {
     }
 }
 
-extension RMANewTaskViewController: SetLocationDelegate {
+extension RMANewTaskVC: SetLocationDelegate {
     func setLocation(location: RMALocation) {
         var tempLoc = RMALocation()
         tempLoc = location
