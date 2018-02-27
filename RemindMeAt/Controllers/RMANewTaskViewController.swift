@@ -94,7 +94,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
             for tag in tagList {
                 currentTask?.tags.append(tag)
             }
-//            notificationManager.updateNotifications(at: taskToBeUpdated)
+            notificationManager.updateNotifications(at: taskToBeUpdated)
             notificationManager.setNotification(with: currentTask!)
         } else {
             for tag in tagList {

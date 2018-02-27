@@ -82,13 +82,14 @@ class NotificationManager {
         return components
     }
     
-    func updateNotifications(at task: RMATask){
+    func updateNotifications(at task: RMATask) {
+        let taskID = task.taskID
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
             for request in requests{
-                for userInfo in request.content.userInfo.values{
-                    if (task.taskID == String(describing: userInfo)){
-                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.taskID+"loc",task.taskID+"date"])
+                for userInfo in request.content.userInfo.values {
+                    if (taskID == String(describing: userInfo)) {
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [taskID+"loc", taskID+"date"])
                     }
                 }
 
