@@ -641,7 +641,7 @@
                         <outlet property="tagView" destination="Ggw-Bc-R0Y" id="3jS-HM-d0y"/>
                         <outlet property="tagViewHeightConstraint" destination="uLB-MK-Onf" id="Ifk-44-8Xl"/>
                         <outlet property="tagViewSelectButton" destination="Spf-LC-T8c" id="1zQ-O6-H6u"/>
-                        <segue destination="IIm-8M-nan" kind="show" id="QMp-62-tdZ"/>
+                        <segue destination="IIm-8M-nan" kind="show" identifier="Periodicity" id="QMp-62-tdZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O2h-hk-lIR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -709,7 +709,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0zk-mQ-t2c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1882.4000000000001" y="1169.865067466267"/>
+            <point key="canvasLocation" x="-1534" y="1163"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="LcB-dk-eHc">
@@ -820,6 +820,6 @@
         <image name="task_list" width="28" height="35"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yBY-EN-wla"/>
+        <segue reference="9cO-fm-9de"/>
     </inferredMetricsTieBreakers>
 </document>

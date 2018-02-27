@@ -155,12 +155,12 @@
 		A3D6661D202B055E003E29D8 /* RemindMeAt */ = {
 			isa = PBXGroup;
 			children = (
-				D3FACA94203F7D5000997CF6 /* Cells */,
 				63F2145A203AE218001CA31B /* Functionality.swift */,
 				6FC39A38203C4B7A00A1BF96 /* CustomTableViewCell.swift */,
 				1B3E1083203EF587001E6D26 /* CalendarsVars.swift */,
 				4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */,
 				1B3E1089203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift */,
+				D3FACA94203F7D5000997CF6 /* Cells */,
 				A3D66632202B0883003E29D8 /* Model */,
 				4B315D67202B3514005AD091 /* Controllers */,
 				19E50A042039A19600BE80AA /* Service */,
