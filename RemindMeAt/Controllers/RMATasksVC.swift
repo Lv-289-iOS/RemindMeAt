@@ -15,6 +15,8 @@ private let reuseIdentifier = "cell"
 
 class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let notificationManager = NotificationManager()
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     var taskList: Results<RMATask>?
@@ -113,6 +115,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let taskToChange = self.taskList?[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
+            self.notificationManager.deleteNotification(at: taskToChange!)
             RMARealmManager.deleteTask(taskToBeDeleted: taskToChange!)
             self.readTasksAndUpdateUI()
         }
@@ -123,6 +126,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
                 cell.accessoryType = .checkmark
+                self.notificationManager.deleteNotification(at: taskToChange! )
                 RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: true)
                 self.readTasksAndUpdateUI()
             }
@@ -131,8 +135,8 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
                 cell.accessoryType = .disclosureIndicator
-                
                 RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: false)
+                self.notificationManager.setNotification(with: taskToChange!)
                 self.readTasksAndUpdateUI()
             }
             

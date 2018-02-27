@@ -41,7 +41,7 @@ class NotificationManager {
             }
             let dataInfo = dateParser(nsDate: nsDate)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dataInfo, repeats: true)
-            let request = UNNotificationRequest(identifier: identifier + "date", content: content, trigger: calendarTrigger)
+            let request = UNNotificationRequest(identifier: "\(identifier)date", content: content, trigger: calendarTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if error != nil {
                     print("Notification wasn't set")
@@ -60,7 +60,7 @@ class NotificationManager {
             region.notifyOnEntry = place.whenEnter
             region.notifyOnExit = !place.whenEnter
             let locationTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
-            let request = UNNotificationRequest(identifier: identifier + "loc", content: content, trigger: locationTrigger)
+            let request = UNNotificationRequest(identifier: "\(identifier)loc", content: content, trigger: locationTrigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if error != nil {
                     print("Notification wasn't set")
@@ -82,17 +82,15 @@ class NotificationManager {
         return components
     }
     
-    func updateNotifications(at task: RMATask) {
+    func deleteNotification(at task: RMATask){
         let taskID = task.taskID
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
             for request in requests{
                 for userInfo in request.content.userInfo.values {
                     if (taskID == String(describing: userInfo)) {
-                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [taskID+"loc", taskID+"date"])
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
                     }
                 }
-
             }
         })
     }
