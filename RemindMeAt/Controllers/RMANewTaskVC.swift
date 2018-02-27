@@ -90,17 +90,16 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     private func addNewTaskOrUpdateTaskInDB() {
+        //currentTask?.tags.clea
+        for tag in tagList {
+            currentTask?.tags.append(tag)
+        }
+        
         if let taskToBeUpdated = taskToBeUpdated {
             RMARealmManager.updateTask(taskToBeUpdated, withData: currentTask!)
-            for tag in tagList {
-                currentTask?.tags.append(tag)
-            }
             notificationManager.updateNotifications(at: taskToBeUpdated)
             notificationManager.setNotification(with: currentTask!)
         } else {
-            for tag in tagList {
-                currentTask?.tags.append(tag)
-            }
             RMARealmManager.addTask(newTask: currentTask!)
             notificationManager.setNotification(with: currentTask!)
         }
