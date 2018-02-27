@@ -138,7 +138,7 @@ class RMAMapVC: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SegueToTask" {
-            let holder = segue.destination as! RMANewTaskViewController
+            let holder = segue.destination as! RMANewTaskVC
             holder.taskToBeUpdated = task
         }
     }

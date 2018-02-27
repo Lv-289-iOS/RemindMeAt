@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private let notificationManager = NotificationManager()
     private var imageDoc = RMAFileManager()
@@ -253,7 +253,7 @@ class RMANewTaskViewController: UIViewController, UIImagePickerControllerDelegat
     }
 }
 
-extension RMANewTaskViewController: UITableViewDelegate {
+extension RMANewTaskVC: UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -299,7 +299,7 @@ extension RMANewTaskViewController: UITableViewDelegate {
     }
 }
 
-extension RMANewTaskViewController: UITableViewDataSource {
+extension RMANewTaskVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableView {
             return 6
@@ -395,7 +395,7 @@ extension RMANewTaskViewController: UITableViewDataSource {
     }
 }
 
-extension RMANewTaskViewController: UITextViewDelegate {
+extension RMANewTaskVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         if textView.tag == 1 {
@@ -434,7 +434,7 @@ extension RMANewTaskViewController: UITextViewDelegate {
     }
 }
 
-extension RMANewTaskViewController: SetLocationDelegate {
+extension RMANewTaskVC: SetLocationDelegate {
     func setLocation(location: RMALocation) {
         var tempLoc = RMALocation()
         tempLoc = location
