@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
         RMARealmManager.seedData()
         // Ask user's permision for sending notifications
         UNUserNotificationCenter.current().delegate = self
@@ -56,8 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    
-
     //called when your app is running in the foreground and receives a notification
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound]) // Display notification as regular alert and play sound
@@ -101,6 +98,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        if shortcutItem.type == "roma.academy.softserve.RemindMeAt.Task" {
+            let vc = UIStoryboard(name: "Main", bundle: nil)
+            let task = vc.instantiateViewController(withIdentifier: "NewTaskViewController") as! RMANewTaskViewController
+            self.window?.rootViewController?.present(task, animated: true, completion: nil)
+        }
     }
     
 }

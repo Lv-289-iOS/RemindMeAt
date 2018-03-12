@@ -16,6 +16,7 @@ private let reuseIdentifier = "cell"
 class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let notificationManager = NotificationManager()
+
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -56,6 +57,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
         setScreenStyle()
+        taskListsTableView.delegate = self
     }
     
     func setScreenStyle() {
@@ -112,10 +114,27 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // setting initial state
+        
+        cell.alpha = 0
+        let transform = CATransform3DTranslate(CATransform3DIdentity, -250, 30, 0)
+        cell.layer.transform = transform
+        
+        // animationg to final state
+        
+        UIView.animate(withDuration: 0.7) {
+            cell.alpha = 1
+            cell.layer.transform = CATransform3DIdentity
+        }
+    }
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let taskToChange = self.taskList?[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
             self.notificationManager.deleteNotification(at: taskToChange!)
+
             RMARealmManager.deleteTask(taskToBeDeleted: taskToChange!)
             self.readTasksAndUpdateUI()
         }
@@ -135,8 +154,10 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
                 cell.accessoryType = .disclosureIndicator
+                
                 RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: false)
                 self.notificationManager.setNotification(with: taskToChange!)
+
                 self.readTasksAndUpdateUI()
             }
             

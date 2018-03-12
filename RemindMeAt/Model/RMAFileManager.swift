@@ -20,7 +20,7 @@ class RMAFileManager {
         if let newPathUrl = pathURL {
             print("path for loading is \(newPathUrl)")
             do {
-                let imageData = try Data(contentsOf: pathURL)
+                let imageData = try Data(contentsOf: newPathUrl)
                 return UIImage(data: imageData)!
             } catch {
                 print(error.localizedDescription)
