@@ -37,10 +37,12 @@ class RMAFileManager {
 
     func addToUrl(_ photo: UIImage, create: String) {
         let documentDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-        let imgPath = URL(fileURLWithPath: documentDirectoryPath.appendingPathComponent("\(create).jpg"))
+        let imgPath = URL(fileURLWithPath: documentDirectoryPath.appendingPathComponent("\(create)1.jpg"))
+        let imgPath2 = URL(fileURLWithPath: documentDirectoryPath.appendingPathComponent("\(create)2.jpg"))
         print("path for adding is \(imgPath)")
         do {
             try UIImageJPEGRepresentation(photo, 1.0)?.write(to: imgPath, options: .atomic)
+            try UIImageJPEGRepresentation(photo, 1.0)?.write(to: imgPath2, options: .atomic)
         } catch let error {
             print(error.localizedDescription)
         }

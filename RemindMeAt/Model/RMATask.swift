@@ -15,6 +15,7 @@ class RMATask: Object {
     @objc dynamic var fullDescription: String?
     @objc dynamic var date: NSDate?
     @objc dynamic var location: RMALocation?
+    @objc dynamic var taskImageURL: String?
     @objc dynamic var imageURL: String?
     @objc dynamic var repeatPeriod: Int = 0
     @objc dynamic var isCompleted = false
@@ -31,6 +32,7 @@ class RMATask: Object {
         result.date = self.date
         result.location = self.location
         result.imageURL = self.imageURL
+        result.taskImageURL = self.taskImageURL
         result.repeatPeriod = self.repeatPeriod
         result.isCompleted = self.isCompleted
         return result

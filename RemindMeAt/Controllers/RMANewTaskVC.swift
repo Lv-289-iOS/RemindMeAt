@@ -16,6 +16,7 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     private var currentTask: RMATask?
     private var taskIdentifier = 0
     private var imageURL: String?
+    private var taskImageURL: String?
     
     private let allTagsResults = RMARealmManager.getAllTags()
     private var tagList = Array<RMATag>()
@@ -214,7 +215,8 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
             let tempImage = newImage
             let imageDate = formatDateForImageName(date: Date())
             imageDoc.addToUrl(tempImage, create: imageDate)
-            currentTask?.imageURL = imageDate
+            currentTask?.imageURL = imageDate + "1"
+            currentTask?.taskImageURL = imageDate + "2"
             self.tableView.reloadData()
             picker.dismiss(animated: true, completion: nil)
         }
@@ -342,7 +344,7 @@ extension RMANewTaskVC: UITableViewDataSource {
             case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "imageAndDescr") as! RMAImageAndDescrTVCell
                 var image = defaultImage
-                if let imageFromDB = currentTask?.imageURL {
+                if let imageFromDB = currentTask?.taskImageURL {
                     image = imageDoc.loadImageFromPath(imageURL: imageFromDB)
                 }
                 cell.cellParameters(name: currentTask?.fullDescription, placeholder: descriptionPlaceholder, image: image)

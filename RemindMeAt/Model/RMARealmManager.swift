@@ -161,23 +161,23 @@ class RMARealmManager {
         task1.location?.latitude = 49.8326244584506
         task1.location?.longitude = 23.9990768954158
         task1.location?.radius = 200
-        
-        let task2 = RMATask()
-        task2.name = "Visit main office"
-        task2.fullDescription = nil
-        task2.date = NSDate()
-        task2.imageURL = nil
-        task2.repeatPeriod = 0
-        task2.isCompleted = false
-        task2.location = RMALocation()
-        task2.location?.name = "Sadova Street, 8, L'viv, Lviv Oblast, Ukraine"
-        task2.location?.latitude = 49.8227035625848
-        task2.location?.longitude = 23.985345326364
-        task2.location?.radius = 200
-        
+
+//        let task2 = RMATask()
+//        task2.name = "Visit main office"
+//        task2.fullDescription = nil
+//        task2.date = NSDate()
+//        task2.imageURL = nil
+//        task2.repeatPeriod = 0
+//        task2.isCompleted = false
+//        task2.location = RMALocation()
+//        task2.location?.name = "Sadova Street, 8, L'viv, Lviv Oblast, Ukraine"
+//        task2.location?.latitude = 49.8227035625848
+//        task2.location?.longitude = 23.985345326364
+//        task2.location?.radius = 200
+
         try! uiRealm.write {
             uiRealm.add(task1)
-            uiRealm.add(task2)
+//            uiRealm.add(task2)
         }
     }
     
