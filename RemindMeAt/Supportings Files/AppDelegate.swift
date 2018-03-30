@@ -43,8 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let category = UNNotificationCategory(identifier: "category", actions: [remindLaterAction, markAsSeenAction], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
-        GMSServices.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
-        GMSPlacesClient.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
+        GMSServices.provideAPIKey("AIzaSyCaztU-h2q1ZT0HwOBsUF4TOvmvYVxmpyo")
+        GMSPlacesClient.provideAPIKey("AIzaSyCQT6deqY8Btp5K0wsyBU5HSbG_uLd6M0s")
         return true
     }
     
