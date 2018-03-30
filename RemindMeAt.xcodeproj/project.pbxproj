@@ -15,6 +15,7 @@
 		4B315D61202B33AB005AD091 /* RMAMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D60202B33AB005AD091 /* RMAMapVC.swift */; };
 		4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D62202B33C3005AD091 /* RMACalendarVC.swift */; };
 		4B315D65202B33D3005AD091 /* RMASettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B315D64202B33D3005AD091 /* RMASettingsVC.swift */; };
+		4B40BE6F2044165C00D6C95F /* RMAPeriodicityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B40BE6E2044165C00D6C95F /* RMAPeriodicityVC.swift */; };
 		4BC9DB632039E5E800D86598 /* SetLocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */; };
 		63F2145B203AE218001CA31B /* Functionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F2145A203AE218001CA31B /* Functionality.swift */; };
 		6F3AFC39203B657E000BC0B1 /* RMAFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3AFC38203B657E000BC0B1 /* RMAFileManager.swift */; };
@@ -30,7 +31,7 @@
 		D3A911602033449B00150693 /* RMASingleTaskFieldsTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115D2033449A00150693 /* RMASingleTaskFieldsTVCell.swift */; };
 		D3A911612033449B00150693 /* RMAImageAndDescrTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A9115E2033449B00150693 /* RMAImageAndDescrTVCell.swift */; };
 		D3A9116A203344C600150693 /* RMATagScreenTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91166203344C600150693 /* RMATagScreenTVCell.swift */; };
-		D3A9116B203344EE00150693 /* RMANewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91164203344C500150693 /* RMANewTaskViewController.swift */; };
+		D3A9116B203344EE00150693 /* RMANewTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A91164203344C500150693 /* RMANewTaskVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		4B315D60202B33AB005AD091 /* RMAMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAMapVC.swift; sourceTree = "<group>"; };
 		4B315D62202B33C3005AD091 /* RMACalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMACalendarVC.swift; sourceTree = "<group>"; };
 		4B315D64202B33D3005AD091 /* RMASettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMASettingsVC.swift; sourceTree = "<group>"; };
+		4B40BE6E2044165C00D6C95F /* RMAPeriodicityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAPeriodicityVC.swift; sourceTree = "<group>"; };
 		4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLocationDelegate.swift; sourceTree = "<group>"; };
 		63F2145A203AE218001CA31B /* Functionality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functionality.swift; sourceTree = "<group>"; };
 		6F3AFC38203B657E000BC0B1 /* RMAFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAFileManager.swift; sourceTree = "<group>"; };
@@ -59,7 +61,7 @@
 		B5468DD6610EB97818B797F7 /* Pods-RemindMeAt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RemindMeAt.release.xcconfig"; path = "Pods/Target Support Files/Pods-RemindMeAt/Pods-RemindMeAt.release.xcconfig"; sourceTree = "<group>"; };
 		D3A9115D2033449A00150693 /* RMASingleTaskFieldsTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMASingleTaskFieldsTVCell.swift; sourceTree = "<group>"; };
 		D3A9115E2033449B00150693 /* RMAImageAndDescrTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMAImageAndDescrTVCell.swift; sourceTree = "<group>"; };
-		D3A91164203344C500150693 /* RMANewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMANewTaskViewController.swift; sourceTree = "<group>"; };
+		D3A91164203344C500150693 /* RMANewTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMANewTaskVC.swift; sourceTree = "<group>"; };
 		D3A91166203344C600150693 /* RMATagScreenTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMATagScreenTVCell.swift; sourceTree = "<group>"; };
 		E38290176121108086710B0C /* Pods_RemindMeAt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RemindMeAt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -96,11 +98,12 @@
 		4B315D67202B3514005AD091 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D3A91164203344C500150693 /* RMANewTaskViewController.swift */,
+				D3A91164203344C500150693 /* RMANewTaskVC.swift */,
 				4B315D5E202B3395005AD091 /* RMATasksVC.swift */,
 				4B315D60202B33AB005AD091 /* RMAMapVC.swift */,
 				4B315D62202B33C3005AD091 /* RMACalendarVC.swift */,
 				4B315D64202B33D3005AD091 /* RMASettingsVC.swift */,
+				4B40BE6E2044165C00D6C95F /* RMAPeriodicityVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -152,12 +155,12 @@
 		A3D6661D202B055E003E29D8 /* RemindMeAt */ = {
 			isa = PBXGroup;
 			children = (
-				D3FACA94203F7D5000997CF6 /* Cells */,
 				63F2145A203AE218001CA31B /* Functionality.swift */,
 				6FC39A38203C4B7A00A1BF96 /* CustomTableViewCell.swift */,
 				1B3E1083203EF587001E6D26 /* CalendarsVars.swift */,
 				4BC9DB622039E5E800D86598 /* SetLocationDelegate.swift */,
 				1B3E1089203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift */,
+				D3FACA94203F7D5000997CF6 /* Cells */,
 				A3D66632202B0883003E29D8 /* Model */,
 				4B315D67202B3514005AD091 /* Controllers */,
 				19E50A042039A19600BE80AA /* Service */,
@@ -340,7 +343,7 @@
 				6F3AFC39203B657E000BC0B1 /* RMAFileManager.swift in Sources */,
 				1B3E1084203EF587001E6D26 /* CalendarsVars.swift in Sources */,
 				6FC39A39203C4B7A00A1BF96 /* CustomTableViewCell.swift in Sources */,
-				D3A9116B203344EE00150693 /* RMANewTaskViewController.swift in Sources */,
+				D3A9116B203344EE00150693 /* RMANewTaskVC.swift in Sources */,
 				4B315D5F202B3395005AD091 /* RMATasksVC.swift in Sources */,
 				1B3E108A203EF6AF001E6D26 /* CalendarDataCollectionViewCell.swift in Sources */,
 				4B315D63202B33C3005AD091 /* RMACalendarVC.swift in Sources */,
@@ -354,6 +357,7 @@
 				D3A911612033449B00150693 /* RMAImageAndDescrTVCell.swift in Sources */,
 				D3A9116A203344C600150693 /* RMATagScreenTVCell.swift in Sources */,
 				63F2145B203AE218001CA31B /* Functionality.swift in Sources */,
+				4B40BE6F2044165C00D6C95F /* RMAPeriodicityVC.swift in Sources */,
 				A3CB9B3C202DB4E300127811 /* RMATag.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,10 +497,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3W6QZF2EK2;
+				DEVELOPMENT_TEAM = F95D26K5WQ;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt1;
+				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -509,10 +513,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3W6QZF2EK2;
+				DEVELOPMENT_TEAM = F95D26K5WQ;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt1;
+				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

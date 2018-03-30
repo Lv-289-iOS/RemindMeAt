@@ -31,9 +31,9 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        searchResult = Array(taskList!).filter({ ( task: RMATask) -> Bool in
-            return task.name.lowercased().contains(searchText.lowercased())
-        })
+        searchResult = Array(taskList!).filter() {
+             $0.name.lowercased().contains(searchText.lowercased())
+        }
         taskListsTableView.reloadData()
     }
     
@@ -110,6 +110,22 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // setting initial state
+        
+        cell.alpha = 0
+        let transform = CATransform3DTranslate(CATransform3DIdentity, -250, 30, 0)
+        cell.layer.transform = transform
+        
+        // animationg to final state
+        
+        UIView.animate(withDuration: 0.7) {
+            cell.alpha = 1
+            cell.layer.transform = CATransform3DIdentity
+        }
+    }
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let taskToChange = self.taskList?[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
@@ -159,7 +175,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let newTaskViewController = segue.destination as! RMANewTaskViewController
+        let newTaskViewController = segue.destination as! RMANewTaskVC
         newTaskViewController.taskToBeUpdated = sender as? RMATask
     }
 }

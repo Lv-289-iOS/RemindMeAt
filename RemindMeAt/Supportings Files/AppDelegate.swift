@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
         RMARealmManager.seedData()
         // Ask user's permision for sending notifications
         UNUserNotificationCenter.current().delegate = self
@@ -42,8 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let category = UNNotificationCategory(identifier: "category", actions: [remindLaterAction, markAsSeenAction], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
-        GMSServices.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
-        GMSPlacesClient.provideAPIKey("AIzaSyAXHCA90jDxqtQuEtESsfTGs4xWv6R_TNY")
+        GMSServices.provideAPIKey("AIzaSyCaztU-h2q1ZT0HwOBsUF4TOvmvYVxmpyo")
+        GMSPlacesClient.provideAPIKey("AIzaSyCQT6deqY8Btp5K0wsyBU5HSbG_uLd6M0s")
         return true
     }
     
@@ -55,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
+    
+
     //called when your app is running in the foreground and receives a notification
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound]) // Display notification as regular alert and play sound
@@ -77,15 +80,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        print("notification appeared")
-    }
-    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        if shortcutItem.type == "roma.academy.softserve.RemindMeAt.Task" {
+           // let vc = UIStoryboard(name: "Main", bundle: nil)
+            let vc : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let task = vc.instantiateViewController(withIdentifier: "NewTaskViewController") as! RMANewTaskVC
+            
+            self.window?.rootViewController?.present(task, animated: true, completion: nil)
+            //task.performSegue(withIdentifier: "NewTaskViewController", sender: nil)
+            
+        }
+    }
     
+
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.

@@ -9,40 +9,32 @@
 import Foundation
 import CoreLocation
 import UserNotifications
+import UIKit
 
 class NotificationManager {
-    
-    var counter = idForTask()
-    static var stCounter = 0
-    
-    static func idForTask() -> Int {
-        return stCounter + 1
-    }
-    
-    var badgeNumber = 0
-    
-    func increment() -> Int {
-        badgeNumber += 1
-        return badgeNumber
-    }
-    
+    var imageDoc = RMAFileManager()
+   
     
     func setNotification(with task: RMATask) {
         let identifier = task.taskID
         let content = UNMutableNotificationContent()
         content.title = task.name
-        print(increment())
-        print(badgeNumber + 1)
         if let description = task.fullDescription {
             content.body = description
         }
-        
-        content.badge = NSNumber(value: badgeNumber + 1)
+        content.badge = 1
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "category"
         //add userinfo for identifing
-        content.userInfo = [counter: task.taskID]
-        
+        content.userInfo = [task.taskID : task.taskID]
+        print(task.taskID)
+        if let image = task.imageURL{
+            print("url is \(image)")
+        let imageUrl = imageDoc.loadImageUrl(imageURL: image)
+            if let attachment = try? UNNotificationAttachment(identifier: identifier, url: imageUrl, options: nil){
+            content.attachments = [attachment]
+            }
+        }
         if let nsDate = task.date {
             if task.location != nil {
                 content.subtitle = "You have a task at \(task.location!.name)"
@@ -58,7 +50,6 @@ class NotificationManager {
                     print("date added successfully")
                 }
             }
-            //            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         }
         if let place = task.location {
             if task.date != nil {
@@ -74,7 +65,6 @@ class NotificationManager {
                 if error != nil {
                     print("Notification wasn't set")
                 } else {
-                    // Request was added successfully
                     print("location added succesfully")
                 }
             }
@@ -90,6 +80,21 @@ class NotificationManager {
         components.month = calendar.component(.month, from: date)
         components.year = calendar.component(.year, from: date)
         return components
+    }
+    
+    func updateNotifications(at task: RMATask) {
+        let taskID = task.taskID
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+            for request in requests{
+                for userInfo in request.content.userInfo.values {
+                    if (taskID == String(describing: userInfo)) {
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [taskID+"loc", taskID+"date"])
+                    }
+                }
+
+            }
+        })
     }
     
 }
