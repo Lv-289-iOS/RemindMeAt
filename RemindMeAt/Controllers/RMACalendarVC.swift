@@ -10,13 +10,12 @@ import UIKit
 
 class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
     
-
     @IBOutlet weak var Calendar: UICollectionView!
-    
     
     @IBOutlet weak var MonthLable: UILabel!
     
     let Month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+
     let DayInMonth = [31,28,31,30,31,30,31,31,30,31,30,31]
     let curentWeek = (second : 7, third : 14, fourth : 21, fifth : 28)
     let chosenMonth = (current : 0, next : 1, previous : -1)
@@ -37,7 +36,6 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         
         currentMonth = Month[month]
         MonthLable.text = "\(currentMonth)\(year)"
-        
     }
     
     
@@ -111,7 +109,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
             PositionIndex = NumberOfEmphtyBox
         case chosenMonth.next:  // next month
             
-            NextNumberOfEmphtyBox = (PositionIndex + DayInMonth[month] % 7)
+            NextNumberOfEmphtyBox = ((PositionIndex + DayInMonth[month]) % 7)
             PositionIndex = NextNumberOfEmphtyBox
             
         case chosenMonth.previous:  // previos month
@@ -145,20 +143,37 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         }
     }
     
-    
+    // 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+//        let date1 = formatter.date(from: "2018/04/04 22:31")
+//        print(date1!)
         
-        if currentMonth == Month[calendar.component(.month, from:date ) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 == day {
-            cell.backgroundColor = UIColor.red
-        }  else if RMARealmManager.isTasksAvailableByDate(date as NSDate) {
-            cell.backgroundColor = .yellow } else {
+        var dateComponents = DateComponents()
+        dateComponents.year = calendar.component(.year, from: date)
+        dateComponents.month = calendar.component(.month, from: date) - 1
+        dateComponents.day = indexPath.row + 10
+//        dateComponents.timeZone = TimeZone(abbreviation: "JST")
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        
+        let someDateTime = calendar.date(from: dateComponents)
+        
+        if currentMonth == Month[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 == day {
+            cell.backgroundColor = UIColor.cyan
+        }  else if RMARealmManager.isTasksAvailableByDate(someDateTime! as NSDate) {
+            cell.backgroundColor = .red
+        } else {
             cell.backgroundColor = .gray
         }
+        
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -169,6 +184,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         if cell.isHidden == true {
             cell.isHidden = false
         }
+        
         
         // draw in cell
         switch DirectionOfMonth {
@@ -181,11 +197,17 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         default:
             fatalError("Error in cell drawing.")
         }
-        
+
         
         if Int(cell.DateLable.text!)! < 1 {
             cell.isHidden = true
         }
+        
+        
+//        if component == chosenDrum.Levels.rawValue {
+//            pickerView.reloadComponent(chosenDrum.Cards.rawValue)
+//        }
+
         switch indexPath.row {
         case 5,6,12,13,19,20,26,27,33,34:
             if Int(cell.DateLable.text!)! > 0 {
