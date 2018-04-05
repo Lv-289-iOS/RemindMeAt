@@ -18,6 +18,7 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     private var imageURL: String?
     private var taskImageURL: String?
     private var periodicity = 0
+    let periodicityPack = ["Once", "Every day", "Every week", "Every month", "Every year"]
     
     private let allTagsResults = RMARealmManager.getAllTags()
     private var tagList = Array<RMATag>()
@@ -28,7 +29,7 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     private let locationPlaceholder = "tap to add a location"
     private let descriptionPlaceholder = "put a task description here, if you wish :)"
     private let tagsPlaceholder = "add tags"
-    private let periodicityPlaceholder = "periodicity"
+    private let periodicityPlaceholder = "select date at first"
     
     private var picker = UIImagePickerController()
     private let datePicker = UIDatePicker()
@@ -70,6 +71,7 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
             print(pickedDate)
             periodicity = pickedDate
             self.tableView.reloadData()
+            currentTask?.repeatPeriod = periodicity
         }
     }
     
@@ -102,7 +104,6 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     }
     
     private func addNewTaskOrUpdateTaskInDB() {
-        //currentTask?.tags.clea
         for tag in tagList {
             currentTask?.tags.append(tag)
         }
@@ -287,7 +288,9 @@ extension RMANewTaskVC: UITableViewDelegate {
                     self.view.layoutIfNeeded()
                 }
             case 2:
-                performSegue(withIdentifier: "Periodicity", sender: self)
+                if currentTask?.date != nil {
+                    performSegue(withIdentifier: "Periodicity", sender: self)
+                }
             default:
                return
             }
@@ -368,7 +371,16 @@ extension RMANewTaskVC: UITableViewDataSource {
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! RMASingleTaskFieldsTVCell
-                cell.cellParameters(labelName: "periodicity: ", name: "\(periodicity)", placeholder: "", isTextField: false)
+                var name = ""
+                if periodicity < periodicityPack.count {
+                    name = periodicityPack[periodicity]
+                }
+                if let _ = currentTask?.date {
+                    cell.cellParameters(labelName: "periodicity: ", name: name, placeholder: "", isTextField: false)
+                } else {
+                    cell.cellParameters(labelName: "periodicity: ", name: nil, placeholder: periodicityPlaceholder, isTextField: false)
+                }
+                
                 return cell
             default:
                 fatalError("you missed some cells")
