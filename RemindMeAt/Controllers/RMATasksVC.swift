@@ -15,6 +15,9 @@ private let reuseIdentifier = "cell"
 
 class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     var taskList: Results<RMATask>?
@@ -25,20 +28,39 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var taskListsTableView: UITableView!
     
+    
     func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         searchResult = Array(taskList!).filter() {
-             $0.name.lowercased().contains(searchText.lowercased())
+            
+            var doesCategoryMatch = false
+            
+            if $0.tags.count == 0 {
+                doesCategoryMatch = true
+            } else {
+                for oneTag in $0.tags {
+                    let nameOfTag = oneTag.name
+                    doesCategoryMatch = (scope == "All") || (nameOfTag == scope)
+                    if doesCategoryMatch == true {
+                        break
+                    }
+                }
+            }
+            if searchBarIsEmpty() {
+                return doesCategoryMatch
+            } else {
+                return doesCategoryMatch &&  $0.name.lowercased().contains(searchText.lowercased())
+            }
         }
         taskListsTableView.reloadData()
     }
     
     func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
+        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
+        return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +75,8 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
+        searchController.searchBar.scopeButtonTitles = ["All", "holidays", "home", "shopping"]
+        searchController.searchBar.delegate = self
         setScreenStyle()
     }
     
@@ -65,12 +89,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         searchController.searchBar.tintColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         searchController.searchBar.barTintColor = UIColor.Screens.searchBarTintColor
         searchController.searchBar.backgroundColor = UIColor.Screens.searchBarBackgroundColor
-    }
-    
-    func readTasksAndUpdateUI() {
-        taskList = RMARealmManager.getAllTasks()
-        self.taskListsTableView.setEditing(false, animated: true)
-        self.taskListsTableView.reloadData()
     }
     
     // MARK: - UITableViewDataSource -
@@ -88,6 +106,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! CustomTableViewCell
         
         func formatDate(date: NSDate) -> String {
@@ -110,22 +129,6 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        // setting initial state
-        
-        cell.alpha = 0
-        let transform = CATransform3DTranslate(CATransform3DIdentity, -250, 30, 0)
-        cell.layer.transform = transform
-        
-        // animationg to final state
-        
-        UIView.animate(withDuration: 0.7) {
-            cell.alpha = 1
-            cell.layer.transform = CATransform3DIdentity
-        }
-    }
-    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let taskToChange = self.taskList?[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (deleteAction, indexPath) -> Void in
@@ -139,6 +142,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 let cell = tableView.cellForRow(at: indexPath) as! CustomTableViewCell
                 cell.accessoryType = .checkmark
+                // cell.imageView
                 RMARealmManager.updateTaskCompletion(updatedTask: taskToChange!, taskIsCompleted: true)
                 self.readTasksAndUpdateUI()
             }
@@ -160,6 +164,12 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return [deleteAction, completeAction!]
     }
     
+    func readTasksAndUpdateUI() {
+        taskList = RMARealmManager.getAllTasks()
+        self.taskListsTableView.setEditing(false, animated: true)
+        self.taskListsTableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchController.isActive {
             let selectedTaskList = self.searchResult[indexPath.row]
@@ -171,6 +181,23 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // setting initial state
+        
+        cell.alpha = 0
+        let transform = CATransform3DTranslate(CATransform3DIdentity, -250, 30, 0)
+        cell.layer.transform = transform
+        
+        // animationg to final state
+        
+        UIView.animate(withDuration: 0.7) {
+            cell.alpha = 1
+            cell.layer.transform = CATransform3DIdentity
+        }
+    }
+
+    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -179,10 +206,28 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         newTaskViewController.taskToBeUpdated = sender as? RMATask
     }
 }
-
+//to respond to the search bar
+//to update search results based on information the user enters into the search bar.
 extension RMATasksVC: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
+        // to send currently selected scope in filter
+        let searchBar = searchController.searchBar
+        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
+        if topConstraint.constant == 0 || searchController.isActive {
+            topConstraint.constant = 50
+        } else {
+            topConstraint.constant = 0
+        }
+        filterContentForSearchText(searchController.searchBar.text!, scope: scope)
     }
 }
+
+//when the user switches the scope in the scope bar
+extension RMATasksVC: UISearchBarDelegate {
+    // MARK: - UISearchBar Delegate
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+    }
+}
+
