@@ -109,7 +109,7 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
             PositionIndex = NumberOfEmphtyBox
         case chosenMonth.next:  // next month
             
-            NextNumberOfEmphtyBox = (PositionIndex + DayInMonth[month] % 7)
+            NextNumberOfEmphtyBox = ((PositionIndex + DayInMonth[month]) % 7)
             PositionIndex = NextNumberOfEmphtyBox
             
         case chosenMonth.previous:  // previos month
@@ -143,19 +143,32 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         }
     }
     
-    
+    // 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     }
     
-
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+//        let date1 = formatter.date(from: "2018/04/04 22:31")
+//        print(date1!)
         
-        if currentMonth == Month[calendar.component(.month, from:date ) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 == day {
-            cell.backgroundColor = UIColor.red
-        }  else if RMARealmManager.isTasksAvailableByDate(date as NSDate) {
-            cell.backgroundColor = .yellow } else {
-
+        var dateComponents = DateComponents()
+        dateComponents.year = calendar.component(.year, from: date)
+        dateComponents.month = calendar.component(.month, from: date) - 1
+        dateComponents.day = indexPath.row + 10
+//        dateComponents.timeZone = TimeZone(abbreviation: "JST")
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        
+        let someDateTime = calendar.date(from: dateComponents)
+        
+        if currentMonth == Month[calendar.component(.month, from: date) - 1] && year == calendar.component(.year, from: date) && indexPath.row + 1 == day {
+            cell.backgroundColor = UIColor.cyan
+        }  else if RMARealmManager.isTasksAvailableByDate(someDateTime! as NSDate) {
+            cell.backgroundColor = .red
+        } else {
             cell.backgroundColor = .gray
         }
         
