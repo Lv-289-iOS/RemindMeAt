@@ -2,17 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemiconType</key>
-			<string>UIApplicationShortcutIconTypeTask</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Add a new task</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>roma.academy.softserve.RemindMeAt.Task</string>
-		</dict>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -37,6 +26,17 @@
 	<string>Allow app to determine your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Gallery is used for adding pictures into your task</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Add a new task</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>roma.academy.softserve.RemindMeAt.Task</string>
+			<key>UIApplicationShortcutItemiconType</key>
+			<string>UIApplicationShortcutIconTypeTask</string>
+		</dict>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

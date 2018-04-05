@@ -17,6 +17,7 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     private var taskIdentifier = 0
     private var imageURL: String?
     private var taskImageURL: String?
+    private var periodicity = 0
     
     private let allTagsResults = RMARealmManager.getAllTags()
     private var tagList = Array<RMATag>()
@@ -53,6 +54,8 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
         isNewTask()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.periodicityData(_:)), name: NSNotification.Name(rawValue: "notificationName"), object: nil)
+        
         addDatePicker()
         hideTabBarAndNavigationController()
         tagViewParameters()
@@ -60,6 +63,14 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         self.tableView.reloadData()
         updateConstraints()
         self.hideKeyboardWhenTappedAround()
+    }
+    
+    @objc func periodicityData(_ notification: NSNotification) {
+        if let pickedDate = notification.userInfo?["date"] as? Int {
+            print(pickedDate)
+            periodicity = pickedDate
+            self.tableView.reloadData()
+        }
     }
     
     private func hideTabBarAndNavigationController(){
@@ -228,13 +239,6 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         present(picker, animated: true, completion: nil)
     }
     
-//    private func showPeriodicity() {
-//        guard let vc = storyboard?.instantiateViewController(withIdentifier: String(describing: RMAPeriodicityViewController.self)) as? RMAPeriodicityViewController else { return }
-//        vc.view.backgroundColor = .clear
-//        vc.modalPresentationStyle = .overCurrentContext
-//        self.present(vc, animated: true, completion: nil)
-//    }
-    
     private func openCamera() {
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)){
             picker.allowsEditing = false
@@ -283,7 +287,6 @@ extension RMANewTaskVC: UITableViewDelegate {
                     self.view.layoutIfNeeded()
                 }
             case 2:
-//                showPeriodicity()
                 performSegue(withIdentifier: "Periodicity", sender: self)
             default:
                return
@@ -365,7 +368,7 @@ extension RMANewTaskVC: UITableViewDataSource {
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! RMASingleTaskFieldsTVCell
-                cell.cellParameters(labelName: "periodicity: ", name: nil, placeholder: periodicityPlaceholder, isTextField: false)
+                cell.cellParameters(labelName: "periodicity: ", name: "\(periodicity)", placeholder: "", isTextField: false)
                 return cell
             default:
                 fatalError("you missed some cells")
