@@ -39,7 +39,7 @@ class NotificationManager {
             if task.location != nil {
                 content.subtitle = "You have a task at \(task.location!.name)"
             }
-            let dataInfo = dateParser(nsDate: nsDate)
+            let dataInfo = dateParser(nsDate: nsDate, periodicity: task.repeatPeriod)
             let calendarTrigger = UNCalendarNotificationTrigger(dateMatching: dataInfo, repeats: true)
             let request = UNNotificationRequest(identifier: identifier + "date", content: content, trigger: calendarTrigger)
             UNUserNotificationCenter.current().add(request) { error in
@@ -71,14 +71,32 @@ class NotificationManager {
         }
     }
     
-    func dateParser(nsDate: NSDate) -> DateComponents {
+    func dateParser(nsDate: NSDate, periodicity: Int) -> DateComponents {
         var components = DateComponents()
         let date = nsDate as Date
         let calendar = Calendar.current
         components.hour = calendar.component(.hour, from: date)
         components.minute = calendar.component(.minute, from: date)
+        components.day = calendar.component(.day, from: date)
         components.month = calendar.component(.month, from: date)
         components.year = calendar.component(.year, from: date)
+        switch periodicity {
+        case 1:
+            components.day = 0
+            components.month = 0
+            components.year = 0
+        case 2:
+            components.day = components.day! + 7
+            components.month = 0
+            components.year = 0
+        case 3:
+            components.month = 0
+            components.year = 0
+        case 4:
+            components.year = 0
+        default:
+            break
+        }
         return components
     }
     
