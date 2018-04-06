@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SpriteKit
+import GameplayKit
 
 class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
     
@@ -34,10 +36,21 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        tapGR.delegate = self as? UIGestureRecognizerDelegate
+        tapGR.numberOfTapsRequired = 3
+        view.addGestureRecognizer(tapGR)
         currentMonth = Month[month]
         MonthLable.text = "\(currentMonth)\(year)"
     }
     
+    @objc func handleTap(_ gesture: UITapGestureRecognizer){
+        let sb = UIStoryboard(name: "EasterEgg", bundle: nil)
+        if let vc = sb.instantiateInitialViewController() {
+            present(vc, animated: true, completion: nil)
+        }
+    }
     
     
     @IBAction func BackButton(_ sender: Any) {
@@ -122,11 +135,6 @@ class RMACalendarVC: UIViewController,UICollectionViewDelegate,UICollectionViewD
         default:
             fatalError("It is error in GetStartDayPositon function")
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
