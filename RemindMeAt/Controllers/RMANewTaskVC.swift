@@ -68,7 +68,6 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     @objc func periodicityData(_ notification: NSNotification) {
         if let pickedDate = notification.userInfo?["date"] as? Int {
-            print(pickedDate)
             periodicity = pickedDate
             self.tableView.reloadData()
             currentTask?.repeatPeriod = periodicity
@@ -115,6 +114,15 @@ class RMANewTaskVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         } else {
             RMARealmManager.addTask(newTask: currentTask!)
             notificationManager.setNotification(with: currentTask!)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Periodicity" {
+            let holder = segue.destination as! RMAPeriodicityVC
+            if let period = currentTask?.repeatPeriod {
+                holder.period = period
+            }
         }
     }
     
@@ -372,7 +380,9 @@ extension RMANewTaskVC: UITableViewDataSource {
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell") as! RMASingleTaskFieldsTVCell
                 var name = ""
-                if periodicity < periodicityPack.count {
+                if let taskPeriod = currentTask?.repeatPeriod {
+                    name = periodicityPack[taskPeriod]
+                } else if periodicity < periodicityPack.count {
                     name = periodicityPack[periodicity]
                 }
                 if let _ = currentTask?.date {
