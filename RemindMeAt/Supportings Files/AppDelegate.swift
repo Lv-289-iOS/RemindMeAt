@@ -36,12 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 
             }
         }
-        //define actions FIXME: will be changed
-        let remindLaterAction = UNNotificationAction(identifier: "remindLater", title: "Remind me later", options: [])
-        let markAsSeenAction = UNNotificationAction(identifier: "markAsCompleted", title: "Mark as completed", options: [])
-        
-        let category = UNNotificationCategory(identifier: "category", actions: [remindLaterAction, markAsSeenAction], intentIdentifiers: [], options: [])
-        UNUserNotificationCenter.current().setNotificationCategories([category])
         
         GMSServices.provideAPIKey("AIzaSyCaztU-h2q1ZT0HwOBsUF4TOvmvYVxmpyo")
         GMSPlacesClient.provideAPIKey("AIzaSyCQT6deqY8Btp5K0wsyBU5HSbG_uLd6M0s")
@@ -67,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     //including dismissing it or opening your app from it
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let actionIdentifier = response.actionIdentifier
-        
+
         switch actionIdentifier {
         case UNNotificationDismissActionIdentifier: // Notification was dismissed by user
             // Do something

@@ -14,7 +14,6 @@ import UIKit
 class NotificationManager {
     var imageDoc = RMAFileManager()
    
-    
     func setNotification(with task: RMATask) {
         let identifier = task.taskID
         let content = UNMutableNotificationContent()
