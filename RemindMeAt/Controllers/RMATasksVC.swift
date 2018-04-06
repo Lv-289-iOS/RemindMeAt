@@ -207,12 +207,11 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         newTaskViewController.taskToBeUpdated = sender as? RMATask
     }
 }
-//to respond to the search bar
-//to update search results based on information the user enters into the search bar.
+
 extension RMATasksVC: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-        // to send currently selected scope in filter
+        
         let searchBar = searchController.searchBar
         let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
         if topConstraint.constant == 0 || searchController.isActive {
@@ -224,7 +223,6 @@ extension RMATasksVC: UISearchResultsUpdating {
     }
 }
 
-//when the user switches the scope in the scope bar
 extension RMATasksVC: UISearchBarDelegate {
     // MARK: - UISearchBar Delegate
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
