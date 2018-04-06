@@ -8,27 +8,22 @@
 
 import UIKit
 
-class RMAPeriodicityVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class RMAPeriodicityVC: UIViewController {
+    
+    let periodicityPack = ["Once", "Every day", "Every week", "Every month", "Every year"]
+    
+    var period = 0
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var pickerView: UIPickerView!
-    
     override func viewDidLoad() {
-        pickerView.isHidden = true
         super.viewDidLoad()
+        tableView.dataSource = self
+        tableView.delegate = self
     }
-    
-    let periodicityPack = ["Every day", "Every week", "Every month", "Every year", "Custom..."]
-    
-    let customNumbersPack = ["Every 1","Every 2", "Every 3", "Every 4", "Every 5", "Every 6", "Every 7", "Every 8", "Every 9", "Every 10", "Every 11", "Every 12", "Every 13", "Every 14", "Every 15"]
-    
-    let customDaysPack = ["days", "weeks", "months", "years"]
-    
-    
-    //  let custom
-    
-    //MARK: TableView Methods
+}
+
+extension RMAPeriodicityVC:  UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return periodicityPack.count
@@ -37,48 +32,31 @@ class RMAPeriodicityVC: UIViewController, UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "Cell")
         cell.textLabel?.text = periodicityPack[indexPath.row]
+        if indexPath.row == period {
+            cell.accessoryType = .checkmark
+        }
         cell.backgroundColor = .clear
         return cell
     }
+}
+
+extension RMAPeriodicityVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        pickerView.isHidden = true
         tableView.reloadData()
+        if indexPath.row != period {
+            tableView.cellForRow(at: [0,period])?.accessoryType = .none
+        }
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        if tableView == self.tableView {
-            switch indexPath.row {
-            case 0: pickerView.isHidden = true
-            case 1: pickerView.isHidden = true
-            case 2: pickerView.isHidden = true
-            case 3: pickerView.isHidden = true
-            case 4: pickerView.isHidden = false
-            default:
-                fatalError("you missed some cells")
-            }
-        }
-    }
-    
-    //MARK: PickerView Methods
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if (component == 0){
-            return customNumbersPack[row]
-        }
-        return customDaysPack[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if (component == 0){
-            return customNumbersPack.count
-        }
-        return customDaysPack.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        //
+        period = indexPath.row
+        let dateForSenging: [String: Int] = ["date": period]
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationName"), object: nil, userInfo: dateForSenging)
+        let controllerIndex = self.navigationController?.viewControllers.index(where: { (viewController) -> Bool in
+            return viewController is RMANewTaskVC
+        })
+        let destination = self.navigationController?.viewControllers[controllerIndex!]
+        self.navigationController?.popToViewController(destination!, animated: true)
+        })
     }
 }
