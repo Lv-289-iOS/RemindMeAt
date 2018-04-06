@@ -34,11 +34,12 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        searchResult = Array(taskList!).filter() {
+        guard let innerTaskList = taskList else {return}
+        searchResult = Array(innerTaskList).filter() {
             
             var doesCategoryMatch = false
             
-            if $0.tags.count == 0 {
+            if ($0.tags.count == 0) && (scope == "All") {
                 doesCategoryMatch = true
             } else {
                 for oneTag in $0.tags {
@@ -56,7 +57,7 @@ class RMATasksVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
         taskListsTableView.reloadData()
-    }
+        }
     
     func isFiltering() -> Bool {
         let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
