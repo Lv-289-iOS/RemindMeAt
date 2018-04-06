@@ -530,12 +530,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3W6QZF2EK2;
 				INFOPLIST_FILE = RemindMeAt/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-<<<<<<< HEAD
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";s
 				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt1;
-=======
-				PRODUCT_BUNDLE_IDENTIFIER = roma.academy.softserve.RemindMeAt555;
->>>>>>> 9adbb7990846a836e4bb87f9b5003fba3ec2d71b
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
